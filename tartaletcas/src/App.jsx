@@ -32,35 +32,44 @@ function Dishinwork(props) {
   const [checked, setChecked] = useState(false);
 
   const increment = () => {
-    if(howManyMade < props.howMany) setHowManyMade(howManyMade + 1);
+    if(howManyMade < props.howMany) {
+      setHowManyMade(howManyMade + 1);
+      props.changeDishAmount(howManyMade + 1, props.id);
+    }
     if(howManyMade === props.howMany - 1) setChecked(true);
   }
 
   const decrement = () => {
-    if(howManyMade > 0) setHowManyMade(howManyMade - 1);
+    if(howManyMade > 0) {
+      setHowManyMade(howManyMade - 1);
+      props.changeDishAmount(howManyMade - 1, props.id);
+    }
     if(howManyMade <= props.howMany) setChecked(false);
   }
 
   const setNumber = (val) => {
     setHowManyMade(val);
+    props.changeDishAmount(val, props.id);
   }
 
   const handleInputChange = (event) => {
     const value = Number(event.target.value);
     if(value >= 0 && value <= props.howMany) {
       setHowManyMade(value);
+      props.changeDishAmount(value, props.id);
       if(value === props.howMany) setChecked(true);
       else setChecked(false);
     }
   };
-
   const handleCheckboxChange = (event) => {
     setChecked(event.target.checked);
     if (event.target.checked && props.howMany > howManyMade) {
       setHowManyMade(props.howMany);
+      props.changeDishAmount(props.howMany, props.id);
     }
     else if(!event.target.checked) {
       setHowManyMade(0);
+      props.changeDishAmount(0, props.id);
     }
   };
 
@@ -95,6 +104,29 @@ function Inworkitem() {
   const sumOfDishes = dishes.reduce((accumulator, dish) => {
     return accumulator + dish.howMany;
   }, 0);
+
+  const [amountOfDishes, setAmountOfDishes] = useState([0, 0, 0]);
+
+  let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
+  return accumulator + amount}, 0);
+
+  let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
+
+  const changeDishAmount = (howManyMade, id) => {
+    let newAmountOfDishes = [...amountOfDishes];
+    let newSumOfAmountOfDishes = sumOfAmountOfDishes - newAmountOfDishes[id - 1] + howManyMade;
+    let percentage = newSumOfAmountOfDishes / sumOfDishes * 100;
+    newAmountOfDishes[id - 1] = howManyMade;
+    setAmountOfDishes(newAmountOfDishes);
+    setWidth(percentage + "%");
+  }
+
+  const [width, setWidth] = useState("0%");
+  console.log(width);
+  // const handleProgressBar = (event) => {
+  //   event.target.style.width = proportionProgressBar * 100 + "%";
+  // };
+
   const [isExpanded, setIsExpanded] = useState(false);
   const expand = () => {
     setIsExpanded(!isExpanded);
@@ -111,11 +143,11 @@ function Inworkitem() {
         </button>
       </div>
       <div className="full-progress">
-        <div className="real-progress"></div>
+        <div className="real-progress" style = {{width: width}}></div>
       </div>
       {isExpanded && (
         <>
-          {dishes.map(dish => (<Dishinwork key={dish.id} howMany={dish.howMany} Product={dish.Product}/> ))};
+          {dishes.map(dish => (<Dishinwork key={dish.id} id={dish.id} howMany={dish.howMany} Product={dish.Product} amountOfDishes={amountOfDishes} changeDishAmount={changeDishAmount}/> ))};
         </>
       )}
     </div>
