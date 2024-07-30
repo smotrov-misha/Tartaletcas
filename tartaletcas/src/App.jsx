@@ -33,10 +33,12 @@ function Dishinwork(props) {
 
   const increment = () => {
     if(howManyMade < props.howMany) setHowManyMade(howManyMade + 1);
+    if(howManyMade === props.howMany - 1) setChecked(true);
   }
 
   const decrement = () => {
     if(howManyMade > 0) setHowManyMade(howManyMade - 1);
+    if(howManyMade <= props.howMany) setChecked(false);
   }
 
   const setNumber = (val) => {
@@ -47,6 +49,8 @@ function Dishinwork(props) {
     const value = Number(event.target.value);
     if(value >= 0 && value <= props.howMany) {
       setHowManyMade(value);
+      if(value === props.howMany) setChecked(true);
+      else setChecked(false);
     }
   };
 
@@ -73,7 +77,7 @@ function Dishinwork(props) {
       <div className = "how-many-dish">
         <h3>{props.howMany}</h3>
         <label className = "check-dishes">
-          <input type="checkbox"  onChange={handleCheckboxChange}/>
+          <input type="checkbox"  onChange={handleCheckboxChange} checked = {checked}/>
           <span className="checkmark"></span>
         </label>
       </div>
@@ -83,8 +87,15 @@ function Dishinwork(props) {
 
 function Inworkitem() {
 
-  const [isExpanded, setIsExpanded] = useState(false);
+  const dishes = [ {id: 1, Product: 'Salmon', howMany: 40},
+    {id: 2, Product: 'Sex', howMany: 30},
+    {id: 3, Product: 'Bitch', howMany: 20}
+  ];
 
+  const sumOfDishes = dishes.reduce((accumulator, dish) => {
+    return accumulator + dish.howMany;
+  }, 0);
+  const [isExpanded, setIsExpanded] = useState(false);
   const expand = () => {
     setIsExpanded(!isExpanded);
   }
@@ -104,9 +115,7 @@ function Inworkitem() {
       </div>
       {isExpanded && (
         <>
-          <Dishinwork howMany = {200} Product = "Salmon"/>
-          <Dishinwork howMany = {30} Product = "Sex"/>
-          <Dishinwork howMany = {40} Product = "Beach"/>
+          {dishes.map(dish => (<Dishinwork key={dish.id} howMany={dish.howMany} Product={dish.Product}/> ))};
         </>
       )}
     </div>
