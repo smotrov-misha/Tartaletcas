@@ -1,7 +1,7 @@
-import React,{ useState } from 'react'
+import React,{ useState, useEffect } from 'react'
 import './App.css'
 import dropArrow from './assets/drop_down_arrow.png'
-import infoButton from './assets/information-button.png'
+import infoButton from './assets/infromation-button.png'
 import { rotate } from 'three/examples/jsm/nodes/Nodes.js';
 
 function Background() {
@@ -29,6 +29,7 @@ function Navbar({changePage}) {
 
 function Dishinwork(props) {
   const [howManyMade, setHowManyMade] = useState(0);
+  const [checked, setChecked] = useState(false);
 
   const increment = () => {
     if(howManyMade < props.howMany) setHowManyMade(howManyMade + 1);
@@ -38,10 +39,24 @@ function Dishinwork(props) {
     if(howManyMade > 0) setHowManyMade(howManyMade - 1);
   }
 
+  const setNumber = (val) => {
+    setHowManyMade(val);
+  }
+
   const handleInputChange = (event) => {
     const value = Number(event.target.value);
     if(value >= 0 && value <= props.howMany) {
       setHowManyMade(value);
+    }
+  };
+
+  const handleCheckboxChange = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked && props.howMany > howManyMade) {
+      setHowManyMade(props.howMany);
+    }
+    else if(!event.target.checked) {
+      setHowManyMade(0);
     }
   };
 
@@ -58,7 +73,7 @@ function Dishinwork(props) {
       <div className = "how-many-dish">
         <h3>{props.howMany}</h3>
         <label className = "check-dishes">
-          <input type="checkbox"/>
+          <input type="checkbox"  onChange={handleCheckboxChange}/>
           <span className="checkmark"></span>
         </label>
       </div>
