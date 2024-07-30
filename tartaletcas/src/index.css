@@ -1,0 +1,25 @@
+  body {
+    background-color: #edeae5;
+    margin: 0px;
+    font-family: Helvetica;
+    color: #2c2c2c;
+  }
+
+  h1 {
+    font-size: 60px;
+    margin: 70px;
+  }
+
+  h3 {
+    display: inline;
+    font-weight: 200;
+    font-size: 32px;
+  }
+
+  button {
+    transition: all 0.2s ease;
+  }
+
+  button:active {
+    transform: scale(0.8);
+  }
