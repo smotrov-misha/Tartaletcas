@@ -3,6 +3,7 @@ import './App.css'
 import dropArrow from './assets/drop_down_arrow.png'
 import infoButton from './assets/infromation-button.png'
 import { rotate } from 'three/examples/jsm/nodes/Nodes.js';
+import Info from './Info';
 
 function Background() {
   return (
@@ -94,7 +95,7 @@ function Dishinwork(props) {
   );
 }
 
-function Inworkitem() {
+function Inworkitem(props) {
 
   const dishes = [ {id: 1, Product: 'Salmon', howMany: 40},
     {id: 2, Product: 'Sex', howMany: 30},
@@ -106,6 +107,7 @@ function Inworkitem() {
   }, 0);
 
   const [amountOfDishes, setAmountOfDishes] = useState([0, 0, 0]);
+  const [width, setWidth] = useState("0%");
 
   let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
   return accumulator + amount}, 0);
@@ -121,21 +123,16 @@ function Inworkitem() {
     setWidth(percentage + "%");
   }
 
-  const [width, setWidth] = useState("0%");
-  console.log(width);
-  // const handleProgressBar = (event) => {
-  //   event.target.style.width = proportionProgressBar * 100 + "%";
-  // };
-
   const [isExpanded, setIsExpanded] = useState(false);
   const expand = () => {
     setIsExpanded(!isExpanded);
   }
     return (
+      <>
       <div className= "inwork-item">
         <div className = "inwork-things">
           <div className = "name-n-info">
-          <h2 className = "item-name">Dinner for Andrew</h2>
+          <h2 className = "item-name">{props.itemName}</h2>
           <button><img src={infoButton}></img></button>
           </div>
           <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
@@ -147,10 +144,12 @@ function Inworkitem() {
       </div>
       {isExpanded && (
         <>
-          {dishes.map(dish => (<Dishinwork key={dish.id} id={dish.id} howMany={dish.howMany} Product={dish.Product} amountOfDishes={amountOfDishes} changeDishAmount={changeDishAmount}/> ))};
+          {dishes.map(dish => (<Dishinwork key={dish.id} id={dish.id} howMany={dish.howMany} Product={dish.Product} amountOfDishes={amountOfDishes} changeDishAmount={changeDishAmount}/> ))}
         </>
       )}
     </div>
+    <Info itemName={props.itemName} dishes={dishes}/>
+    </>
     );
 }
   
@@ -160,8 +159,8 @@ function Inwork() {
 return (
   <>
   <h1>In work</h1>
-  <Inworkitem/>
-  <Inworkitem/>
+  <Inworkitem itemName="Fucking shit"/>
+  {/* <Inworkitem itemName="OMG"/> */}
   </>
 );
 }
