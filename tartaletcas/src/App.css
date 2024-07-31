@@ -148,7 +148,8 @@ hr {
   font-size: 32px;
   font-weight: 200;
   font-family: system-ui;
-  width: 6vw;
+  width: 4vw;
+  text-align: center;
 }
 
 

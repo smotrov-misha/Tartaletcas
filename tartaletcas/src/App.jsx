@@ -81,7 +81,7 @@ function Dishinwork(props) {
       </div>
       <div className = "how-many-made">
         <button onClick={decrement}><h3>-</h3></button>
-        <input type = "number" placeholder= "0" min = "0" value={howManyMade} max = {props.howMany} onChange = {handleInputChange}/>
+        <input type = "text" placeholder= "0" min = "0" value={howManyMade} max = {props.howMany} onChange = {handleInputChange}/>
         <button onClick={increment}><h3>+</h3></button>
       </div>
       <div className = "how-many-dish">
@@ -97,7 +97,7 @@ function Dishinwork(props) {
 
 function Inworkitem(props) {
 
-  const dishes = [ {id: 1, Product: 'Salmon', howMany: 40},
+  const dishes = [ {id: 1, Product: 'Salmon', howMany: 4540},
     {id: 2, Product: 'Sex', howMany: 30},
     {id: 3, Product: 'Bitch', howMany: 20}
   ];
@@ -127,13 +127,24 @@ function Inworkitem(props) {
   const expand = () => {
     setIsExpanded(!isExpanded);
   }
+
+  const [infoIsOpened, setInfoIsOpened] = useState(false);
+
+  const closeInfo = () => {
+    setInfoIsOpened(false);
+  }
+
+  const openInfo = () => {
+    setInfoIsOpened(true);
+  }
+
     return (
       <>
       <div className= "inwork-item">
         <div className = "inwork-things">
           <div className = "name-n-info">
           <h2 className = "item-name">{props.itemName}</h2>
-          <button><img src={infoButton}></img></button>
+          <button onClick={openInfo}><img src={infoButton}></img></button>
           </div>
           <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
           <img src={dropArrow} alt="Expand/Collapse" />
@@ -148,7 +159,9 @@ function Inworkitem(props) {
         </>
       )}
     </div>
-    <Info itemName={props.itemName} dishes={dishes}/>
+    {
+      infoIsOpened && <Info itemName={props.itemName} dishes={dishes} closeInfo={closeInfo}/>
+    }
     </>
     );
 }
@@ -160,6 +173,9 @@ return (
   <>
   <h1>In work</h1>
   <Inworkitem itemName="Fucking shit"/>
+  {/* <Inworkitem itemName="ooooo shit"/>
+  <Inworkitem itemName="aaaaa shit"/>
+  <Inworkitem itemName="oiiiiiii shit"/> */}
   {/* <Inworkitem itemName="OMG"/> */}
   </>
 );
