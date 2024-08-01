@@ -2,8 +2,8 @@ import React,{ useState, useEffect } from 'react'
 import './App.css'
 import dropArrow from './assets/drop_down_arrow.png'
 import infoButton from './assets/infromation-button.png'
-import { rotate } from 'three/examples/jsm/nodes/Nodes.js';
 import Info from './Info';
+import Templates from './Templates';
 
 function Background() {
   return (
@@ -17,14 +17,14 @@ function Background() {
 
 function Navbar({changePage}) {
   return (
-    <>
+    <div className='navigation'>
     <div className = "nav-bar">
       <button onClick={() => {changePage("Menus")}}>Menus</button>
       <button onClick={() => {changePage("Dishes")}}>Dishes</button>
       <button onClick={() => {changePage("History")}}>History</button>
     </div>
-    <hr/>
-    </>
+    <hr className='nav-line'/>
+    </div>
   );
 }
 
@@ -171,12 +171,10 @@ function Inwork() {
 
 return (
   <>
-  <h1>In work</h1>
+  <h1 className='in-work-title'>In work</h1>
   <Inworkitem itemName="Fucking shit"/>
-  {/* <Inworkitem itemName="ooooo shit"/>
-  <Inworkitem itemName="aaaaa shit"/>
-  <Inworkitem itemName="oiiiiiii shit"/> */}
-  {/* <Inworkitem itemName="OMG"/> */}
+  <Inworkitem itemName="Hi babe"/>
+  <Inworkitem itemName="Holly molly"/>
   </>
 );
 }
@@ -195,6 +193,7 @@ function App() {
     {whatPage === "Menus" && (
       <>
       <Inwork/>
+      <Templates/>
       </>
     )}
     {whatPage === "Dishes" && (
@@ -207,6 +206,7 @@ function App() {
       
       </>
     )}
+    <h3 className='our-names'>Made by Kharchenko & Smotrov</h3>
     </>
   );
 }

@@ -1,0 +1,82 @@
+
+.above-part-templates {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 55px 0 0;
+}
+
+.add-button {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: none;
+    background-color: #12E3E6;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.add-button img {
+    width: 50px;
+    height: 70px;
+    padding: 0;
+    /* margin: 0 auto; */
+}
+
+.add-button:hover {
+    opacity: 0.8;
+}
+
+.container-for-template {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.templates-grid {
+    margin: 0 55px 70px 55px;
+    display: grid;
+    gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.template-name {
+    display: block;
+    margin: 20px;
+    text-align: center;
+}
+
+.template-dish-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.template-dish-container h3 {
+    font-size: 24px;
+    margin: 3px 0;
+}
+
+.template-dishes {
+    margin: 0 20px 40px 20px;
+    max-height: 55%;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.template-button {
+    border: none;
+    border-radius: 15px;
+    background-color: #12E3E6;
+    color: #2c2c2c;
+    font-weight: 600;
+    font-size: 24px;
+    padding: 15px
+}
+
+.template-buttons-container {
+    margin: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}

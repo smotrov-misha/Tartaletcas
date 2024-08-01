@@ -32,6 +32,18 @@
   filter: blur(100px);
 }
 
+.navigation {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  backdrop-filter: blur(80px);
+}
+
+.nav-line {
+  margin-bottom: 0;
+}
+
 .nav-bar {
   margin: 20px 30px 20px 30px;
   display: flex;
@@ -62,6 +74,10 @@
 
 hr {
   border: 0.5px solid #2c2c2c;
+}
+
+.in-work-title {
+  margin-top: 182px;
 }
 
 .item-name {
@@ -224,4 +240,13 @@ hr {
 
 .how-many-dish {
   justify-content: end;
+}
+
+.our-names {
+  display: block;
+  text-align: center;
+  margin: 10px;
+  font-family: system-ui, -apple-system;
+  font-weight: 100;
+  opacity: 0.8;
 }
