@@ -32,6 +32,7 @@
     aspect-ratio: 1/1;
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 15px;
+    position: relative;
 }
 
 .templates-grid {
@@ -59,9 +60,9 @@
 
 .template-dishes {
     margin: 0 20px 40px 20px;
-    max-height: 55%;
+    max-height: 60%;
     overflow-y: auto;
-    padding-right: 5px;
+    padding-right: 10px;
 }
 
 .template-button {
@@ -71,12 +72,94 @@
     color: #2c2c2c;
     font-weight: 600;
     font-size: 24px;
-    padding: 15px
+    padding: 15px;
 }
 
 .template-buttons-container {
-    margin: 0 20px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    right: 20px;
+}
+
+.container-for-adding-dishes {
+    width: 85%;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    max-height: 45vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.container-new-template {
+    background-color: rgba(0, 0, 0, 0.05);
+    height: 500px;
+}
+
+.new-template-name {
+    display: block;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    font-size: 52px;
+    font-weight: 600;
+    width: 50%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.new-template-name::placeholder {
+    color: #2c2c2c65;
+    text-decoration:underline 3px;
+}
+
+.chosen-dish {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin: 3px;
+    align-items: center;
+}
+
+.chosen-dish h3 {
+    margin: 5px 0;
+    margin-left: 10px;
+}
+
+.chosen-dish input {
+    background-color: rgba(0, 0, 0, 0.05);
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    text-align: center;
+    width: 80px;
+    font-size: 36px;
+    font-family: system-ui, -apple-system;
+    font-weight: 200;
+}
+
+.chosen-dish input::placeholder {
+    color: #2c2c2c55;
+}
+
+.template-cancel-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.container-new-template .template-button {
+    width: auto;
+    padding: 0 50px;
+    font-size: 29px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }
