@@ -1,9 +1,15 @@
 import './Info.css'
+import cross_button from './assets/cross_button.png'
+import pencil from './assets/pencil.png'
 
 function Info(props) {
     return (
         <div className="overlay">
         <div className='container'>
+            <div className='info-buttons'>
+            <button className='cancel-button' onClick={props.closeInfo}><img src={cross_button}></img></button>
+            <button className='edit-button'><img src={pencil} className="pencil"></img></button>
+            </div>
             <h2 className='menu-name'>{props.itemName}</h2>
             <h3 className='title'>Dishes</h3>
             <hr className='dividing-line'/>

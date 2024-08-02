@@ -2,9 +2,9 @@ import React,{ useState, useEffect } from 'react'
 import './App.css'
 import dropArrow from './assets/drop_down_arrow.png'
 import infoButton from './assets/infromation-button.png'
-import { rotate } from 'three/examples/jsm/nodes/Nodes.js';
 import Info from './Info';
-
+import Templates from './Templates';
+import PreparationItem from './PreparationItem.jsx'
 function Background() {
   return (
     <>
@@ -17,14 +17,14 @@ function Background() {
 
 function Navbar({changePage}) {
   return (
-    <>
+    <div className='navigation'>
     <div className = "nav-bar">
       <button onClick={() => {changePage("Menus")}}>Menus</button>
       <button onClick={() => {changePage("Dishes")}}>Dishes</button>
       <button onClick={() => {changePage("History")}}>History</button>
     </div>
-    <hr/>
-    </>
+    <hr className='nav-line'/>
+    </div>
   );
 }
 
@@ -81,7 +81,7 @@ function Dishinwork(props) {
       </div>
       <div className = "how-many-made">
         <button onClick={decrement}><h3>-</h3></button>
-        <input type = "number" placeholder= "0" min = "0" value={howManyMade} max = {props.howMany} onChange = {handleInputChange}/>
+        <input type = "text" placeholder= "0" min = "0" value={howManyMade} max = {props.howMany} onChange = {handleInputChange}/>
         <button onClick={increment}><h3>+</h3></button>
       </div>
       <div className = "how-many-dish">
@@ -97,7 +97,7 @@ function Dishinwork(props) {
 
 function Inworkitem(props) {
 
-  const dishes = [ {id: 1, Product: 'Salmon', howMany: 40},
+  const dishes = [ {id: 1, Product: 'Salmon', howMany: 4540},
     {id: 2, Product: 'Sex', howMany: 30},
     {id: 3, Product: 'Bitch', howMany: 20}
   ];
@@ -112,8 +112,6 @@ function Inworkitem(props) {
   let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
   return accumulator + amount}, 0);
 
-  let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
-
   const changeDishAmount = (howManyMade, id) => {
     let newAmountOfDishes = [...amountOfDishes];
     let newSumOfAmountOfDishes = sumOfAmountOfDishes - newAmountOfDishes[id - 1] + howManyMade;
@@ -127,13 +125,24 @@ function Inworkitem(props) {
   const expand = () => {
     setIsExpanded(!isExpanded);
   }
+
+  const [infoIsOpened, setInfoIsOpened] = useState(false);
+
+  const closeInfo = () => {
+    setInfoIsOpened(false);
+  }
+
+  const openInfo = () => {
+    setInfoIsOpened(true);
+  }
+
     return (
       <>
-      <div className= "inwork-item">
-        <div className = "inwork-things">
+      <div className= "work-prep-item">
+        <div className = "work-prep-things">
           <div className = "name-n-info">
           <h2 className = "item-name">{props.itemName}</h2>
-          <button><img src={infoButton}></img></button>
+          <button onClick={openInfo}><img src={infoButton}></img></button>
           </div>
           <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
           <img src={dropArrow} alt="Expand/Collapse" />
@@ -148,7 +157,9 @@ function Inworkitem(props) {
         </>
       )}
     </div>
-    <Info itemName={props.itemName} dishes={dishes}/>
+    {
+      infoIsOpened && <Info itemName={props.itemName} dishes={dishes} closeInfo={closeInfo}/>
+    }
     </>
     );
 }
@@ -158,11 +169,22 @@ function Inwork() {
 
 return (
   <>
-  <h1>In work</h1>
+  <h1 className='in-work-title'>In work</h1>
   <Inworkitem itemName="Fucking shit"/>
-  {/* <Inworkitem itemName="OMG"/> */}
+  <Inworkitem itemName="Hi babe"/>
+  <Inworkitem itemName="Holly molly"/>
   </>
 );
+}
+
+function Preparation() {
+
+  return (
+    <>
+    <h1>Preparation</h1>
+    <PreparationItem itemName="Pisun"/>
+    </>
+  )
 }
 
 function App() {
@@ -179,6 +201,8 @@ function App() {
     {whatPage === "Menus" && (
       <>
       <Inwork/>
+      <Preparation/>
+      <Templates/>
       </>
     )}
     {whatPage === "Dishes" && (
@@ -191,6 +215,7 @@ function App() {
       
       </>
     )}
+    <h3 className='our-names'>Made by Kharchenko & Smotrov</h3>
     </>
   );
 }

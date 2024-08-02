@@ -70,29 +70,33 @@ hr {
   margin-right: 30px;
 }
 
-.inwork-things {
+.work-prep-things {
   display: flex;
   margin: 40px 40px 10px 40px;
   justify-content: space-between;
 }
 
-.inwork-things button img {
+.work-prep-things button img {
   width: 48px;
   height: 48px;
   opacity: 0.8;
 }
 
-.inwork-things button {
+.work-prep-things button {
   background-color: transparent;
   border: none;
 }
 
-.inwork-item {
+.work-prep-item {
   background-color: rgba(0, 0, 0, 10%);
   margin: 0 55px 0 55px;
   padding-bottom: 10px;
   border-radius: 15px;
   transition: height 0.2s ease;
+}
+
+.prep-item {
+  padding-bottom: 0px;
 }
 
 .name-n-info {
@@ -114,6 +118,10 @@ hr {
   background-color: #edeae5;
   border-radius: 25px;
   transition: all 0.3s ease;
+}
+
+.product-in-prep {
+  display: flex;
 }
 
 .dish-in-work {
