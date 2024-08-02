@@ -75,6 +75,10 @@
     padding: 15px;
 }
 
+.template-button:hover {
+    opacity: 0.8;
+}
+
 .template-buttons-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -161,5 +165,13 @@
     font-size: 29px;
     position: absolute;
     bottom: 10px;
+}
+
+.done-template-button {
     right: 10px;
+}
+
+.delete-template-button {
+    left: 10px;
+    background-color: #FFA38D;
 }
