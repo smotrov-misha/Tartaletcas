@@ -4,6 +4,7 @@ import dropArrow from './assets/drop_down_arrow.png'
 import infoButton from './assets/infromation-button.png'
 import Info from './Info';
 import Templates from './Templates';
+import PreparationItem from './PreparationItem.jsx'
 
 function Background() {
   return (
@@ -140,8 +141,8 @@ function Inworkitem(props) {
 
     return (
       <>
-      <div className= "inwork-item">
-        <div className = "inwork-things">
+      <div className= "work-prep-item">
+        <div className = "work-prep-things">
           <div className = "name-n-info">
           <h2 className = "item-name">{props.itemName}</h2>
           <button onClick={openInfo}><img src={infoButton}></img></button>
@@ -179,6 +180,16 @@ return (
 );
 }
 
+function Preparation() {
+
+  return (
+    <>
+    <h1>Preparation</h1>
+    <PreparationItem itemName="Pisun"/>
+    </>
+  )
+}
+
 function App() {
 
 
@@ -194,6 +205,7 @@ function App() {
     {whatPage === "Menus" && (
       <>
       <Inwork/>
+      <Preparation/>
       <Templates/>
       </>
     )}

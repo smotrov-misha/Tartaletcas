@@ -119,7 +119,7 @@ function Templates(props) {
        setNewTemplateIsOpened(true);
      }
 
-     const [templates, setTemplates] = useState([]);
+     const [templates, setTemplates] = useState([{templateName: "pidoras", dishes: [{id: 1, name: "tartaletcas", amount: 5}], id: 100}]);
 
      const addTemplate = (newTemplate) => {
         newTemplate.id = lastTemplateId;
@@ -127,6 +127,7 @@ function Templates(props) {
         console.log(lastTemplateId);
         setTemplates([...templates, newTemplate]);
      }
+     
 
      const changeTemplate = (newTemplate) => {
         for(let i = 0; i < templates.length; i++) {
