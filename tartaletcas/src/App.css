@@ -105,14 +105,14 @@ hr {
 
 .work-prep-item {
   background-color: rgba(0, 0, 0, 10%);
-  margin: 0 55px 0 55px;
+  margin: 0 55px;
   padding-bottom: 10px;
   border-radius: 15px;
   transition: height 0.2s ease;
 }
-.prep-item {
-  padding-bottom: 0px;
-}
+/* .prep-item {
+  padding-bottom: 20px;
+} */
 
 .name-n-info {
   display: flex;
@@ -135,17 +135,18 @@ hr {
   transition: all 0.3s ease;
 }
 
-.dish-in-work {
+.dish-in-work, .product-in-prep {
   display: flex;
   justify-content: space-between;
-  margin: 0 45px;
+  margin: 0 40px;
+  flex-wrap: nowrap;
 }
 
-.dish-in-work div {
+
+.dish-in-work div, .product-in-prep div {
   display: flex;
   align-items: center;
-  flex: 1;
-  /* width: 100%; */
+  width: 100%;
 }
 
 .dish-in-work button {
@@ -171,8 +172,11 @@ hr {
   text-align: center;
 }
 
+.product-in-prep h3 {
+  margin: 10px 0;
+}
 
-.check-dishes {
+.check-dishes, .check-product {
   display: block;
   position: relative;
   margin: 0 45px 45px 45px;
@@ -180,7 +184,7 @@ hr {
   /* font-size: 22px; */
 }
 
-.check-dishes input{
+.check-dishes input, .check-product input{
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -199,11 +203,11 @@ hr {
   transition: all 0.2s ease;
 }
 
-.check-dishes:hover input ~ .checkmark {
+.check-dishes:hover input ~ .checkmark, .check-product:hover input ~ .checkmark {
   background-color: #12E3E6A3;
 }
 
-.check-dishes input:checked ~ .checkmark {
+.check-dishes input:checked ~ .checkmark, .check-product input:checked ~ .checkmark {
   background-color: #12E3E6;
 }
 
@@ -215,12 +219,12 @@ hr {
 }
 
 
-.check-dishes input:checked ~ .checkmark:after {
+.check-dishes input:checked ~ .checkmark:after, .check-product input:checked ~ .checkmark:after{
   display: block;
 }
 
 
-.check-dishes .checkmark:after {
+.check-dishes .checkmark:after, .check-product .checkmark:after {
   left: 16px;
   top: 10px;
   width: 9px;
@@ -241,7 +245,7 @@ hr {
   justify-content: center;
 }
 
-.how-many-dish {
+.how-many-dish, .how-many-product{
   justify-content: end;
 }
 

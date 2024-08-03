@@ -21,6 +21,7 @@
     width: 60%;
     margin-top: -300px;
     transform: translateX(-50%);
+    transform: translate();
     padding: 40px 30px;
     overflow: hidden;
     backdrop-filter: blur(80px);

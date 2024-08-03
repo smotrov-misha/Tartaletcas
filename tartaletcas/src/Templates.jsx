@@ -1,18 +1,21 @@
 import './Templates.css'
 import plus from './assets/plus.svg'
 import cross_button from './assets/cross_button.png'
-import React,{ useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import NewOrder from './makingInfo.jsx'
 
-function NewTemplate(props) {
+export function NewTemplate(props) {
 
     const editMode = props.id ? true : false;
+    const newOrderMode = (props.mode == "New order") ? true : false;
+    console.log(newOrderMode);
     const [templateName, setTemplateName] = useState(props.templateName);
 
     const handleTemplateNameChange = (e) => {
         setTemplateName(e.target.value);
     }
 
-    const [dishAmount, setDishAmount] = useState(props.dishes);
+    const [dishAmount, setDishAmount] = useState(props.dishes.map(dish => ({ ...dish })));
     
     const handleDishAmountChange = (e, index) => {
         const updatedDishAmount = [...dishAmount];
@@ -21,15 +24,18 @@ function NewTemplate(props) {
     }
 
     const handleSubmit = (e) => {
-        if(!editMode) {
+        if(!editMode && !newOrderMode) {
         const newTemplate = {templateName: templateName, dishes: [...dishAmount]};
         console.log(newTemplate);
         props.addTemplate(newTemplate);
         }
-        else {
+        else if(editMode) {
             const newTemplate = {templateName: templateName, dishes: [...dishAmount], id: props.id};
             console.log(newTemplate);
             props.changeTemplate(newTemplate);
+        }
+        else if(newOrderMode) {
+            props.changeDishesInOrder([...dishAmount]);
         }
         props.closeNewTemplate();
     }
@@ -41,11 +47,13 @@ function NewTemplate(props) {
     return (
     <>
     <div className='overlay'>
-        <div className='container container-new-template'>
+        <div className='container container-new-template' style={{backgroundColor: newOrderMode ? "#CBC8C4" : "rgba(0,0,0,0.1)"}}>
             <button className='cancel-button template-cancel-button' onClick={props.closeNewTemplate}><img src={cross_button}></img></button>
             <form onSubmit={handleSubmit}>
-            <input type='text' placeholder='Template name' className='new-template-name' onChange={handleTemplateNameChange} value={templateName}></input>
-            <div className='container-for-adding-dishes'>
+            {
+                !newOrderMode && (<input type='text' placeholder='Template name' className='new-template-name' onChange={handleTemplateNameChange} value={templateName}></input>)
+            }
+            <div className='container-for-adding-dishes' style={{marginTop: newOrderMode ? "30px" : "0"}}>
                <>
                 {props.dishes.map(dish => (<div className='chosen-dish' key={dish.id}>
                     <h3>{dish.name}</h3>
@@ -53,10 +61,10 @@ function NewTemplate(props) {
                     </div>))}
                     </>
             </div>
-            <button class='template-button done-template-button' type='submit'>Done</button>
+            <button className='template-button done-template-button' type='submit'>Done</button>
             </form>
             {
-                editMode && <button class='template-button delete-template-button' onClick={deleteTemplate}>Delete</button>
+                editMode && <button className='template-button delete-template-button' onClick={deleteTemplate}>Delete</button>
             }
         </div>
     </div>
@@ -65,14 +73,23 @@ function NewTemplate(props) {
 }
 
 function Template(props) {
-    const [openEditing, setOpenEditing] = useState(false);
+    const [editIsOpened, setEditIsOpened] = useState(false);
+    const [startIsOpened, setStartIsOpened] = useState(false);
+
+    const openStart = () => {
+        setStartIsOpened(true);
+    }
+
+    const closeStart = () => {
+        setStartIsOpened(false)
+    }
 
     const openEdit = () => {
-        setOpenEditing(true);
+        setEditIsOpened(true);
     }
 
     const closeEdit = () => {
-        setOpenEditing(false);
+        setEditIsOpened(false);
     }
 
     return (
@@ -90,13 +107,16 @@ function Template(props) {
                 ))}
                 </div>
                 <div className='template-buttons-container'>
-                    <button class='template-button' onClick={openEdit}>Edit</button>
-                    <button class='template-button'>Start</button>
+                    <button className='template-button' onClick={openEdit}>Edit</button>
+                    <button className='template-button' onClick={openStart}>Start</button>
                 </div>
         </div>
         { 
-        openEditing && <NewTemplate closeNewTemplate={closeEdit} templateName={props.templateName}
-        dishes={props.dishes} id={props.id} changeTemplate={props.changeTemplate} deleteTemplate={props.deleteTemplate}/>
+            editIsOpened && <NewTemplate closeNewTemplate={closeEdit} templateName={props.templateName}
+            dishes={[...props.dishes]} id={props.id} changeTemplate={props.changeTemplate} deleteTemplate={props.deleteTemplate}/>
+        }
+        {
+            startIsOpened && <NewOrder dishes={[...props.dishes]} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems}/>
         }
         </>
     );
@@ -119,7 +139,7 @@ function Templates(props) {
        setNewTemplateIsOpened(true);
      }
 
-     const [templates, setTemplates] = useState([{templateName: "pidoras", dishes: [{id: 1, name: "tartaletcas", amount: 5}], id: 100}]);
+     const [templates, setTemplates] = useState([{templateName: "pidoras", dishes: dishesNewTemplate, id: 100}]);
 
      const addTemplate = (newTemplate) => {
         newTemplate.id = lastTemplateId;
@@ -161,17 +181,18 @@ function Templates(props) {
         <>
         <div className='above-part-templates'>
         <h1>Templates</h1>
-        <button class='add-button' onClick={openNewTemplate}><img src={plus}></img></button>
+        <button className='add-button' onClick={openNewTemplate}><img src={plus}></img></button>
         </div>
         <div className='templates-grid'>
             {
-                templates.map(template => (<Template templateName = {template.templateName} dishes = {template.dishes}
-                                            id = {template.id} changeTemplate={changeTemplate} deleteTemplate={deleteTemplate}/>))
+                templates.map(template => (<Template templateName = {template.templateName} dishes = {[...template.dishes]}
+                                            id = {template.id} key = {template.id} changeTemplate={changeTemplate}
+                                             deleteTemplate={deleteTemplate} changePreparationItems={props.changePreparationItems}/>))
             }
         </div>
         {
             newTemplateIsOpened && <NewTemplate closeNewTemplate={closeNewTemplate} addTemplate={addTemplate} 
-            templateName='' dishes={dishesNewTemplate}/>
+            templateName='' dishes={[...dishesNewTemplate]}/>
         }
         </>
     );

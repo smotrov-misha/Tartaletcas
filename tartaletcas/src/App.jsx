@@ -180,12 +180,14 @@ return (
 );
 }
 
-function Preparation() {
+function Preparation({preparationItems}) {
 
   return (
     <>
     <h1>Preparation</h1>
-    <PreparationItem itemName="Pisun"/>
+      <>
+      {preparationItems.map(prepItem => (<PreparationItem item = {prepItem}/>))}
+      </>
     </>
   )
 }
@@ -198,6 +200,16 @@ function App() {
   const changePage = (nameOfPage) => {
     setWhatPage(nameOfPage);
   };
+
+  const [preparationItems, setPreparationItems] = useState([]);
+
+  const changePreparationItems = (preparationItem) => {
+    if(preparationItem.toDo == "add") {
+      console.log("ii");
+      const newPreparationItems = [...preparationItems, preparationItem];
+      setPreparationItems(newPreparationItems);
+    }
+   }
   return (
     <>
     <Background/>
@@ -205,8 +217,8 @@ function App() {
     {whatPage === "Menus" && (
       <>
       <Inwork/>
-      <Preparation/>
-      <Templates/>
+      <Preparation preparationItems = {preparationItems}/>
+      <Templates changePreparationItems = {changePreparationItems}/>
       </>
     )}
     {whatPage === "Dishes" && (
