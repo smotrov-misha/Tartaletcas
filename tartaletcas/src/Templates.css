@@ -104,6 +104,15 @@
     height: 500px;
 }
 
+.edit-new-template {
+    position: fixed;
+    border-radius: 15px;
+    width: 70%;
+    left: 50%;
+    top: 250px;
+    translate: -50% 0;
+}
+
 .new-template-name, .new-order-name {
     display: block;
     margin: 0 auto;

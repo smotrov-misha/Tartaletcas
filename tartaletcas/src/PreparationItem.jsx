@@ -5,9 +5,10 @@ import Info from './Info';
 
 function ProductInPreparation(props) {
 
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(props.checkValue);
 
     const handleCheckboxChange = (event) => {
+        props.changeCheckmark(props.index, event.target.checked);
         setChecked(event.target.checked);
       };
       
@@ -27,10 +28,7 @@ function ProductInPreparation(props) {
     )
 }
 
-function PreparationItem({ item }) {
-    const dishes = [ {id: 1, Product: 'Salmon', howMany: 4540},
-    {id: 2, Product: 'Sex', howMany: 30},
-    {id: 3, Product: 'Bitch', howMany: 20}];
+function PreparationItem({ item, changePreparationItems }) {
     const [isExpanded, setIsExpanded] = useState(false);
     const expand = () => {
         setIsExpanded(!isExpanded);
@@ -45,9 +43,35 @@ function PreparationItem({ item }) {
     const openInfo = () => {
         setInfoIsOpened(true);
     }
+
+
+
+    const [checkmarks, setCheckmarks] = useState(new Array(item.dishes.length).fill(false));
+    const [allChecked, setAllChecked] = useState(false);
+
+    const changeCheckmark = (i, val) => {
+        const newCheckmarks = [...checkmarks];
+        newCheckmarks[i] = val;
+        for(let i = 0; i < newCheckmarks.length; i++) {
+            if(newCheckmarks[i] == false && item.dishes[i].amount != 0) {
+                setAllChecked(false);
+                break;
+            }
+            if(i == newCheckmarks.length - 1) {
+                setAllChecked(true);
+            }
+        }
+        setCheckmarks(newCheckmarks);
+    }
+
+    const changeSection = () => {
+        item.toDo = "prep->inwork";
+        changePreparationItems(item);
+    }
+
     return(
     <>
-        <div className="work-prep-item prep-item" style={{ paddingBottom: isExpanded ? "20px" : "0px"}}>
+        <div className="work-prep-item prep-item" style={{ paddingBottom: isExpanded ? (allChecked ? "80px": "20px") : (allChecked ? "0px": "0px")}}>
             <div className="work-prep-things">
                 <div className="name-n-info">
                     <h2 className="item-name">{item.orderName}</h2>
@@ -55,18 +79,20 @@ function PreparationItem({ item }) {
                         <img src={infoButton}></img>
                     </button>
                 </div>
-                <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
+                <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)"}}>
                     <img src={dropArrow} alt="Expand/Collapse" />
                 </button>
             </div>
             {isExpanded && (
                 <>
-                    {item.dishes.map(product => (product.amount != 0 && (<ProductInPreparation key={product.id} amount={product.amount} name={product.name}/>)))}
+                    {item.dishes.map((product, i) => (product.amount != 0 && (<ProductInPreparation key={product.id} index={i} amount={product.amount} name={product.name} checkValue={checkmarks[i]} changeCheckmark={changeCheckmark}/>)))}
                 </>
-      )}
+            )}
+            <button className='button-in-prep' style={{opacity: allChecked ? "1" : "0", transform: allChecked ? "scale(1)" : "scale(0)", bottom: isExpanded ? "20px" : "", top: isExpanded ? "" : "20px"}} onClick={changeSection}>Done</button>
         </div>
         {infoIsOpened && <Info itemName={item.orderName} dishes={item.dishes} closeInfo={closeInfo} description={item.description}
-         notes={item.notes} deadline={item.deadline}/>}
+                                notes={item.notes} deadline={item.deadline} changePreparationItems={changePreparationItems}
+                                id={item.id} section={item.section}/>}
     </>
   )
 }

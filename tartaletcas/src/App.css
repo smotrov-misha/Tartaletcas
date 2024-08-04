@@ -108,11 +108,13 @@ hr {
   margin: 0 55px;
   padding-bottom: 10px;
   border-radius: 15px;
-  transition: height 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
-/* .prep-item {
-  padding-bottom: 20px;
-} */
+.prep-item {
+  transition: padding 0.3s ease;
+  position: relative;
+} 
 
 .name-n-info {
   display: flex;
@@ -257,3 +259,27 @@ hr {
   font-weight: 100;
   opacity: 0.8;
 }
+
+.prep-item .button-in-prep, .work-prep-item .button-in-prep {
+  background-color: #12E3E6;
+  color: #2C2C2C;
+  font-weight: 600;
+  font-size: 24px;
+  height: auto;
+  padding: 10px 40px;
+  width: auto;
+  position: absolute;
+  right: 50%;
+  translate: 50%;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.work-prep-item .button-in-prep:active {
+  scale: 0.8;
+}
+
+.work-prep-item .button-in-prep:hover {
+  box-shadow: 0px -1px 40px 0px #12E3E6;
+}
+

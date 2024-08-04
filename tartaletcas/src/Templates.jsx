@@ -26,12 +26,10 @@ export function NewTemplate(props) {
     const handleSubmit = (e) => {
         if(!editMode && !newOrderMode) {
         const newTemplate = {templateName: templateName, dishes: [...dishAmount]};
-        console.log(newTemplate);
         props.addTemplate(newTemplate);
         }
         else if(editMode) {
             const newTemplate = {templateName: templateName, dishes: [...dishAmount], id: props.id};
-            console.log(newTemplate);
             props.changeTemplate(newTemplate);
         }
         else if(newOrderMode) {
@@ -47,13 +45,13 @@ export function NewTemplate(props) {
     return (
     <>
     <div className='overlay'>
-        <div className='container container-new-template' style={{backgroundColor: newOrderMode ? "#CBC8C4" : "rgba(0,0,0,0.1)"}}>
+        <div className={newOrderMode ? 'container-new-template edit-new-template' : 'container container-new-template'} style={{backgroundColor: newOrderMode ? "#CBC8C4" : "rgba(0,0,0,0.1)"}}>
             <button className='cancel-button template-cancel-button' onClick={props.closeNewTemplate}><img src={cross_button}></img></button>
             <form onSubmit={handleSubmit}>
             {
                 !newOrderMode && (<input type='text' placeholder='Template name' className='new-template-name' onChange={handleTemplateNameChange} value={templateName}></input>)
             }
-            <div className='container-for-adding-dishes' style={{marginTop: newOrderMode ? "30px" : "0"}}>
+            <div className='container-for-adding-dishes' style={{translate: newOrderMode ? "0 calc(250px - 22.5vh)" : "0px 0px"}}>
                <>
                 {props.dishes.map(dish => (<div className='chosen-dish' key={dish.id}>
                     <h3>{dish.name}</h3>
@@ -116,7 +114,7 @@ function Template(props) {
             dishes={[...props.dishes]} id={props.id} changeTemplate={props.changeTemplate} deleteTemplate={props.deleteTemplate}/>
         }
         {
-            startIsOpened && <NewOrder dishes={[...props.dishes]} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems}/>
+            startIsOpened && <NewOrder dishes={[...props.dishes]} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems} toDo="add"/>
         }
         </>
     );
@@ -139,7 +137,7 @@ function Templates(props) {
        setNewTemplateIsOpened(true);
      }
 
-     const [templates, setTemplates] = useState([{templateName: "pidoras", dishes: dishesNewTemplate, id: 100}]);
+     const [templates, setTemplates] = useState([]);
 
      const addTemplate = (newTemplate) => {
         newTemplate.id = lastTemplateId;
