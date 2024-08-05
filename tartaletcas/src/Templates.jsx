@@ -121,7 +121,7 @@ function Template(props) {
 }
 
 
-function Templates(props) {
+function Templates({changePreparationItems, dishes}) {
 
     const dishesNewTemplate = [{id: 1, name: "tartaletcas", amount: 0}, {id: 2, name: "bigass", amount: 0}, {id: 3, name: "ahahah", amount: 0}, 
     {id: 4, name: "porn", amount: 0}, {id: 5, name: "kaka", amount: 0}, {id: 6, name: "lala", amount: 0},
@@ -185,12 +185,12 @@ function Templates(props) {
             {
                 templates.map(template => (<Template templateName = {template.templateName} dishes = {[...template.dishes]}
                                             id = {template.id} key = {template.id} changeTemplate={changeTemplate}
-                                             deleteTemplate={deleteTemplate} changePreparationItems={props.changePreparationItems}/>))
+                                             deleteTemplate={deleteTemplate} changePreparationItems={changePreparationItems}/>))
             }
         </div>
         {
             newTemplateIsOpened && <NewTemplate closeNewTemplate={closeNewTemplate} addTemplate={addTemplate} 
-            templateName='' dishes={[...dishesNewTemplate]}/>
+            templateName='' dishes={[...dishes]}/>
         }
         </>
     );

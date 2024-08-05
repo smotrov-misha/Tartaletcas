@@ -6,6 +6,8 @@ import Info from './Info';
 import Templates from './Templates';
 import PreparationItem from './PreparationItem.jsx'
 import Dish from './Dish.jsx'
+import plus from './assets/plus.svg'
+import { NewDish } from './makingInfo.jsx';
 
 function Background() {
   return (
@@ -235,23 +237,51 @@ function Preparation({preparationItems, changePreparationItems}) {
   )
 }
 
-function Dishes() {
+function Dishes({changeDishes, dishes}) {
+  const [newIsOpened, setNewIsOpened] = useState(false);
 
+  const openNewDish = () => {
+    setNewIsOpened(true);
+  }
+
+  const closeNewDish = () => {
+    setNewIsOpened(false);
+  }
   return (
     <>
-    <h1 className='top-title'>Dishes</h1>
-    <Dish/>
+    <div className = "dishes-top-items">
+      <h1 className='top-title'>Dishes</h1>
+      <button className='add-button' onClick={openNewDish}><img src={plus}></img></button>
+    </div>
+    {
+      newIsOpened && <NewDish closeNewDish = {closeNewDish} changeDishes = {changeDishes}/>
+    }
+    {
+      dishes.map((dish) => (
+        <Dish dish = {dish} key = {dish.id}/>
+      ))
+    }
     </>
   )
 }
 
 function App() {
 
-  const dishesNewPrep = [{id: 1, name: "tartaletcas", amount: 1}, {id: 2, name: "bigass", amount: 0}, {id: 3, name: "ahahah", amount: 0}, 
-    {id: 4, name: "porn", amount: 2}, {id: 5, name: "kaka", amount: 0}, {id: 6, name: "lala", amount: 0},
-     {id: 7, name: "arrra", amount: 0}, {id: 8, name: "opurn", amount: 3}, {id: 9, name: "lecsus", amount: 0}];
+  const [dishes, setDishes] = useState([]);
+  const [lastDishId, setLastDishId] = useState(1);
 
-  const [whatPage, setWhatPage] = useState("Menus");
+  const changeDishes = (dish) => {
+    if(dish.toDo == "add") {
+      dish.id = lastDishId;
+      setLastDishId(lastDishId + 1);
+      const newDishes = [...dishes, dish];
+      setDishes(newDishes);
+      console.log(newDishes);
+    }
+  }
+
+
+  const [whatPage, setWhatPage] = useState("Dishes");
 
   const changePage = (nameOfPage) => {
     setWhatPage(nameOfPage);
@@ -259,17 +289,12 @@ function App() {
 
   const [lastPrepId, setLastPrepId] = useState(1);
 
-     const incrementPrepId = () => {
-        setLastPrepId(lastPrepId + 1);
-     }
-
-  const [preparationItems, setPreparationItems] = useState([{orderName: "Birthday", dishes: dishesNewPrep, description: "sjfhfrrurueh",
-    notes: "vufufudd", deadline: "2015-03-25", id: 0, section: "Preparation"}]);
+  const [preparationItems, setPreparationItems] = useState([]);
 
   const changePreparationItems = (preparationItem) => {
     if(preparationItem.toDo == "add") {
       preparationItem.id = lastPrepId;
-      incrementPrepId();
+      setLastPrepId(lastPrepId + 1);
       const newPreparationItems = [...preparationItems, preparationItem];
       setPreparationItems(newPreparationItems);
     }
@@ -304,12 +329,12 @@ function App() {
       <>
       <Inwork inWorkItems = {preparationItems} changeInWorkItems = {changePreparationItems}/>
       <Preparation preparationItems = {preparationItems} changePreparationItems = {changePreparationItems}/>
-      <Templates changePreparationItems = {changePreparationItems}/>
+      <Templates changePreparationItems = {changePreparationItems} dishes={dishes}/>
       </>
     )}
     {whatPage === "Dishes" && (
       <>
-      <Dishes/>
+      <Dishes changeDishes = {changeDishes} dishes = {dishes}/>
       </>
     )}
     {whatPage === "History" && (

@@ -1,45 +1,51 @@
-.dishes_item {
+.dishes-item {
     display: block;
     padding: 20px 40px;
     background-color: rgba(0, 0, 0, 10%);
-    margin: 0 55px;
+    margin: 0 70px 40px 70px;
     border-radius: 15px;
     position: relative;
 }
 
-.dishes_item .title {
+.dishes-item .title {
     display: block;
     color: #2c2c2c;
-    font-size: 48px;
+    font-size: 60px;
     font-weight: 200;
     margin: 20px auto 40px auto;
     text-align: center;
 }
 
-.dishes_item .mini-title {
+.dishes-item .mini-title {
     display: block;
     color: #2c2c2c;
     font-size: 40px;
     font-weight: 200;
-    margin: 20px auto 40px auto;
+    margin: 40px auto 40px auto;
     text-align: center;
 }
 
 .img-description {
     display: flex;
-    justify-items: space-between;
+    justify-content: space-between;
     margin-bottom: 30px;
+    align-items: center;
+
 }
 
 .img-description p {
-    margin-left: 30px;
+    flex-basis: 50%;
+    margin-left: auto;
     font-size: 36px;
     text-align: center;
 }
 
 .img-description img {
-    max-width: 100%;
-    object-fit: contain;
+    flex-basis: 30%;
+    aspect-ratio: 1/1;
+    border-radius: 15px;
+    object-fit: cover;
+    overflow: hidden;
 }
 
 .arrow {
@@ -50,14 +56,23 @@
     left: 50%;
     translate: -50%;
 }
-.edit {
+
+.dishes-item .edit {
     position: absolute;
     background-color: rgba(0, 0, 0, 10%);
     border-radius: 15px;
-    padding: 20px 20px;
-    border-width: 0;
+    width: 60px;
+    height: 60px;
+    border: none;
+    padding: 0;
     top: 0;
     right: 0;
+}
+
+.dishes-item .edit img {
+    width: 60px;
+    height: 60px;
+
 }
 
 .text {
@@ -66,9 +81,30 @@
     padding-bottom: 20px;
 }
 
-.ingridient {
+.ingredient {
     display: flex;
     justify-content: space-between;
     margin: 0 45px;
     font-size: 30px;
+}
+
+.dishes-top-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dishes-top-items button {
+    margin: 182px 70px 70px;
+    background-color: #FCB9A9;
+}
+
+.dishes-item .weight-calories {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dishes-item .weight-calories h2 {
+    margin: 40px 0;
 }

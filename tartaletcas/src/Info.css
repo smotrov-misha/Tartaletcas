@@ -28,6 +28,10 @@
     z-index: 150;
 }
 
+.edit-dish {
+    width: 80%;
+}
+
 .menu-name {
     text-align: center;
     font-size: 52px;

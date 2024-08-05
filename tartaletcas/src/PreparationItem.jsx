@@ -44,6 +44,40 @@ function PreparationItem({ item, changePreparationItems }) {
         setInfoIsOpened(true);
     }
 
+    const [products, setProducts] = useState([]);
+
+    const changeProducts = () => {
+        const productObject = {};
+        for(let i = 0; i < item.dishes.length; i++) {
+            if(item.dishes[i].amount != 0) {
+            const ingredients = item.dishes[i].ingredients;
+            const dishAmount = Number(item.dishes[i].amount);
+            ingredients.forEach((ingredient) => {
+                const quantity = Number(ingredient.quantity);
+                if (!productObject[ingredient.name]) {
+                    productObject[ingredient.name] = [dishAmount * quantity, ingredient.unit];
+                } else {
+                    productObject[ingredient.name][0] += dishAmount * quantity;
+                }
+            });
+            }
+        }
+        
+        const entries = Object.entries(productObject);
+        const mappedEntries = entries.map(([key, value]) => {
+            return {name: key, quantity: value[0], unit: value[1]};
+        });
+        setProducts(mappedEntries);
+    }
+
+
+    useEffect(() => {
+        changeProducts();
+    }, []);
+
+    useEffect(() => {
+        changeProducts();
+    }, [item]);
 
 
     const [checkmarks, setCheckmarks] = useState(new Array(item.dishes.length).fill(false));
@@ -85,7 +119,7 @@ function PreparationItem({ item, changePreparationItems }) {
             </div>
             {isExpanded && (
                 <>
-                    {item.dishes.map((product, i) => (product.amount != 0 && (<ProductInPreparation key={product.id} index={i} amount={product.amount} name={product.name} checkValue={checkmarks[i]} changeCheckmark={changeCheckmark}/>)))}
+                    {products.map((product, i) => ((<ProductInPreparation key={product.id} index={i} amount={product.quantity + " " + product.unit} name={product.name} checkValue={checkmarks[i]} changeCheckmark={changeCheckmark}/>)))}
                 </>
             )}
             <button className='button-in-prep' style={{opacity: allChecked ? "1" : "0", transform: allChecked ? "scale(1)" : "scale(0)", bottom: isExpanded ? "20px" : "", top: isExpanded ? "" : "20px"}} onClick={changeSection}>Done</button>
