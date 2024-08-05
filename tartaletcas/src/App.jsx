@@ -5,7 +5,6 @@ import infoButton from './assets/infromation-button.png'
 import Info from './Info';
 import Templates from './Templates';
 import PreparationItem from './PreparationItem.jsx'
-import Dish from './Dish.jsx'
 
 function Background() {
   return (
@@ -31,65 +30,76 @@ function Navbar({changePage}) {
 }
 
 function Dishinwork(props) {
-  const [howManyMade, setHowManyMade] = useState(0);
-  const [checked, setChecked] = useState(false);
+  const [howManyMade, setHowManyMade] = useState(props.dishesMade);
+  const [checked, setChecked] = useState(props.checkmark);
 
   const increment = () => {
-    if(howManyMade < props.howMany) {
+    if(howManyMade < props.amount) {
       setHowManyMade(howManyMade + 1);
-      props.changeDishAmount(howManyMade + 1, props.id);
+      props.changeDishAmount(howManyMade + 1, props.index);
     }
-    if(howManyMade === props.howMany - 1) setChecked(true);
+    if(howManyMade === props.amount - 1) { 
+      setChecked(true);
+      props.changeCheckmark(props.index, true);
+    }
   }
 
   const decrement = () => {
     if(howManyMade > 0) {
       setHowManyMade(howManyMade - 1);
-      props.changeDishAmount(howManyMade - 1, props.id);
+      props.changeDishAmount(howManyMade - 1, props.index);
     }
-    if(howManyMade <= props.howMany) setChecked(false);
+    if(howManyMade <= props.amount) {
+      setChecked(false);
+      props.changeCheckmark(props.index, false);
+    }
   }
 
-  const setNumber = (val) => {
-    setHowManyMade(val);
-    props.changeDishAmount(val, props.id);
-  }
+
 
   const handleInputChange = (event) => {
     const value = Number(event.target.value);
-    if(value >= 0 && value <= props.howMany) {
+    console.log(value);
+    if(value >= 0 && value <= Number(props.amount)) {
       setHowManyMade(value);
-      props.changeDishAmount(value, props.id);
-      if(value === props.howMany) setChecked(true);
-      else setChecked(false);
+      props.changeDishAmount(value, props.index);
+      if(value === Number(props.amount)) {
+        setChecked(true);
+        props.changeCheckmark(props.index, true);
+      }
+      else {
+        setChecked(false);
+        props.changeCheckmark(props.index, false);
+      }
     }
   };
   const handleCheckboxChange = (event) => {
+    props.changeCheckmark(props.index, event.target.checked);
     setChecked(event.target.checked);
-    if (event.target.checked && props.howMany > howManyMade) {
-      setHowManyMade(props.howMany);
-      props.changeDishAmount(props.howMany, props.id);
+    if (event.target.checked && props.amount > howManyMade) {
+      setHowManyMade(props.amount);
+      props.changeDishAmount(props.amount, props.index);
     }
     else if(!event.target.checked) {
       setHowManyMade(0);
-      props.changeDishAmount(0, props.id);
+      props.changeDishAmount(0, props.index);
     }
   };
 
   return (
     <div className = "dish-in-work">
       <div className = "name-of-dish">
-        <h3>{props.Product}</h3>
+        <h3>{props.name}</h3>
       </div>
       <div className = "how-many-made">
         <button onClick={decrement}><h3>-</h3></button>
-        <input type = "text" placeholder= "0" min = "0" value={howManyMade} max = {props.howMany} onChange = {handleInputChange}/>
+        <input type = "text" placeholder= "0" min = "0" value={howManyMade} max = {props.amount} onChange = {handleInputChange}/>
         <button onClick={increment}><h3>+</h3></button>
       </div>
       <div className = "how-many-dish">
-        <h3>{props.howMany}</h3>
+        <h3>{props.amount}</h3>
         <label className = "check-dishes">
-          <input type="checkbox"  onChange={handleCheckboxChange} checked = {checked}/>
+          <input type="checkbox"  onChange={handleCheckboxChange} checked = {checked} value = {checked}/>
           <span className="checkmark"></span>
         </label>
       </div>
@@ -97,33 +107,49 @@ function Dishinwork(props) {
   );
 }
 
-function Inworkitem(props) {
+function Inworkitem({item, changeInWorkItems}) {
 
-  const dishes = [ {id: 1, Product: 'Salmon', howMany: 4540},
-    {id: 2, Product: 'Sex', howMany: 30},
-    {id: 3, Product: 'Bitch', howMany: 20}
-  ];
 
-  const sumOfDishes = dishes.reduce((accumulator, dish) => {
-    return accumulator + dish.howMany;
+  const [checkmarks, setCheckmarks] = useState(new Array(item.dishes.length).fill(false));
+    const [allChecked, setAllChecked] = useState(false);
+
+    const changeCheckmark = (i, val) => {
+        const newCheckmarks = [...checkmarks];
+        newCheckmarks[i] = val;
+        for(let i = 0; i < newCheckmarks.length; i++) {
+            if(newCheckmarks[i] == false && item.dishes[i].amount != 0) {
+                setAllChecked(false);
+                break;
+            }
+            if(i == newCheckmarks.length - 1) {
+                setAllChecked(true);
+            }
+        }
+        setCheckmarks(newCheckmarks);
+    }
+
+  const sumOfDishes = item.dishes.reduce((accumulator, dish) => {
+    if(dish.amount != 0) return accumulator + Number(dish.amount);
+    else return accumulator;
   }, 0);
 
-  const [amountOfDishes, setAmountOfDishes] = useState([0, 0, 0]);
+
+  const [amountOfDishes, setAmountOfDishes] = useState(new Array(item.dishes.length).fill(0));
   const [width, setWidth] = useState("0%");
 
   let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
-  return accumulator + amount}, 0);
+  return accumulator + Number(amount)}, 0);
 
   let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
 
-  const changeDishAmount = (howManyMade, id) => {
-    let newAmountOfDishes = [...amountOfDishes];
-    let newSumOfAmountOfDishes = sumOfAmountOfDishes - newAmountOfDishes[id - 1] + howManyMade;
-    let percentage = newSumOfAmountOfDishes / sumOfDishes * 100;
-    newAmountOfDishes[id - 1] = howManyMade;
-    setAmountOfDishes(newAmountOfDishes);
-    setWidth(percentage + "%");
-  }
+  const changeDishAmount = (howManyMade, i) => {
+      let newAmountOfDishes = [...amountOfDishes];
+      let newSumOfAmountOfDishes = sumOfAmountOfDishes - Number(newAmountOfDishes[i]) + Number(howManyMade);
+      let percentage = newSumOfAmountOfDishes / sumOfDishes * 100;
+      newAmountOfDishes[i] = Number(howManyMade);
+      setAmountOfDishes(newAmountOfDishes);
+      setWidth(percentage + "%");
+      }
 
   const [isExpanded, setIsExpanded] = useState(false);
   const expand = () => {
@@ -140,12 +166,17 @@ function Inworkitem(props) {
     setInfoIsOpened(true);
   }
 
+  const itemIsDone = () => {
+    item.toDo = "delete";
+    changeInWorkItems(item);
+  }
+
     return (
       <>
-      <div className= "work-prep-item">
+      <div className= "work-prep-item" style={(isExpanded && allChecked) ? {paddingBottom: "80px"} : {}}>
         <div className = "work-prep-things">
           <div className = "name-n-info">
-          <h2 className = "item-name">{props.itemName}</h2>
+          <h2 className = "item-name">{item.orderName}</h2>
           <button onClick={openInfo}><img src={infoButton}></img></button>
           </div>
           <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
@@ -157,36 +188,48 @@ function Inworkitem(props) {
       </div>
       {isExpanded && (
         <>
-          {dishes.map(dish => (<Dishinwork key={dish.id} id={dish.id} howMany={dish.howMany} Product={dish.Product} amountOfDishes={amountOfDishes} changeDishAmount={changeDishAmount}/> ))}
+          {item.dishes.map((dish, i) => ( dish.amount != 0 &&
+          (<Dishinwork key={dish.id} index={i} amount={dish.amount} dishesMade={amountOfDishes[i]} 
+            name={dish.name} changeDishAmount={changeDishAmount}
+             changeCheckmark={changeCheckmark} checkmark={checkmarks[i]}/>)
+          ))}
         </>
       )}
+        <button className='button-in-prep'
+         style={{opacity: allChecked ? "1" : "0", transform: allChecked ? "scale(1)" : "scale(0)",
+          bottom: isExpanded ? "20px" : "", top: isExpanded ? "" : "20px"}} onClick={itemIsDone}>Done</button>
     </div>
     {
-      infoIsOpened && <Info itemName={props.itemName} dishes={dishes} closeInfo={closeInfo}/>
+      infoIsOpened && <Info itemName={item.orderName} dishes={item.dishes} closeInfo={closeInfo} description={item.description}
+      notes={item.notes} deadline={item.deadline} changePreparationItems={changeInWorkItems}
+      id={item.id} section={item.section}/>
     }
     </>
     );
 }
   
 
-function Inwork() {
+function Inwork({inWorkItems, changeInWorkItems}) {
 
 return (
   <>
   <h1 className='top-title'>In work</h1>
-  <Inworkitem itemName="Fucking shit"/>
-  <Inworkitem itemName="Hi babe"/>
-  <Inworkitem itemName="Holly molly"/>
+  {inWorkItems.map(item => ( item.section == "In work" &&
+  (<Inworkitem key = {item.id} item = {item} changeInWorkItems = {changeInWorkItems}/>))
+  )}
   </>
 );
 }
 
-function Preparation() {
-
+function Preparation({preparationItems, changePreparationItems}) {
   return (
     <>
     <h1>Preparation</h1>
-    <PreparationItem itemName="Pisun"/>
+      <>
+      {preparationItems.map(prepItem => ( prepItem.section == "Preparation" &&
+      (<PreparationItem key = {prepItem.id} item = {prepItem} changePreparationItems = {changePreparationItems}/>))
+      )}
+      </>
     </>
   )
 }
@@ -203,21 +246,64 @@ function Dishes() {
 
 function App() {
 
+  const dishesNewPrep = [{id: 1, name: "tartaletcas", amount: 1}, {id: 2, name: "bigass", amount: 0}, {id: 3, name: "ahahah", amount: 0}, 
+    {id: 4, name: "porn", amount: 2}, {id: 5, name: "kaka", amount: 0}, {id: 6, name: "lala", amount: 0},
+     {id: 7, name: "arrra", amount: 0}, {id: 8, name: "opurn", amount: 3}, {id: 9, name: "lecsus", amount: 0}];
 
   const [whatPage, setWhatPage] = useState("Menus");
 
   const changePage = (nameOfPage) => {
     setWhatPage(nameOfPage);
   };
+
+  const [lastPrepId, setLastPrepId] = useState(1);
+
+     const incrementPrepId = () => {
+        setLastPrepId(lastPrepId + 1);
+     }
+
+  const [preparationItems, setPreparationItems] = useState([{orderName: "Birthday", dishes: dishesNewPrep, description: "sjfhfrrurueh",
+    notes: "vufufudd", deadline: "2015-03-25", id: 0, section: "Preparation"}]);
+
+  const changePreparationItems = (preparationItem) => {
+    if(preparationItem.toDo == "add") {
+      preparationItem.id = lastPrepId;
+      incrementPrepId();
+      const newPreparationItems = [...preparationItems, preparationItem];
+      setPreparationItems(newPreparationItems);
+    }
+    else if(preparationItem.toDo == "edit") {
+      for(let i = 0; i < preparationItems.length; i++) {
+        if(preparationItems[i].id == preparationItem.id) {
+          const newPreparationItems = [...preparationItems];
+          newPreparationItems[i] = preparationItem;
+          setPreparationItems(newPreparationItems);
+          break;
+        }
+      }
+    }
+    else if(preparationItem.toDo == "delete") {
+      const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
+      setPreparationItems(newPreparationItems);
+      console.log(newPreparationItems);
+    }
+    else if(preparationItem.toDo == "prep->inwork") {
+      preparationItem.section = "In work";
+      const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
+      newPreparationItems.push(preparationItem);
+      setPreparationItems(newPreparationItems);
+    }
+   }
+
   return (
     <>
     <Background/>
     <Navbar changePage={changePage}/>
     {whatPage === "Menus" && (
       <>
-      <Inwork/>
-      <Preparation/>
-      <Templates/>
+      <Inwork inWorkItems = {preparationItems} changeInWorkItems = {changePreparationItems}/>
+      <Preparation preparationItems = {preparationItems} changePreparationItems = {changePreparationItems}/>
+      <Templates changePreparationItems = {changePreparationItems}/>
       </>
     )}
     {whatPage === "Dishes" && (

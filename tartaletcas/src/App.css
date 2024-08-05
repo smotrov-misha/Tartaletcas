@@ -92,28 +92,29 @@ hr {
   justify-content: space-between;
 }
 
-.work-prep-things button img, .arrow img {
+.work-prep-things button img {
   width: 48px;
   height: 48px;
   opacity: 0.8;
 }
 
-.work-prep-things button, .arrow{
+.work-prep-things button {
   background-color: transparent;
   border: none;
 }
 
 .work-prep-item {
   background-color: rgba(0, 0, 0, 10%);
-  margin: 0 55px 0 55px;
+  margin: 0 55px;
   padding-bottom: 10px;
   border-radius: 15px;
-  transition: height 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
-
 .prep-item {
-  padding-bottom: 0px;
-}
+  transition: padding 0.3s ease;
+  position: relative;
+} 
 
 .name-n-info {
   display: flex;
@@ -136,21 +137,18 @@ hr {
   transition: all 0.3s ease;
 }
 
-.product-in-prep {
-  display: flex;
-}
-
-.dish-in-work {
+.dish-in-work, .product-in-prep {
   display: flex;
   justify-content: space-between;
-  margin: 0 45px;
+  margin: 0 40px;
+  flex-wrap: nowrap;
 }
 
-.dish-in-work div {
+
+.dish-in-work div, .product-in-prep div {
   display: flex;
   align-items: center;
-  flex: 1;
-  /* width: 100%; */
+  width: 100%;
 }
 
 .dish-in-work button {
@@ -176,8 +174,11 @@ hr {
   text-align: center;
 }
 
+.product-in-prep h3 {
+  margin: 10px 0;
+}
 
-.check-dishes {
+.check-dishes, .check-product {
   display: block;
   position: relative;
   margin: 0 45px 45px 45px;
@@ -185,7 +186,7 @@ hr {
   /* font-size: 22px; */
 }
 
-.check-dishes input{
+.check-dishes input, .check-product input{
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -204,11 +205,11 @@ hr {
   transition: all 0.2s ease;
 }
 
-.check-dishes:hover input ~ .checkmark {
+.check-dishes:hover input ~ .checkmark, .check-product:hover input ~ .checkmark {
   background-color: #12E3E6A3;
 }
 
-.check-dishes input:checked ~ .checkmark {
+.check-dishes input:checked ~ .checkmark, .check-product input:checked ~ .checkmark {
   background-color: #12E3E6;
 }
 
@@ -220,12 +221,12 @@ hr {
 }
 
 
-.check-dishes input:checked ~ .checkmark:after {
+.check-dishes input:checked ~ .checkmark:after, .check-product input:checked ~ .checkmark:after{
   display: block;
 }
 
 
-.check-dishes .checkmark:after {
+.check-dishes .checkmark:after, .check-product .checkmark:after {
   left: 16px;
   top: 10px;
   width: 9px;
@@ -246,7 +247,7 @@ hr {
   justify-content: center;
 }
 
-.how-many-dish {
+.how-many-dish, .how-many-product{
   justify-content: end;
 }
 
@@ -258,3 +259,27 @@ hr {
   font-weight: 100;
   opacity: 0.8;
 }
+
+.prep-item .button-in-prep, .work-prep-item .button-in-prep {
+  background-color: #12E3E6;
+  color: #2C2C2C;
+  font-weight: 600;
+  font-size: 24px;
+  height: auto;
+  padding: 10px 40px;
+  width: auto;
+  position: absolute;
+  right: 50%;
+  translate: 50%;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.work-prep-item .button-in-prep:active {
+  scale: 0.8;
+}
+
+.work-prep-item .button-in-prep:hover {
+  box-shadow: 0px -1px 40px 0px #12E3E6;
+}
+

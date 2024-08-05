@@ -104,7 +104,16 @@
     height: 500px;
 }
 
-.new-template-name {
+.edit-new-template {
+    position: fixed;
+    border-radius: 15px;
+    width: 70%;
+    left: 50%;
+    top: 250px;
+    translate: -50% 0;
+}
+
+.new-template-name, .new-order-name {
     display: block;
     margin: 0 auto;
     background-color: rgba(0, 0, 0, 0.05);
@@ -116,9 +125,10 @@
     width: 50%;
     text-align: center;
     margin-bottom: 30px;
+    color: #2c2c2c;
 }
 
-.new-template-name::placeholder {
+.new-template-name::placeholder, .new-order-name::placeholder {
     color: #2c2c2c65;
     text-decoration:underline 3px;
 }
