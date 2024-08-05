@@ -92,7 +92,7 @@ hr {
   justify-content: space-between;
 }
 
-.work-prep-things button img {
+.work-prep-things button img, .arrow img {
   width: 48px;
   height: 48px;
   opacity: 0.8;

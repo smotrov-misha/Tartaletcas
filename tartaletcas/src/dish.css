@@ -1,4 +1,4 @@
-.dish {
+.dishes_item {
     display: block;
     padding: 20px 40px;
     background-color: rgba(0, 0, 0, 10%);
@@ -7,7 +7,7 @@
     position: relative;
 }
 
-.dish .title {
+.dishes_item .title {
     display: block;
     color: #2c2c2c;
     font-size: 48px;
@@ -16,7 +16,7 @@
     text-align: center;
 }
 
-.dish .mini-title {
+.dishes_item .mini-title {
     display: block;
     color: #2c2c2c;
     font-size: 40px;
@@ -44,8 +44,11 @@
 
 .arrow {
     position: absolute;
+    background-color: transparent;
+    border-width: 0;
     bottom: 25px;
-    left: 48%;
+    left: 50%;
+    translate: -50%;
 }
 .edit {
     position: absolute;

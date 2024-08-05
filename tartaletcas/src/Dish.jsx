@@ -11,7 +11,7 @@ function Dish(props) {
     }
     return (
         <>
-        <div className='dish'>
+        <div className='dishes_item'>
             <h2 className='title'>Rainbow Cake</h2>
             <button className='edit'>
                 <img src={edit}></img>

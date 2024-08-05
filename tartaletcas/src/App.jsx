@@ -5,6 +5,7 @@ import infoButton from './assets/infromation-button.png'
 import Info from './Info';
 import Templates from './Templates';
 import PreparationItem from './PreparationItem.jsx'
+import Dish from './Dish.jsx'
 
 function Background() {
   return (
