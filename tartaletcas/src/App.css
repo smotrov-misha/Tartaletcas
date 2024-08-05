@@ -32,6 +32,18 @@
   filter: blur(100px);
 }
 
+.navigation {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  backdrop-filter: blur(80px);
+}
+
+.nav-line {
+  margin-bottom: 0;
+}
+
 .nav-bar {
   margin: 20px 30px 20px 30px;
   display: flex;
@@ -64,6 +76,10 @@ hr {
   border: 0.5px solid #2c2c2c;
 }
 
+.top-title {
+  margin-top: 182px;
+}
+
 .item-name {
   display: inline;
   font-size: 32px;
@@ -76,13 +92,13 @@ hr {
   justify-content: space-between;
 }
 
-.work-prep-things button img {
+.work-prep-things button img, .arrow img {
   width: 48px;
   height: 48px;
   opacity: 0.8;
 }
 
-.work-prep-things button {
+.work-prep-things button, .arrow{
   background-color: transparent;
   border: none;
 }
@@ -156,7 +172,8 @@ hr {
   font-size: 32px;
   font-weight: 200;
   font-family: system-ui;
-  width: 6vw;
+  width: 4vw;
+  text-align: center;
 }
 
 
@@ -231,4 +248,13 @@ hr {
 
 .how-many-dish {
   justify-content: end;
+}
+
+.our-names {
+  display: block;
+  text-align: center;
+  margin: 10px;
+  font-family: system-ui, -apple-system;
+  font-weight: 100;
+  opacity: 0.8;
 }

@@ -1,0 +1,70 @@
+.dish {
+    display: block;
+    padding: 20px 40px;
+    background-color: rgba(0, 0, 0, 10%);
+    margin: 0 55px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.dish .title {
+    display: block;
+    color: #2c2c2c;
+    font-size: 48px;
+    font-weight: 200;
+    margin: 20px auto 40px auto;
+    text-align: center;
+}
+
+.dish .mini-title {
+    display: block;
+    color: #2c2c2c;
+    font-size: 40px;
+    font-weight: 200;
+    margin: 20px auto 40px auto;
+    text-align: center;
+}
+
+.img-description {
+    display: flex;
+    justify-items: space-between;
+    margin-bottom: 30px;
+}
+
+.img-description p {
+    margin-left: 30px;
+    font-size: 36px;
+    text-align: center;
+}
+
+.img-description img {
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.arrow {
+    position: absolute;
+    bottom: 25px;
+    left: 48%;
+}
+.edit {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 10%);
+    border-radius: 15px;
+    padding: 20px 20px;
+    border-width: 0;
+    top: 0;
+    right: 0;
+}
+
+.text {
+    font-size: 36px;
+    text-align: center;
+}
+
+.ingridient {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 45px;
+    font-size: 30px;
+}

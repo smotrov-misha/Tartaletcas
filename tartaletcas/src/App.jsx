@@ -5,6 +5,8 @@ import infoButton from './assets/infromation-button.png'
 import Info from './Info';
 import Templates from './Templates';
 import PreparationItem from './PreparationItem.jsx'
+import Dish from './Dish.jsx'
+
 function Background() {
   return (
     <>
@@ -112,6 +114,8 @@ function Inworkitem(props) {
   let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
   return accumulator + amount}, 0);
 
+  let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
+
   const changeDishAmount = (howManyMade, id) => {
     let newAmountOfDishes = [...amountOfDishes];
     let newSumOfAmountOfDishes = sumOfAmountOfDishes - newAmountOfDishes[id - 1] + howManyMade;
@@ -169,7 +173,7 @@ function Inwork() {
 
 return (
   <>
-  <h1 className='in-work-title'>In work</h1>
+  <h1 className='top-title'>In work</h1>
   <Inworkitem itemName="Fucking shit"/>
   <Inworkitem itemName="Hi babe"/>
   <Inworkitem itemName="Holly molly"/>
@@ -187,7 +191,18 @@ function Preparation() {
   )
 }
 
+function Dishes() {
+
+  return (
+    <>
+    <h1 className='top-title'>Dishes</h1>
+    <Dish/>
+    </>
+  )
+}
+
 function App() {
+
 
   const [whatPage, setWhatPage] = useState("Menus");
 
@@ -207,7 +222,7 @@ function App() {
     )}
     {whatPage === "Dishes" && (
       <>
-      
+      <Dishes/>
       </>
     )}
     {whatPage === "History" && (
