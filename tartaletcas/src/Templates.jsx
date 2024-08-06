@@ -8,7 +8,6 @@ export function NewTemplate(props) {
 
     const editMode = props.id ? true : false;
     const newOrderMode = (props.mode == "New order") ? true : false;
-    console.log(newOrderMode);
     const [templateName, setTemplateName] = useState(props.templateName);
 
     const handleTemplateNameChange = (e) => {
@@ -55,7 +54,7 @@ export function NewTemplate(props) {
                <>
                 {props.dishes.map(dish => (<div className='chosen-dish' key={dish.id}>
                     <h3>{dish.name}</h3>
-                    <input type='text' placeholder='0' onChange={(e) => handleDishAmountChange(e, dish.id - 1)} value = {dishAmount[dish.id - 1].amount || ""}></input>
+                    <input type='text' placeholder='0' onChange={(e) => handleDishAmountChange(e, dish == [] ? dish.id - 1 : 0)} value = {dishAmount[dish.id - 1].amount || ""}></input>
                     </div>))}
                     </>
             </div>
@@ -142,7 +141,6 @@ function Templates({changePreparationItems, dishes}) {
      const addTemplate = (newTemplate) => {
         newTemplate.id = lastTemplateId;
         incrementTemplateId();
-        console.log(lastTemplateId);
         setTemplates([...templates, newTemplate]);
      }
      

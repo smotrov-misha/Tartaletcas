@@ -46,6 +46,7 @@
     border-radius: 15px;
     object-fit: cover;
     overflow: hidden;
+    border: none;
 }
 
 .arrow {
@@ -89,14 +90,21 @@
 }
 
 .dishes-top-items {
+    margin: 0 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.dishes-top-items button {
-    margin: 182px 70px 70px;
+.dishes-top-items .top-title {
+    margin: 182px 0 70px 0;
+}
+
+.dishes-top-items .equal .add-button {
+    margin: 182px 0 70px 0;
     background-color: #FCB9A9;
+    width: 70px;
+    float: inline-end;
 }
 
 .dishes-item .weight-calories {
@@ -107,4 +115,47 @@
 
 .dishes-item .weight-calories h2 {
     margin: 40px 0;
+}
+
+.dishes-top-items .search .search-button {
+    margin: 182px 0 70px -73.5px;
+    width: 70px;
+    height: 70px;
+    border: none;
+    border-radius: 15px;
+    padding: 0;
+    background-color: #edeae5;
+}
+
+.dishes-top-items .search {
+    justify-self: center;
+    margin: 0 auto;
+}
+
+
+.dishes-top-items .search-button img {
+    width: 50px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.dishes-top-items .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dishes-top-items .equal {
+    width: 20%;
+}
+
+.dishes-top-items .search input {
+    margin: 182px 0 70px 0;
+    background-color: rgba(0, 0, 0, 10%);
+    border: none;
+    border-radius: 15px;
+    font-family: system-ui, -apple-system;
+    font-weight: 100;
+    font-size: 40px;
+    padding: 15px;
 }

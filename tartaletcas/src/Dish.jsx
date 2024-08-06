@@ -3,10 +3,20 @@ import dropArrow from './assets/drop_down_arrow.png'
 import './dish.css'
 import rainbowCake from './assets/rainbow_cake.png'
 import edit from './assets/pencil.png'
+import {NewDish} from './makingInfo.jsx'
 
-function Dish({dish}) {
+function Dish({dish, changeDishes}) {
 
     const [isExpanded, setIsExpanded] = useState(false);
+    const [editIsOpened, setEditIsOpened] = useState(false);
+
+    const openEdit = () => {
+        setEditIsOpened(true);
+    }
+
+    const closeEdit = () => {
+        setEditIsOpened(false);
+    }
 
     const expand = () => {
         setIsExpanded(!isExpanded);
@@ -15,7 +25,7 @@ function Dish({dish}) {
         <>
         <div className='dishes-item'>
             <h2 className='title'>{dish.name}</h2>
-            <button className='edit'>
+            <button className='edit' onClick={openEdit}>
                 <img src={edit}></img>
             </button>
             <div className='img-description'>
@@ -47,6 +57,9 @@ function Dish({dish}) {
                 <h2 className='mini-title'>Recipe</h2>
                 <p className='text'>{dish.recipe}</p>
             </>)}
+            {
+                editIsOpened && <NewDish closeNewDish = {closeEdit} changeDishes = {changeDishes} dish = {dish}/>
+            }
         </div>
         </>
     )

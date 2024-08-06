@@ -184,3 +184,15 @@
 .edit-dish .dish-image:hover {
     opacity: 0.2;
 }
+
+.edit-dish .info-buttons .delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #FFA38D;
+    color: #2c2c2c;
+    font-weight: 600;
+    font-size: 29px;
+    width: auto;
+    padding: 10px 60px;
+}

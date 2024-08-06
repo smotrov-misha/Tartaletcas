@@ -8,6 +8,7 @@ import PreparationItem from './PreparationItem.jsx'
 import Dish from './Dish.jsx'
 import plus from './assets/plus.svg'
 import { NewDish } from './makingInfo.jsx';
+import search from './assets/search.png';
 
 function Background() {
   return (
@@ -62,7 +63,6 @@ function Dishinwork(props) {
 
   const handleInputChange = (event) => {
     const value = Number(event.target.value);
-    console.log(value);
     if(value >= 0 && value <= Number(props.amount)) {
       setHowManyMade(value);
       props.changeDishAmount(value, props.index);
@@ -250,15 +250,23 @@ function Dishes({changeDishes, dishes}) {
   return (
     <>
     <div className = "dishes-top-items">
+      <div className='equal'>
       <h1 className='top-title'>Dishes</h1>
+      </div>
+      <div className='search'>
+        <input type='text'/>
+        <button className='search-button'><img src={search}></img></button>
+      </div>
+      <div className='equal'>
       <button className='add-button' onClick={openNewDish}><img src={plus}></img></button>
+      </div>
     </div>
     {
       newIsOpened && <NewDish closeNewDish = {closeNewDish} changeDishes = {changeDishes}/>
     }
     {
       dishes.map((dish) => (
-        <Dish dish = {dish} key = {dish.id}/>
+        <Dish dish = {dish} key = {dish.id} changeDishes={changeDishes}/>
       ))
     }
     </>
@@ -276,7 +284,17 @@ function App() {
       setLastDishId(lastDishId + 1);
       const newDishes = [...dishes, dish];
       setDishes(newDishes);
-      console.log(newDishes);
+    }
+    else if(dish.toDo == "edit") {
+      const newDishes = dishes.map(d => {
+        if(d.id === dish.id) return dish;
+        else return d;
+      });
+      setDishes(newDishes);
+    }
+    else if(dish.toDo == "delete") {
+      const newDishes = dishes.filter(d => (d.id !== dish.id));
+      setDishes(newDishes);
     }
   }
 
@@ -311,7 +329,6 @@ function App() {
     else if(preparationItem.toDo == "delete") {
       const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
       setPreparationItems(newPreparationItems);
-      console.log(newPreparationItems);
     }
     else if(preparationItem.toDo == "prep->inwork") {
       preparationItem.section = "In work";

@@ -96,10 +96,10 @@ function NewOrder(props) {
     );
 }
 
-export function NewDish({closeNewDish, changeDishes}) {
-
-    const[ingredients, setIngredients] = useState([]);
-    const [nextId, setNextId] = useState(1);
+export function NewDish({closeNewDish, changeDishes, dish}) {
+    const mode = dish ? "edit" : "add";
+    const[ingredients, setIngredients] = useState(dish ? dish.ingredients.map((ingredient) => ({...ingredient})) : []);
+    const [nextId, setNextId] = useState(dish ? dish.nextIngredientId : 1);
 
     const addIngredient = (event) => {
         event.preventDefault();
@@ -130,7 +130,7 @@ export function NewDish({closeNewDish, changeDishes}) {
         ));
     };
 
-    const [newDish, setNewDish] = useState({})
+    const [newDish, setNewDish] = useState(dish ? {...dish} : {});
 
     const handleDishChange = (prop, value) => {
         setNewDish({...newDish, [prop]: value});
@@ -139,16 +139,29 @@ export function NewDish({closeNewDish, changeDishes}) {
     const handleFormSubmit = (e) => {
         const completedDish = {...newDish};
         completedDish.ingredients = ingredients.map(ingredient => ({...ingredient}));
-        completedDish.toDo = "add";
+        completedDish.toDo = mode;
+        completedDish.nextIngredientId = nextId + 1;
         changeDishes(completedDish);
         e.preventDefault();
         closeNewDish();
     }
+
+    const deleteDish = () => {
+        const deleteDish = {...newDish};
+        deleteDish.toDo = "delete";
+        changeDishes(deleteDish);
+        e.preventDefault();
+        closeNewDish();
+    }
+
     return (
         <div className="overlay">
             <div className='container edit-dish'>
                 <div className='info-buttons'>
                     <button className='cancel-button' onClick={closeNewDish}><img src={cross_button}></img></button>
+                    {
+                        mode === "edit"  && (<button className='delete-button' onClick={deleteDish}>Delete</button>)
+                    }
                 </div>
                 <form onSubmit={handleFormSubmit}>
                     <input type='text' placeholder='Dish name' className='new-order-name dish-name' onChange={(e) => handleDishChange('name', e.target.value)} value={newDish.name || ''}></input>
