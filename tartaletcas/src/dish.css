@@ -30,17 +30,26 @@
     justify-content: space-between;
     margin-bottom: 30px;
     align-items: center;
+    /* flex-wrap: wrap; */
+    overflow: hidden;
 
 }
 
 .img-description p {
-    flex-basis: 50%;
-    margin-left: auto;
     font-size: 36px;
+    flex: 1 1 50%; 
+    word-wrap: break-word;
+    white-space: normal;
+    margin: 0;
+    max-width: 50%;
     text-align: center;
+    overflow-y: auto;
+    max-height: 300px;
+    padding-right: 10px;
 }
 
 .img-description img {
+
     flex-basis: 30%;
     aspect-ratio: 1/1;
     border-radius: 15px;
@@ -114,6 +123,7 @@
 }
 
 .dishes-item .weight-calories h2 {
+    font-size: 36px;
     margin: 40px 0;
 }
 

@@ -18,16 +18,19 @@ export function NewTemplate(props) {
     
     const handleDishAmountChange = (e, index) => {
         const updatedDishAmount = [...dishAmount];
-        updatedDishAmount[index].amount = e.target.value;
+        updatedDishAmount[index].amount = e.target.value.replace(/[^0-9]/g, '');
         setDishAmount(updatedDishAmount);
     }
 
     const handleSubmit = (e) => {
+        e.preventDefault();
         if(!editMode && !newOrderMode) {
+        if(!templateName) return alert("Type in template name");
         const newTemplate = {templateName: templateName, dishes: [...dishAmount]};
         props.addTemplate(newTemplate);
         }
         else if(editMode) {
+            if(!templateName) return alert("Type in template name");
             const newTemplate = {templateName: templateName, dishes: [...dishAmount], id: props.id};
             props.changeTemplate(newTemplate);
         }

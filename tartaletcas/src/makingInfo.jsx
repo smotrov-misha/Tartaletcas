@@ -4,6 +4,7 @@ import './MakingInfo.css'
 import {NewTemplate} from './Templates.jsx'
 import plus from './assets/plus.svg'
 import minus from './assets/minus.png'
+import chooseFile from './assets/chooseFile.png'
 
 function NewOrder(props) {
 
@@ -49,6 +50,7 @@ function NewOrder(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if(!orderName) return alert("Type in order name");
         if(props.toDo == "add") {
             const newOrder = {orderName: orderName, dishes: currentDishes, description: description, notes: notes, deadline: deadline, toDo: "add", section: "Preparation"};
             props.changePreparationItems(newOrder);
@@ -125,6 +127,7 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
     }
 
     const handleIngredientChange = (id, prop, value) => {
+        if(prop == "quantity") value = value.replace(/[^0-9]/g, '');
         setIngredients(ingredients.map((ingredient) => 
             ingredient.id === id ? {...ingredient, [prop]: value} : ingredient
         ));
@@ -133,16 +136,21 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
     const [newDish, setNewDish] = useState(dish ? {...dish} : {});
 
     const handleDishChange = (prop, value) => {
+        if(prop == "weight" || prop == "calories") value = value.replace(/[^0-9]/g, '');
         setNewDish({...newDish, [prop]: value});
     }
 
     const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if(ingredients.every(ingredient => {
+            return (!ingredient.quantity || !ingredient.unit || !ingredient.name);
+        }) && ingredients.length != 0) return alert("Information about ingredients isn't completed");
+        if(!newDish.name) return alert("Dish doesn't have a name");
         const completedDish = {...newDish};
         completedDish.ingredients = ingredients.map(ingredient => ({...ingredient}));
         completedDish.toDo = mode;
         completedDish.nextIngredientId = nextId + 1;
         changeDishes(completedDish);
-        e.preventDefault();
         closeNewDish();
     }
 
@@ -168,6 +176,7 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
                     <div className='image-description'>
                         <div className='image'>
                         <input type='file' accept="image/*" onChange={handleImageChange}></input>
+                        <button className = 'choose-file'><img src={chooseFile}/></button>
                         {newDish.image && <img src={newDish.image} alt="dish" className ='dish-image'/>}
                         </div>
                         <div className='description'>

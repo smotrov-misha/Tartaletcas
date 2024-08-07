@@ -8,7 +8,7 @@ import PreparationItem from './PreparationItem.jsx'
 import Dish from './Dish.jsx'
 import plus from './assets/plus.svg'
 import { NewDish } from './makingInfo.jsx';
-import search from './assets/search.png';
+import searchIcon from './assets/search.png';
 
 function Background() {
   return (
@@ -239,7 +239,9 @@ function Preparation({preparationItems, changePreparationItems}) {
 
 function Dishes({changeDishes, dishes}) {
   const [newIsOpened, setNewIsOpened] = useState(false);
-
+  const [search, setSearch] = useState('');
+  const [currentSearch, setCurrentSearch] = useState('');
+  
   const openNewDish = () => {
     setNewIsOpened(true);
   }
@@ -247,6 +249,15 @@ function Dishes({changeDishes, dishes}) {
   const closeNewDish = () => {
     setNewIsOpened(false);
   }
+
+  const handleSearch = (e) => {
+    setCurrentSearch(e.target.value);
+  }
+
+  const searchFor = () => {
+    setSearch(currentSearch);
+  }
+
   return (
     <>
     <div className = "dishes-top-items">
@@ -254,8 +265,13 @@ function Dishes({changeDishes, dishes}) {
       <h1 className='top-title'>Dishes</h1>
       </div>
       <div className='search'>
-        <input type='text'/>
-        <button className='search-button'><img src={search}></img></button>
+        <input type='text' list='all-dishes' onChange={handleSearch} value={currentSearch || ""}/>
+        <datalist id='all-dishes'>
+          {
+            dishes.map(dish => (<option>{dish.name}</option>))
+          }
+        </datalist>
+        <button className='search-button' onClick={searchFor}><img src={searchIcon}></img></button>
       </div>
       <div className='equal'>
       <button className='add-button' onClick={openNewDish}><img src={plus}></img></button>
@@ -265,9 +281,11 @@ function Dishes({changeDishes, dishes}) {
       newIsOpened && <NewDish closeNewDish = {closeNewDish} changeDishes = {changeDishes}/>
     }
     {
-      dishes.map((dish) => (
-        <Dish dish = {dish} key = {dish.id} changeDishes={changeDishes}/>
-      ))
+      dishes.map((dish) => {
+        if(search == dish.name.substring(0, search.length) || search.length == 0) {
+        return <Dish dish = {dish} key = {dish.id} changeDishes={changeDishes}/>
+      }
+    })
     }
     </>
   )

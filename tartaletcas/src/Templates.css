@@ -185,3 +185,12 @@
     left: 10px;
     background-color: #FFA38D;
 }
+
+
+.above-part-templates {
+    margin: 70px 70px 70px 0;
+}
+
+.above-part-templates h1{
+    margin: 0 70px;
+}

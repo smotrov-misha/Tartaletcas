@@ -26,8 +26,12 @@ function Info(props) {
                     <button className='edit-button' onClick={switchOnEdit}><img src={pencil} className="pencil"></img></button>
                 </div>
                 <h2 className='menu-name'>{props.itemName}</h2>
-                <h3 className='title'>Dishes</h3>
-                <hr className='dividing-line'/>
+                {
+                    !props.dishes.every(dish => {
+                        return !dish.amount;
+                    }) && (<>
+                        <h3 className='title'>Dishes</h3>
+                        <hr className='dividing-line'/>
                 <div>
                     {props.dishes.map(dish => (dish.amount != 0 && (<div key = {dish.id} className='dish'>
                                                     <h3>{dish.name}</h3>
@@ -35,14 +39,28 @@ function Info(props) {
                                                 </div>)))}
                 </div>
                 <hr className='dividing-line' id='bottom-dividing-line'/>
-                <h3 className='title'>Description</h3>
-                <p>{props.description}</p>
-                <h3 className='title'>Notes</h3>
-                <p>{props.notes}</p>
-                <div className='deadline-container'>
-                    <h3 className='title'>Deadline</h3>
-                    <p className='deadline-date'>{props.deadline}</p>
-                </div>
+                </>)
+                }
+                {
+                    props.description && (<>
+                            <h3 className='title'>Description</h3>
+                            <p>{props.description}</p>
+                    </>)
+                }
+                {
+                    props.notes && (<>
+                            <h3 className='title'>Notes</h3>
+                            <p>{props.notes}</p>
+                    </>)
+                }
+                {
+                    props.deadline && (<>
+                        <div className='deadline-container'>
+                        <h3 className='title'>Deadline</h3>
+                        <p className='deadline-date'>{props.deadline}</p>
+                        </div>
+                    </>)
+                }
             </div>
         </div>
         {
