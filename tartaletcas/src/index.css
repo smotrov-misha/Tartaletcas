@@ -32,3 +32,9 @@
     font-size: 29px;
     font-weight: 200;
   }
+
+  @media screen and (max-width: 800px){
+    h1 {
+      margin: 30px !important;
+    }
+  }

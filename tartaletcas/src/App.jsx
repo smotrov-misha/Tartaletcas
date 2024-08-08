@@ -316,7 +316,7 @@ function App() {
   }
 
 
-  const [whatPage, setWhatPage] = useState("Dishes");
+  const [whatPage, setWhatPage] = useState("Menus");
 
   const changePage = (nameOfPage) => {
     setWhatPage(nameOfPage);
