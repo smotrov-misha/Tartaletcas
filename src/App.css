@@ -280,14 +280,14 @@ hr {
 
 .our-names {
   display: block;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 50%;
   translate: 50%;
   margin: 10px;
   font-family: system-ui, -apple-system;
   font-weight: 100;
-  color: #2C2C2C;
+  color: #2C2C2C20;
   font-size: 25px;
 }
 
