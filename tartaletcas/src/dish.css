@@ -105,12 +105,14 @@
     align-items: center;
 }
 
-.dishes-top-items .top-title {
+.dishes-top-items .top-title,
+.dishes-top-items .equal .add-button,
+.dishes-top-items .search input,
+.dishes-top-items .search .search-button {
     margin: 182px 0 70px 0;
 }
 
 .dishes-top-items .equal .add-button {
-    margin: 182px 0 70px 0;
     background-color: #FCB9A9;
     width: 70px;
     float: inline-end;
@@ -127,51 +129,73 @@
     margin: 40px 0;
 }
 
+
 .dishes-top-items .search .search-button {
-    margin: 182px 0 70px -73.5px;
-    width: 70px;
-    height: 70px;
     border: none;
     border-radius: 15px;
     padding: 0;
     background-color: #edeae5;
+    min-height: 30px;
+    min-width: 30px;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    aspect-ratio: 1/1;
 }
-
-.dishes-top-items .search {
-    justify-self: center;
-    margin: 0 auto;
-}
-
 
 .dishes-top-items .search-button img {
-    width: 50px;
-    height: 70px;
+    width: 80%;
+    aspect-ratio: 1/1;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
     object-fit: contain;
+    position: absolute;
 }
 
-.dishes-top-items .search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dishes-top-items .equal {
-    width: 20%;
-}
-
+/* Search Input Styling */
 .dishes-top-items .search input {
-    margin: 182px 0 70px 0;
-    background-color: rgba(0, 0, 0, 10%);
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.1); /* Adjusted alpha for transparency */
     border: none;
     border-radius: 15px;
     font-family: system-ui, -apple-system;
     font-weight: 100;
-    font-size: 40px;
-    padding: 15px;
+    font-size: 3vw;
+    width: 20vw;
+    padding: 1vw;
+    min-width: 160px;
+    min-height: 30px;
 }
 
+/* Search Container Styling */
+.dishes-top-items .search {
+    position: relative;
+    margin: 0 auto;
+}
+
+/* Equal Section Styling */
+.dishes-top-items .equal {
+    width: 20%;
+}
+
+/* Responsive Styles */
 @media screen and (max-width: 800px) {
-    .dishes-top-items .search input, .search button{
-        margin: 80px 0px 30px 0px !important;
+    .dishes-top-items .search input, 
+    .dishes-top-items .search .search-button, 
+    .dishes-top-items .equal .add-button,
+    .dishes-top-items .top-title {
+        margin: 80px 0 30px 0 !important;
+    }
+
+    .dishes-top-items {
+        margin: 0 30px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .dishes-top-items .search {
+        translate: 0 60px !important;
     }
 }
