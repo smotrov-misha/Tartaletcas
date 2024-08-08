@@ -1,35 +1,26 @@
 .dot {
   border-radius: 50%;
+  width: 50vw;
+  height: 50vw;
+  min-width: 400px;
+  min-height: 400px;
   background-color: black;
+  position: fixed;
   display: inline-block;
   z-index: -1;
+  filter: blur(100px);
 }
 
 #first-circle {
-  width: 600px;
-  height: 600px;
-  transform: translate(-300px, -100px);
+  transform: translate(-25vw, -15vw);
   background-color: #55cbcd;
-  position: fixed;
-  filter: blur(100px);
 }
 
 #second-circle {
-  width: 600px;
-  height: 600px;
-  transform: translate(1000px, 400px);
+  bottom: 0;
+  right: 0;
+  transform: translate(20vw, 20vw);
   background-color: #fcb9a9;
-  position: fixed;
-  filter: blur(100px);
-}
-
-#third-circle {
-  width: 800px;
-  height: 800px;
-  transform: translate(500px, 1500px);
-  background-color: #55cbcd;
-  position: fixed;
-  filter: blur(100px);
 }
 
 .navigation {

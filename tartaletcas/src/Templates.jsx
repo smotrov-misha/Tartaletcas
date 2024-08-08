@@ -55,9 +55,9 @@ export function NewTemplate(props) {
             }
             <div className='container-for-adding-dishes' style={{translate: newOrderMode ? "0 calc(250px - 22.5vh)" : "0px 0px"}}>
                <>
-                {props.dishes.map(dish => (<div className='chosen-dish' key={dish.id}>
+                {props.dishes.map((dish, i) => (<div className='chosen-dish' key={dish.id}>
                     <h3>{dish.name}</h3>
-                    <input type='text' placeholder='0' onChange={(e) => handleDishAmountChange(e, dish == [] ? dish.id - 1 : 0)} value = {dishAmount[dish.id - 1].amount || ""}></input>
+                    <input type='text' placeholder='0' onChange={(e) => handleDishAmountChange(e, i)} value = {dishAmount[i].amount || ""}></input>
                     </div>))}
                     </>
             </div>
@@ -124,10 +124,6 @@ function Template(props) {
 
 
 function Templates({changePreparationItems, dishes}) {
-
-    const dishesNewTemplate = [{id: 1, name: "tartaletcas", amount: 0}, {id: 2, name: "bigass", amount: 0}, {id: 3, name: "ahahah", amount: 0}, 
-    {id: 4, name: "porn", amount: 0}, {id: 5, name: "kaka", amount: 0}, {id: 6, name: "lala", amount: 0},
-     {id: 7, name: "arrra", amount: 0}, {id: 8, name: "opurn", amount: 0}, {id: 9, name: "lecsus", amount: 0}];
 
     const [newTemplateIsOpened, setNewTemplateIsOpened] = useState(false);
 

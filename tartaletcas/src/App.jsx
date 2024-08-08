@@ -15,7 +15,6 @@ function Background() {
     <>
       <span className = "dot" id = "first-circle"></span>
       <span className = "dot" id = "second-circle"></span>
-      <span className = "dot" id = "third-circle"></span>
     </>
   );
 }
