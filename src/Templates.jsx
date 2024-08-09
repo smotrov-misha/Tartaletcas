@@ -6,7 +6,7 @@ import NewOrder from './makingInfo.jsx'
 
 export function NewTemplate(props) {
 
-    const editMode = props.id ? true : false;
+    const editMode = (props.mode == "Edit template") ? true : false;
     const newOrderMode = (props.mode == "New order") ? true : false;
     const [templateName, setTemplateName] = useState(props.templateName);
 
@@ -73,6 +73,7 @@ export function NewTemplate(props) {
 }
 
 function Template(props) {
+
     const [editIsOpened, setEditIsOpened] = useState(false);
     const [startIsOpened, setStartIsOpened] = useState(false);
 
@@ -98,7 +99,7 @@ function Template(props) {
                 <h2 className='template-name'>{props.templateName}</h2>
                 <div className='template-dishes'>
                 {props.dishes.map(dish => (
-                    dish.amount != 0 && (
+                    dish.amount && Number(dish.amount) != 0 && (
                         <div className='template-dish-container' key={dish.id}>
                             <h3>{dish.name}</h3>
                             <h3>{dish.amount}</h3>
@@ -113,18 +114,17 @@ function Template(props) {
         </div>
         { 
             editIsOpened && <NewTemplate closeNewTemplate={closeEdit} templateName={props.templateName}
-            dishes={[...props.dishes]} id={props.id} changeTemplate={props.changeTemplate} deleteTemplate={props.deleteTemplate}/>
+            dishes={props.dishes} id={props.id} changeTemplate={props.changeTemplate} mode="Edit template" deleteTemplate={props.deleteTemplate}/>
         }
         {
-            startIsOpened && <NewOrder dishes={[...props.dishes]} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems} toDo="add"/>
+            startIsOpened && <NewOrder dishes={props.dishes} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems} toDo="add"/>
         }
         </>
     );
 }
 
 
-function Templates({changePreparationItems, dishes}) {
-
+function Templates({changePreparationItems, dishes, addTemplate, changeTemplate, deleteTemplate, templates}) {
     const [newTemplateIsOpened, setNewTemplateIsOpened] = useState(false);
 
      const closeNewTemplate = () => {
@@ -134,44 +134,6 @@ function Templates({changePreparationItems, dishes}) {
      const openNewTemplate = () => {
        setNewTemplateIsOpened(true);
      }
-
-     const [templates, setTemplates] = useState([]);
-
-     const addTemplate = (newTemplate) => {
-        newTemplate.id = lastTemplateId;
-        incrementTemplateId();
-        setTemplates([...templates, newTemplate]);
-     }
-     
-
-     const changeTemplate = (newTemplate) => {
-        for(let i = 0; i < templates.length; i++) {
-            if(templates[i].id === newTemplate.id) {
-                const newTemplateArray = [...templates];
-                newTemplateArray[i] = newTemplate;
-                setTemplates(newTemplateArray);
-                break;
-            }
-        }
-     }
-
-     const deleteTemplate = (id) => {
-        for(let i = 0; i < templates.length; i++) {
-            if(templates[i].id === id) {
-                const newTemplateArray = [...templates];
-                newTemplateArray.splice(i, 1);
-                setTemplates(newTemplateArray);
-                break;
-            }
-        }
-     }
-
-     const [lastTemplateId, setLastTemplateId] = useState(1);
-
-     const incrementTemplateId = () => {
-        setLastTemplateId(lastTemplateId + 1);
-     }
-
     return ( 
         <>
         <div className='above-part-templates'>
@@ -187,7 +149,7 @@ function Templates({changePreparationItems, dishes}) {
         </div>
         {
             newTemplateIsOpened && <NewTemplate closeNewTemplate={closeNewTemplate} addTemplate={addTemplate} 
-            templateName='' dishes={[...dishes]}/>
+            templateName='' dishes={dishes}/>
         }
         </>
     );

@@ -213,6 +213,7 @@ function Inworkitem({item, changeInWorkItems}) {
 
 function Inwork({inWorkItems, changeInWorkItems}) {
 
+
 return (
   <>
   <h1 className='top-title'>In work</h1>
@@ -228,8 +229,8 @@ function Preparation({preparationItems, changePreparationItems}) {
     <>
     <h1>Preparation</h1>
       <>
-      {preparationItems.map(prepItem => ( prepItem.section == "Preparation" &&
-      (<PreparationItem key = {prepItem.id} item = {prepItem} changePreparationItems = {changePreparationItems}/>))
+      {preparationItems.map(prepItem => (prepItem.section === "Preparation" ?
+      (<PreparationItem key = {prepItem.id} item = {prepItem} changePreparationItems = {changePreparationItems}/>) : null)
       )}
       </>
     </>
@@ -291,10 +292,34 @@ function Dishes({changeDishes, dishes}) {
 }
 
 function App() {
-
-  const [dishes, setDishes] = useState([]);
+  const [whatPage, setWhatPage] = useState("Menus");
   const [lastDishId, setLastDishId] = useState(1);
+  const [lastTemplateId, setLastTemplateId] = useState(1);
+  const [lastPrepId, setLastPrepId] = useState(1);
+  const [preparationItems, setPreparationItems] = useState([]);
+  const [templates, setTemplates] = useState([]);
+  const [dishes, setDishes] = useState([]);
 
+  const changePage = (nameOfPage) => {
+    setWhatPage(nameOfPage);
+  };
+
+  //templates
+  const addTemplate = (newTemplate) => {
+    newTemplate.id = lastTemplateId;
+    setLastTemplateId(lastTemplateId + 1);
+    setTemplates([...templates, newTemplate]);
+ }
+ 
+ const changeTemplate = (newTemplate) => {
+    setTemplates(templates.map(template => template.id === newTemplate.id ? newTemplate : template));
+ }
+
+ const deleteTemplate = (id) => {
+    setTemplates(templates.filter(template => template.id !== id));
+ }
+
+ //dishes
   const changeDishes = (dish) => {
     if(dish.toDo == "add") {
       dish.id = lastDishId;
@@ -315,45 +340,46 @@ function App() {
     }
   }
 
-
-  const [whatPage, setWhatPage] = useState("Menus");
-
-  const changePage = (nameOfPage) => {
-    setWhatPage(nameOfPage);
-  };
-
-  const [lastPrepId, setLastPrepId] = useState(1);
-
-  const [preparationItems, setPreparationItems] = useState([]);
-
+  //preparation_items
   const changePreparationItems = (preparationItem) => {
     if(preparationItem.toDo == "add") {
+      delete preparationItem.toDo;
       preparationItem.id = lastPrepId;
       setLastPrepId(lastPrepId + 1);
       const newPreparationItems = [...preparationItems, preparationItem];
       setPreparationItems(newPreparationItems);
     }
     else if(preparationItem.toDo == "edit") {
-      for(let i = 0; i < preparationItems.length; i++) {
-        if(preparationItems[i].id == preparationItem.id) {
-          const newPreparationItems = [...preparationItems];
-          newPreparationItems[i] = preparationItem;
-          setPreparationItems(newPreparationItems);
-          break;
-        }
+      delete preparationItem.toDo;
+      const newPreparationItems = preparationItems.map(item =>
+        item.id === preparationItem.id ? preparationItem : item
+      );
+      setPreparationItems(newPreparationItems);
       }
-    }
     else if(preparationItem.toDo == "delete") {
       const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
       setPreparationItems(newPreparationItems);
     }
     else if(preparationItem.toDo == "prep->inwork") {
       preparationItem.section = "In work";
+      delete preparationItem.toDo;
       const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
       newPreparationItems.push(preparationItem);
       setPreparationItems(newPreparationItems);
     }
    }
+
+   useEffect(() => {
+    setTemplates(templates =>
+      templates.map(template => {
+          const updatedDishes = dishes.map(dish => {
+              const existingDish = template.dishes.find(tDish => tDish.id === dish.id);
+              return existingDish ? { ...dish, amount: existingDish.amount } : { ...dish, amount: ''};
+          });
+          return { ...template, dishes: updatedDishes };
+      })
+  );
+   }, [dishes]);
 
   return (
     <>
@@ -363,7 +389,8 @@ function App() {
       <>
       <Inwork inWorkItems = {preparationItems} changeInWorkItems = {changePreparationItems}/>
       <Preparation preparationItems = {preparationItems} changePreparationItems = {changePreparationItems}/>
-      <Templates changePreparationItems = {changePreparationItems} dishes={dishes}/>
+      <Templates changePreparationItems = {changePreparationItems} dishes={dishes} addTemplate={addTemplate} 
+      changeTemplate={changeTemplate} deleteTemplate={deleteTemplate} templates={templates}/>
       </>
     )}
     {whatPage === "Dishes" && (

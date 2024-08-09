@@ -1,7 +1,6 @@
 import React,{ useState, useEffect } from 'react'
 import dropArrow from './assets/drop_down_arrow.png'
 import './dish.css'
-import rainbowCake from './assets/rainbow_cake.png'
 import edit from './assets/pencil.png'
 import {NewDish} from './makingInfo.jsx'
 

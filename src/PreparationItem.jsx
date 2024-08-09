@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useRef} from 'react';
 import dropArrow from './assets/drop_down_arrow.png';
 import infoButton from './assets/infromation-button.png';
 import Info from './Info';
+import _ from 'lodash';
 
 function ProductInPreparation(props) {
   const { name, amount, checkValue, index, changeCheckmark } = props;
@@ -31,13 +32,15 @@ function ProductInPreparation(props) {
   );
 }
 
-function PreparationItem({ item, changePreparationItems }) {
+function PreparationItem({ item, changePreparationItems, changePage }) {
+  const fullItemCopy = _.cloneDeep(item);
+  const [updatedItem, setUpdatedItem] = useState(_.cloneDeep(fullItemCopy));
   const { section, orderName, dishes } = item;
   const [isExpanded, setIsExpanded] = useState(false);
   const [infoIsOpened, setInfoIsOpened] = useState(false);
-  const [products, setProducts] = useState([]);
-  const [checkmarks, setCheckmarks] = useState([]);
-  const [allChecked, setAllChecked] = useState(false);
+  const [products, setProducts] = useState(fullItemCopy.products ? fullItemCopy.products : []);
+  const [checkmarks, setCheckmarks] = useState(fullItemCopy.checkmarks ? fullItemCopy.checkmarks : []);
+  const [allChecked, setAllChecked] = useState(fullItemCopy.allChecked || false);
 
   const expand = () => setIsExpanded(!isExpanded);
   const closeInfo = () => setInfoIsOpened(false);
@@ -59,33 +62,53 @@ function PreparationItem({ item, changePreparationItems }) {
       }
     });
     const entries = Object.entries(productObject);
-    return entries.map(([key, value]) => ({
+    const arrayOfProducts = entries.map(([key, value]) => ({
       name: key,
       quantity: value[0],
       unit: value[1]
     }));
+    return arrayOfProducts;
   };
 
+  const newProducts = useMemo(calculateProducts, [item.dishes]);
+
   useEffect(() => {
-    const newProducts = calculateProducts();
+
     setProducts(newProducts);
-    setCheckmarks(new Array(newProducts.length).fill(false));
-  }, [dishes]);
+    if(updatedItem.products && updatedItem.checkmarks && updatedItem.allChecked && _.isEqual(updatedItem.products, newProducts)) {
+      setCheckmarks(updatedItem.checkmarks);
+      setAllChecked(updatedItem.allChecked);
+    }
+    else {
+      setCheckmarks(new Array(newProducts.length).fill(false));
+      setAllChecked(false);
+      const newItem = {...item, checkmarks: new Array(newProducts.length).fill(false), 
+        allChecked: false, toDo: "edit", products: newProducts};
+      setUpdatedItem(newItem);
+      changePreparationItems(newItem);
+    }
+  }, [item.dishes]);
 
   const changeCheckmark = (i, val) => {
     const newCheckmarks = [...checkmarks];
     newCheckmarks[i] = val;
     setCheckmarks(newCheckmarks);
-
     const allCheckedFlag = newCheckmarks.every((checked, index) => {
       return checked;
     });
+    const newItem = {...item, checkmarks: [...newCheckmarks], allChecked: allCheckedFlag, toDo: "edit"};
+    setUpdatedItem(newItem);
+    changePreparationItems(newItem);
     setAllChecked(allCheckedFlag);
   };
 
   const changeSection = () => {
-    item.toDo = "prep->inwork";
-    changePreparationItems(item);
+    const newItem = {...item};
+    newItem.toDo = "prep->inwork";
+    delete newItem.allChecked;
+    delete newItem.checkmarks;
+    delete newItem.products;
+    changePreparationItems(newItem);
   };
 
   return (
@@ -103,11 +126,17 @@ function PreparationItem({ item, changePreparationItems }) {
           </button>
         </div>
         {isExpanded && products.map((product, i) => (
-          <ProductInPreparation key={i} index={i} amount={`${product.quantity} ${product.unit}`} name={product.name} checkValue={checkmarks[i]} changeCheckmark={changeCheckmark} />
+          <ProductInPreparation key={i} index={i} amount={`${product.quantity} ${product.unit}`}
+           name={product.name} checkValue={checkmarks[i]} changeCheckmark={changeCheckmark} />
         ))}
-        <button className='button-in-prep' style={{ opacity: allChecked ? "1" : "0", transform: allChecked ? "scale(1)" : "scale(0)", bottom: isExpanded ? "20px" : "", top: isExpanded ? "" : "20px" }} onClick={changeSection}>Done</button>
+        <button className='button-in-prep' style={{ opacity: allChecked ? "1" : "0",
+        transform: allChecked ? "scale(1)" : "scale(0)", bottom: isExpanded ? "20px" : "", 
+        top: isExpanded ? "" : "20px" }} onClick={changeSection}>Done</button>
       </div>
-      {infoIsOpened && <Info itemName={item.orderName} dishes={item.dishes} closeInfo={closeInfo} description={item.description} notes={item.notes} deadline={item.deadline} changePreparationItems={changePreparationItems} id={item.id} section={item.section} />}
+      {infoIsOpened && <Info itemName={item.orderName} dishes={item.dishes} 
+      closeInfo={closeInfo} description={item.description}
+       notes={item.notes} deadline={item.deadline} changePreparationItems={changePreparationItems}
+        id={item.id} section={item.section} />}
     </>
   );
 }
