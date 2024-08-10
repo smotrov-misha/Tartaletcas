@@ -7,12 +7,72 @@ specifies that any unauthenticated user can "create", "read", "update",
 and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  Todo: a
+  Ingredients: a
     .model({
-      content: a.string(),
-    })
-    .authorization((allow) => [allow.guest()]),
-});
+      name: a.string(),
+      quantity: a.float(),
+      unit: a.string(),
+      dishId: a.id(),
+      dish: a.belongsTo('Dishes', 'dishId'),
+    }),
+  Dishes: a
+    .model({
+      dishId: a.id().required(),
+      name: a.string(),
+      image: a.string(),
+      description: a.string(),
+      recipe: a.string(),
+      weight: a.float(),
+      calories: a.float(),
+      ingredients: a.hasMany('Ingredients', 'dishId'),
+      templates: a.hasMany('DishesTemplates', 'dishId'),
+      orders: a.hasMany('OrdersDishes', 'dishId'),
+    }),
+  Templates: a
+    .model({
+      templateId: a.id(),
+      name: a.string(),
+      dishes: a.hasMany('DishesTemplates', 'templateId'),
+    }),
+  DishesTemplates: a
+    .model({
+      dishId: a.id(),
+      templateId: a.id(),
+      quantity: a.integer(),
+      templates: a.belongsTo('Templates', 'templateId'),
+      dishes: a.belongsTo('Dishes', 'dishId'),
+    }),
+  Orders: a
+    .model({
+      orderId: a.id(),
+      name: a.string(),
+      description: a.string(),
+      notes: a.string(),
+      deadline: a.string(),
+      prepared: a.boolean(),
+      dishes: a.hasMany('OrdersDishes', 'orderId'),
+      preparationIngredients: a.hasMany('PreparationIngredients', 'orderId'),
+    }),
+  OrdersDishes: a
+    .model({
+      dishId: a.id(),
+      orderId: a.id(),
+      quantity: a.integer(),
+      quantityMade: a.integer(),
+      orders: a.belongsTo('Orders', 'orderId'),
+      dishes: a.belongsTo('Dishes', 'dishId'),
+    }),
+  PreparationIngredients: a
+    .model({
+      orderId: a.id(),
+      name: a.string(),
+      quantity: a.integer(),
+      unit: a.string(),
+      checkmark: a.boolean(),
+      ingredientId: a.id(),
+      order: a.belongsTo('Orders', 'orderId'),
+    }),
+}).authorization((allow) => [allow.guest()]);
 
 export type Schema = ClientSchema<typeof schema>;
 

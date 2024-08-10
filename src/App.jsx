@@ -9,6 +9,12 @@ import Dish from './Dish.jsx'
 import plus from './assets/plus.svg'
 import { NewDish } from './makingInfo.jsx';
 import searchIcon from './assets/search.png';
+import { generateClient } from 'aws-amplify/data';
+
+/**
+ * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
+ */
+const client = generateClient();
 
 function Background() {
   return (
@@ -299,6 +305,11 @@ function App() {
   const [preparationItems, setPreparationItems] = useState([]);
   const [templates, setTemplates] = useState([]);
   const [dishes, setDishes] = useState([]);
+
+
+  // useEffect(() => {
+
+  // }, []);
 
   const changePage = (nameOfPage) => {
     setWhatPage(nameOfPage);
