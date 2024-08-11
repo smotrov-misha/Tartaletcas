@@ -306,6 +306,7 @@ function App() {
   const [templates, setTemplates] = useState([]);
   const [dishes, setDishes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
+  const [dishesTemplates, setDishesTemplates] = useState([]);
 
 
   useEffect(() => {
@@ -315,6 +316,12 @@ function App() {
     client.models.Ingredients.observeQuery().subscribe({
       next: (data) => setIngredients([...data.items]),
     });
+    client.models.Templates.observeQuery().subscribe({
+      next: (data) => setTemplates([...data.items]),
+    });
+    client.models.DishesTemplates.observeQuery().subscribe({
+      next: (data) => setDishesTemplates([...data.items]),
+    })
   }, []);
 
   const changePage = (nameOfPage) => {
@@ -322,18 +329,40 @@ function App() {
   };
 
   //templates
-  const addTemplate = (newTemplate) => {
-    newTemplate.id = lastTemplateId;
-    setLastTemplateId(lastTemplateId + 1);
-    setTemplates([...templates, newTemplate]);
+  const addTemplate = async (newTemplate) => {
+    const {data: createdTemplate} = await client.models.Templates.create({
+      name: newTemplate.name,
+    })
+    for(const dish of newTemplate.dishes) {
+      await client.models.DishesTemplates.create({
+        dishId: dish.id,
+        templateId: createdTemplate.id,
+        quantity: dish.quantity,
+      });
+    }
  }
  
  const changeTemplate = (newTemplate) => {
     setTemplates(templates.map(template => template.id === newTemplate.id ? newTemplate : template));
  }
 
- const deleteTemplate = (id) => {
-    setTemplates(templates.filter(template => template.id !== id));
+ const deleteTemplate = async (id) => {
+  const {data: dishesToDelete} = await client.models.DishesTemplates.list({filter: {
+    templateId : {
+      eq: id,
+      }
+    },
+  }
+);
+  console.log(dishesToDelete);
+  for(const dish of dishesToDelete) {
+  await client.models.DishesTemplates.delete({
+    id: dish.id
+  });
+}
+await client.models.Templates.delete({
+  id: id,
+});
  }
 
  //dishes
@@ -368,15 +397,16 @@ function App() {
           calories: dish.calories,
         });
         const {data: ingrToDelete} = await client.models.Ingredients.list({filter: {
-          fields: {
-            dishId: dish.id,
+          dishId : {
+            eq: dish.id,
+            }
           },
-        },
-      });
+        }
+      );
         for(const ingredient of ingrToDelete) {
           await client.models.Ingredients.delete({
             id: ingredient.id
-          })
+          });
         }
         for(const ingredient of dish.ingredients) {
           await client.models.Ingredients.create({
@@ -428,17 +458,6 @@ function App() {
     }
    }
 
-   useEffect(() => {
-    setTemplates(templates =>
-      templates.map(template => {
-          const updatedDishes = dishes.map(dish => {
-              const existingDish = template.dishes.find(tDish => tDish.id === dish.id);
-              return existingDish ? { ...dish, amount: existingDish.amount } : { ...dish, amount: ''};
-          });
-          return { ...template, dishes: updatedDishes };
-      })
-  );
-   }, [dishes]);
 
   return (
     <>
@@ -449,7 +468,7 @@ function App() {
       <Inwork inWorkItems = {preparationItems} changeInWorkItems = {changePreparationItems}/>
       <Preparation preparationItems = {preparationItems} changePreparationItems = {changePreparationItems}/>
       <Templates changePreparationItems = {changePreparationItems} dishes={dishes} addTemplate={addTemplate} 
-      changeTemplate={changeTemplate} deleteTemplate={deleteTemplate} templates={templates}/>
+      changeTemplate={changeTemplate} deleteTemplate={deleteTemplate} templates={templates} dishesTemplates={dishesTemplates}/>
       </>
     )}
     {whatPage === "Dishes" && (

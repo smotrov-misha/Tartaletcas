@@ -73,9 +73,9 @@ function NewOrder(props) {
                     <h3 className='title'>Dishes</h3>
                     <hr className='dividing-line'/>
                     <div>
-                        {currentDishes.map(dish => (dish.amount != 0 && (<div key = {dish.id} className='dish' style={{opacity: dishEditor ? "0" : "1"}}>
+                        {currentDishes.map(dish => (dish.quantity != 0 && (<div key = {dish.id} className='dish' style={{opacity: dishEditor ? "0" : "1"}}>
                                                     <h3>{dish.name}</h3>
-                                                    <h3>{dish.amount}</h3>
+                                                    <h3>{dish.quantity}</h3>
                                                 </div>)))}
                     </div>
                     <button className='new-order-button' onClick={openDishEditor} style={{opacity: dishEditor ? "0" : "1"}} type='button'>Edit</button>

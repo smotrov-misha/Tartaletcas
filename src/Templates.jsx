@@ -8,34 +8,35 @@ export function NewTemplate(props) {
 
     const editMode = (props.mode == "Edit template") ? true : false;
     const newOrderMode = (props.mode == "New order") ? true : false;
-    const [templateName, setTemplateName] = useState(props.templateName);
+    const [name, setName] = useState(props.name);
 
-    const handleTemplateNameChange = (e) => {
-        setTemplateName(e.target.value);
+    const handleNameChange = (e) => {
+        setName(e.target.value);
     }
 
     const [dishAmount, setDishAmount] = useState(props.dishes.map(dish => ({ ...dish })));
     
     const handleDishAmountChange = (e, index) => {
         const updatedDishAmount = [...dishAmount];
-        updatedDishAmount[index].amount = e.target.value.replace(/[^0-9]/g, '');
+        updatedDishAmount[index].quantity = e.target.value.replace(/[^0-9]/g, '');
         setDishAmount(updatedDishAmount);
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const realDishAmount = dishAmount.filter(dish => (dish.quantity != 0));
         if(!editMode && !newOrderMode) {
-        if(!templateName) return alert("Type in template name");
-        const newTemplate = {templateName: templateName, dishes: [...dishAmount]};
+        if(!name) return alert("Type in template name");
+        const newTemplate = {name: name, dishes: realDishAmount};
         props.addTemplate(newTemplate);
         }
         else if(editMode) {
-            if(!templateName) return alert("Type in template name");
-            const newTemplate = {templateName: templateName, dishes: [...dishAmount], id: props.id};
+            if(!name) return alert("Type in template name");
+            const newTemplate = {name: name, dishes: realDishAmount, id: props.id};
             props.changeTemplate(newTemplate);
         }
         else if(newOrderMode) {
-            props.changeDishesInOrder([...dishAmount]);
+            props.changeDishesInOrder(realDishAmount);
         }
         props.closeNewTemplate();
     }
@@ -51,13 +52,13 @@ export function NewTemplate(props) {
             <button className='cancel-button template-cancel-button' onClick={props.closeNewTemplate}><img src={cross_button}></img></button>
             <form onSubmit={handleSubmit}>
             {
-                !newOrderMode && (<input type='text' placeholder='Template name' className='new-template-name' onChange={handleTemplateNameChange} value={templateName}></input>)
+                !newOrderMode && (<input type='text' placeholder='Template name' className='new-template-name' onChange={handleNameChange} value={name}></input>)
             }
             <div className='container-for-adding-dishes' style={{translate: newOrderMode ? "0 calc(250px - 22.5vh)" : "0px 0px"}}>
                <>
                 {props.dishes.map((dish, i) => (<div className='chosen-dish' key={dish.id}>
                     <h3>{dish.name}</h3>
-                    <input type='text' placeholder='0' onChange={(e) => handleDishAmountChange(e, i)} value = {dishAmount[i].amount || ""}></input>
+                    <input type='text' placeholder='0' onChange={(e) => handleDishAmountChange(e, i)} value = {dishAmount[i].quantity || ""}></input>
                     </div>))}
                     </>
             </div>
@@ -96,13 +97,13 @@ function Template(props) {
     return (
         <>
         <div className='container-for-template'> 
-                <h2 className='template-name'>{props.templateName}</h2>
+                <h2 className='template-name'>{props.name}</h2>
                 <div className='template-dishes'>
                 {props.dishes.map(dish => (
-                    dish.amount && Number(dish.amount) != 0 && (
+                    dish.quantity && Number(dish.quantity) != 0 && (
                         <div className='template-dish-container' key={dish.id}>
                             <h3>{dish.name}</h3>
-                            <h3>{dish.amount}</h3>
+                            <h3>{dish.quantity}</h3>
                         </div>
                     )
                 ))}
@@ -113,8 +114,8 @@ function Template(props) {
                 </div>
         </div>
         { 
-            editIsOpened && <NewTemplate closeNewTemplate={closeEdit} templateName={props.templateName}
-            dishes={props.dishes} id={props.id} changeTemplate={props.changeTemplate} mode="Edit template" deleteTemplate={props.deleteTemplate}/>
+            editIsOpened && <NewTemplate closeNewTemplate={closeEdit} name={props.name}
+            dishes={props.allDishes} id={props.id} changeTemplate={props.changeTemplate} mode="Edit template" deleteTemplate={props.deleteTemplate}/>
         }
         {
             startIsOpened && <NewOrder dishes={props.dishes} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems} toDo="add"/>
@@ -124,7 +125,7 @@ function Template(props) {
 }
 
 
-function Templates({changePreparationItems, dishes, addTemplate, changeTemplate, deleteTemplate, templates}) {
+function Templates({changePreparationItems, dishes, addTemplate, changeTemplate, deleteTemplate, templates, dishesTemplates}) {
     const [newTemplateIsOpened, setNewTemplateIsOpened] = useState(false);
 
      const closeNewTemplate = () => {
@@ -134,6 +135,16 @@ function Templates({changePreparationItems, dishes, addTemplate, changeTemplate,
      const openNewTemplate = () => {
        setNewTemplateIsOpened(true);
      }
+
+    const dishesForTemplate = dishesTemplates
+    .map(item => {
+    const dish = dishes.find(dish => item.dishId === dish.id);
+    return {
+      ...item,
+      name: dish.name ? dish.name : "",
+    };
+  });
+
     return ( 
         <>
         <div className='above-part-templates'>
@@ -142,14 +153,15 @@ function Templates({changePreparationItems, dishes, addTemplate, changeTemplate,
         </div>
         <div className='templates-grid'>
             {
-                templates.map(template => (<Template templateName = {template.templateName} dishes = {[...template.dishes]}
-                                            id = {template.id} key = {template.id} changeTemplate={changeTemplate}
-                                             deleteTemplate={deleteTemplate} changePreparationItems={changePreparationItems}/>))
+                templates.map(template => (<Template allDishes = {dishes} name = {template.name}
+                     dishes = {dishesForTemplate.filter(item => item.templateId === template.id)}
+                            id = {template.id} key = {template.id} changeTemplate={changeTemplate}
+                                deleteTemplate={deleteTemplate} changePreparationItems={changePreparationItems}/>))
             }
         </div>
         {
             newTemplateIsOpened && <NewTemplate closeNewTemplate={closeNewTemplate} addTemplate={addTemplate} 
-            templateName='' dishes={dishes}/>
+            dishes={dishes}/>
         }
         </>
     );
