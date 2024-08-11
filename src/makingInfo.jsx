@@ -5,6 +5,7 @@ import {NewTemplate} from './Templates.jsx'
 import plus from './assets/plus.svg'
 import minus from './assets/minus.png'
 import chooseFile from './assets/chooseFile.png'
+import { compact } from 'lodash';
 
 function NewOrder(props) {
 
@@ -140,6 +141,16 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
         setNewDish({...newDish, [prop]: value});
     }
 
+    // const testPopa = (dish) => {
+    //     client.models.Dishes.create({
+    //         name: dish.name,
+    //         image: dish.image,
+    //         description: dish.description,
+    //         recipe: dish.recipe,
+    //         weight: dish.weight,
+    //         calories: dish.calories,
+    //     })
+    // }
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if(ingredients.every(ingredient => {
@@ -151,6 +162,7 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
         completedDish.toDo = mode;
         completedDish.nextIngredientId = nextId + 1;
         changeDishes(completedDish);
+        // testPopa(completedDish);
         closeNewDish();
     }
 

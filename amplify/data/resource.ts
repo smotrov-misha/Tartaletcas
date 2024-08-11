@@ -17,7 +17,6 @@ const schema = a.schema({
     }),
   Dishes: a
     .model({
-      dishId: a.id().required(),
       name: a.string(),
       image: a.string(),
       description: a.string(),
@@ -30,7 +29,6 @@ const schema = a.schema({
     }),
   Templates: a
     .model({
-      templateId: a.id(),
       name: a.string(),
       dishes: a.hasMany('DishesTemplates', 'templateId'),
     }),
@@ -44,7 +42,6 @@ const schema = a.schema({
     }),
   Orders: a
     .model({
-      orderId: a.id(),
       name: a.string(),
       description: a.string(),
       notes: a.string(),
@@ -72,14 +69,15 @@ const schema = a.schema({
       ingredientId: a.id(),
       order: a.belongsTo('Orders', 'orderId'),
     }),
-}).authorization((allow) => [allow.guest()]);
+}).authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'iam',
+    defaultAuthorizationMode: 'apiKey',
+    apiKeyAuthorizationMode: { expiresInDays: 30 }
   },
 });
 

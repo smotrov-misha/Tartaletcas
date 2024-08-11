@@ -10,11 +10,11 @@ import plus from './assets/plus.svg'
 import { NewDish } from './makingInfo.jsx';
 import searchIcon from './assets/search.png';
 import { generateClient } from 'aws-amplify/data';
-
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
-const client = generateClient();
+
+let client = generateClient();
 
 function Background() {
   return (
@@ -307,9 +307,11 @@ function App() {
   const [dishes, setDishes] = useState([]);
 
 
-  // useEffect(() => {
-
-  // }, []);
+  useEffect(() => {
+    client.models.Dishes.observeQuery().subscribe({
+      next: (data) => setDishes([...data.items]),
+    });
+  }, []);
 
   const changePage = (nameOfPage) => {
     setWhatPage(nameOfPage);
@@ -331,12 +333,18 @@ function App() {
  }
 
  //dishes
-  const changeDishes = (dish) => {
+  const changeDishes = async (dish) => {
     if(dish.toDo == "add") {
-      dish.id = lastDishId;
-      setLastDishId(lastDishId + 1);
-      const newDishes = [...dishes, dish];
-      setDishes(newDishes);
+      await client.models.Dishes.create({
+        name: "AAA",
+      })
+      const allDishes = await client.models.Dishes.list();
+      console.log(allDishes);
+      // console.log(Dishes);
+      // dish.id = lastDishId;
+      // setLastDishId(lastDishId + 1);
+      // const newDishes = [...dishes, dish];
+      // setDishes(newDishes);
     }
     else if(dish.toDo == "edit") {
       const newDishes = dishes.map(d => {
