@@ -140,17 +140,6 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
         if(prop == "weight" || prop == "calories") value = value.replace(/[^0-9]/g, '');
         setNewDish({...newDish, [prop]: value});
     }
-
-    // const testPopa = (dish) => {
-    //     client.models.Dishes.create({
-    //         name: dish.name,
-    //         image: dish.image,
-    //         description: dish.description,
-    //         recipe: dish.recipe,
-    //         weight: dish.weight,
-    //         calories: dish.calories,
-    //     })
-    // }
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if(ingredients.every(ingredient => {
@@ -162,11 +151,10 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
         completedDish.toDo = mode;
         completedDish.nextIngredientId = nextId + 1;
         changeDishes(completedDish);
-        // testPopa(completedDish);
         closeNewDish();
     }
 
-    const deleteDish = () => {
+    const deleteDish = (e) => {
         const deleteDish = {...newDish};
         deleteDish.toDo = "delete";
         changeDishes(deleteDish);
@@ -180,7 +168,7 @@ export function NewDish({closeNewDish, changeDishes, dish}) {
                 <div className='info-buttons'>
                     <button className='cancel-button' onClick={closeNewDish}><img src={cross_button}></img></button>
                     {
-                        mode === "edit"  && (<button className='delete-button' onClick={deleteDish}>Delete</button>)
+                        mode === "edit"  && (<button className='delete-button' onClick={(e) => deleteDish(e)}>Delete</button>)
                     }
                 </div>
                 <form onSubmit={handleFormSubmit}>

@@ -243,11 +243,10 @@ function Preparation({preparationItems, changePreparationItems}) {
   )
 }
 
-function Dishes({changeDishes, dishes}) {
+function Dishes({changeDishes, dishes, ingredients}) {
   const [newIsOpened, setNewIsOpened] = useState(false);
   const [search, setSearch] = useState('');
   const [currentSearch, setCurrentSearch] = useState('');
-  
   const openNewDish = () => {
     setNewIsOpened(true);
   }
@@ -274,7 +273,7 @@ function Dishes({changeDishes, dishes}) {
         <input type='text' list='all-dishes' onChange={handleSearch} value={currentSearch || ""}/>
         <datalist id='all-dishes'>
           {
-            dishes.map(dish => (<option>{dish.name}</option>))
+            dishes.map(dish => (<option key={dish.id}>{dish.name}</option>))
           }
         </datalist>
         <button className='search-button' onClick={searchFor}><img src={searchIcon}></img></button>
@@ -289,7 +288,8 @@ function Dishes({changeDishes, dishes}) {
     {
       dishes.map((dish) => {
         if(search == dish.name.substring(0, search.length) || search.length == 0) {
-        return <Dish dish = {dish} key = {dish.id} changeDishes={changeDishes}/>
+        return <Dish dish = {dish} key = {dish.id} changeDishes={changeDishes} 
+        ingredients = {ingredients.filter(ingredient => ingredient.dishId === dish.id)}/>
       }
     })
     }
@@ -305,11 +305,15 @@ function App() {
   const [preparationItems, setPreparationItems] = useState([]);
   const [templates, setTemplates] = useState([]);
   const [dishes, setDishes] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
 
   useEffect(() => {
     client.models.Dishes.observeQuery().subscribe({
       next: (data) => setDishes([...data.items]),
+    });
+    client.models.Ingredients.observeQuery().subscribe({
+      next: (data) => setIngredients([...data.items]),
     });
   }, []);
 
@@ -335,27 +339,63 @@ function App() {
  //dishes
   const changeDishes = async (dish) => {
     if(dish.toDo == "add") {
-      await client.models.Dishes.create({
-        name: "AAA",
-      })
-      const allDishes = await client.models.Dishes.list();
-      console.log(allDishes);
-      // console.log(Dishes);
-      // dish.id = lastDishId;
-      // setLastDishId(lastDishId + 1);
-      // const newDishes = [...dishes, dish];
-      // setDishes(newDishes);
+      const {data: newDish} = await client.models.Dishes.create({
+        name: dish.name,
+        image: dish.image,
+        description: dish.description,
+        recipe: dish.recipe,
+        weight: dish.weight,
+        calories: dish.calories,
+      });
+      for (const ingredient of dish.ingredients) {
+        await client.models.Ingredients.create({
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          dishId: newDish.id
+        });
+      }
     }
     else if(dish.toDo == "edit") {
-      const newDishes = dishes.map(d => {
-        if(d.id === dish.id) return dish;
-        else return d;
+        delete dish.toDo;
+        await client.models.Dishes.update({
+          id: dish.id,
+          name: dish.name,
+          image: dish.image,
+          description: dish.description,
+          recipe: dish.recipe,
+          weight: dish.weight,
+          calories: dish.calories,
+        });
+        const {data: ingrToDelete} = await client.models.Ingredients.list({filter: {
+          fields: {
+            dishId: dish.id,
+          },
+        },
       });
-      setDishes(newDishes);
+        for(const ingredient of ingrToDelete) {
+          await client.models.Ingredients.delete({
+            id: ingredient.id
+          })
+        }
+        for(const ingredient of dish.ingredients) {
+          await client.models.Ingredients.create({
+            name: ingredient.name,
+            quantity: ingredient.quantity,
+            unit: ingredient.unit,
+            dishId: dish.id
+          })
+        }
     }
     else if(dish.toDo == "delete") {
-      const newDishes = dishes.filter(d => (d.id !== dish.id));
-      setDishes(newDishes);
+      for (const ingredient of dish.ingredients) {
+        await client.models.Ingredients.delete({
+          id: ingredient.id,
+        });
+      }
+      await client.models.Dishes.delete({
+        id: dish.id
+      })
     }
   }
 
@@ -414,7 +454,7 @@ function App() {
     )}
     {whatPage === "Dishes" && (
       <>
-      <Dishes changeDishes = {changeDishes} dishes = {dishes}/>
+      <Dishes changeDishes = {changeDishes} dishes = {dishes} ingredients = {ingredients}/>
       </>
     )}
     {whatPage === "History" && (

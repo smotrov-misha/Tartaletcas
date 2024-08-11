@@ -4,7 +4,7 @@ import './dish.css'
 import edit from './assets/pencil.png'
 import {NewDish} from './makingInfo.jsx'
 
-function Dish({dish, changeDishes}) {
+function Dish({dish, changeDishes, ingredients}) {
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [editIsOpened, setEditIsOpened] = useState(false);
@@ -60,7 +60,7 @@ function Dish({dish, changeDishes}) {
                 dish.ingredients.length > 0 && (<>
                 <h2 className='mini-title'>Ingredients</h2>
                 {
-                    dish.ingredients.map((ingredient) => (
+                    ingredients.map((ingredient) => (
                         <div className='ingredient' key = {ingredient.id}>
                             <p>{ingredient.name}</p>
                             <p>{ingredient.quantity + " " + ingredient.unit}</p>
@@ -75,7 +75,7 @@ function Dish({dish, changeDishes}) {
                 }
             </>)}
             {
-                editIsOpened && <NewDish closeNewDish = {closeEdit} changeDishes = {changeDishes} dish = {dish}/>
+                editIsOpened && <NewDish closeNewDish = {closeEdit} changeDishes = {changeDishes} dish = {{...dish, ingredients: ingredients}}/>
             }
         </div>
         </>
