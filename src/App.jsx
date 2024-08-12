@@ -9,12 +9,8 @@ import Dish from './Dish.jsx'
 import plus from './assets/plus.svg'
 import { NewDish } from './makingInfo.jsx';
 import searchIcon from './assets/search.png';
-import { generateClient } from 'aws-amplify/data';
-/**
- * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
- */
-
-let client = generateClient();
+import { template } from 'lodash';
+import client from './Client.jsx'
 
 function Background() {
   return (
@@ -184,7 +180,7 @@ function Inworkitem({item, changeInWorkItems}) {
       <div className= "work-prep-item" style={(isExpanded && allChecked) ? {paddingBottom: "80px"} : {}}>
         <div className = "work-prep-things">
           <div className = "name-n-info">
-          <h2 className = "item-name">{item.orderName}</h2>
+          <h2 className = "item-name">{item.name}</h2>
           <button onClick={openInfo}><img src={infoButton}></img></button>
           </div>
           <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
@@ -208,9 +204,9 @@ function Inworkitem({item, changeInWorkItems}) {
           bottom: isExpanded ? "20px" : "", top: isExpanded ? "" : "20px"}} onClick={itemIsDone}>Done</button>
     </div>
     {
-      infoIsOpened && <Info itemName={item.orderName} dishes={item.dishes} closeInfo={closeInfo} description={item.description}
+      infoIsOpened && <Info itemName={item.name} dishes={item.dishes} closeInfo={closeInfo} description={item.description}
       notes={item.notes} deadline={item.deadline} changePreparationItems={changeInWorkItems}
-      id={item.id} section={item.section}/>
+      id={item.id} prepared={item.prepared}/>
     }
     </>
     );
@@ -223,7 +219,7 @@ function Inwork({inWorkItems, changeInWorkItems}) {
 return (
   <>
   <h1 className='top-title'>In work</h1>
-  {inWorkItems.map(item => ( item.section == "In work" &&
+  {inWorkItems.map(item => ( item.prepared &&
   (<Inworkitem key = {item.id} item = {item} changeInWorkItems = {changeInWorkItems}/>))
   )}
   </>
@@ -235,7 +231,7 @@ function Preparation({preparationItems, changePreparationItems}) {
     <>
     <h1>Preparation</h1>
       <>
-      {preparationItems.map(prepItem => (prepItem.section === "Preparation" ?
+      {preparationItems.map(prepItem => ( !prepItem.prepared  ?
       (<PreparationItem key = {prepItem.id} item = {prepItem} changePreparationItems = {changePreparationItems}/>) : null)
       )}
       </>
@@ -322,6 +318,9 @@ function App() {
     client.models.DishesTemplates.observeQuery().subscribe({
       next: (data) => setDishesTemplates([...data.items]),
     })
+    client.models.Orders.observeQuery().subscribe({
+      next: (data) => setPreparationItems([...data.items]),
+    })
   }, []);
 
   const changePage = (nameOfPage) => {
@@ -342,9 +341,30 @@ function App() {
     }
  }
  
- const changeTemplate = (newTemplate) => {
-    setTemplates(templates.map(template => template.id === newTemplate.id ? newTemplate : template));
- }
+ const changeTemplate = async (newTemplate) => {
+  await client.models.Templates.update({
+    id: newTemplate.id,
+    name: newTemplate.name,
+  });
+  const {data: dishesToDelete} = await client.models.DishesTemplates.list({filter: {
+    templateId : {
+      eq: newTemplate.id,
+      }
+    },
+  });
+  for(const dish of dishesToDelete) {
+    await client.models.DishesTemplates.delete({
+      id: dish.id
+    });
+  }
+  for(const dish of newTemplate.dishes) {
+    await client.models.DishesTemplates.create({
+        dishId: dish.id,
+        templateId: newTemplate.id,
+        quantity: dish.quantity,
+      });
+    }
+  }
 
  const deleteTemplate = async (id) => {
   const {data: dishesToDelete} = await client.models.DishesTemplates.list({filter: {
@@ -353,7 +373,7 @@ function App() {
       }
     },
   }
-);
+  );
   console.log(dishesToDelete);
   for(const dish of dishesToDelete) {
   await client.models.DishesTemplates.delete({
@@ -430,13 +450,23 @@ await client.models.Templates.delete({
   }
 
   //preparation_items
-  const changePreparationItems = (preparationItem) => {
+  const changePreparationItems = async (preparationItem) => {
     if(preparationItem.toDo == "add") {
-      delete preparationItem.toDo;
-      preparationItem.id = lastPrepId;
-      setLastPrepId(lastPrepId + 1);
-      const newPreparationItems = [...preparationItems, preparationItem];
-      setPreparationItems(newPreparationItems);
+      const {data: newPrepItem} = await client.models.Orders.create({
+        name: preparationItem.name,
+        description: preparationItem.description,
+        notes: preparationItem.notes,
+        deadline: preparationItem.deadline,
+        prepared: false,
+      })
+      for(const dish of preparationItem.dishes) {
+        await client.models.OrdersDishes.create({
+          dishId: dish.id,
+          orderId: newPrepItem.id,
+          quantity: dish.quantity,
+          quantityMade: 0,
+        });
+      }
     }
     else if(preparationItem.toDo == "edit") {
       delete preparationItem.toDo;
@@ -466,7 +496,7 @@ await client.models.Templates.delete({
     {whatPage === "Menus" && (
       <>
       <Inwork inWorkItems = {preparationItems} changeInWorkItems = {changePreparationItems}/>
-      <Preparation preparationItems = {preparationItems} changePreparationItems = {changePreparationItems}/>
+      <Preparation preparationItems = {preparationItems}changePreparationItems = {changePreparationItems}/>
       <Templates changePreparationItems = {changePreparationItems} dishes={dishes} addTemplate={addTemplate} 
       changeTemplate={changeTemplate} deleteTemplate={deleteTemplate} templates={templates} dishesTemplates={dishesTemplates}/>
       </>

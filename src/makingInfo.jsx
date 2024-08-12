@@ -9,10 +9,10 @@ import { compact } from 'lodash';
 
 function NewOrder(props) {
 
-    const [orderName, setOrderName] = useState(props.orderName || '');
+    const [name, setName] = useState(props.name || '');
 
-    const handleOrderNameChange = (e) => {
-        setOrderName(e.target.value);
+    const handleNameChange = (e) => {
+        setName(e.target.value);
     }
 
     const [dishEditor, setDishEditor] = useState(false);
@@ -51,13 +51,13 @@ function NewOrder(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(!orderName) return alert("Type in order name");
+        if(!name) return alert("Type in order name");
         if(props.toDo == "add") {
-            const newOrder = {orderName: orderName, dishes: currentDishes, description: description, notes: notes, deadline: deadline, toDo: "add", section: "Preparation"};
+            const newOrder = {name: name, dishes: currentDishes, description: description, notes: notes, deadline: deadline, toDo: "add"};
             props.changePreparationItems(newOrder);
         }
         else if(props.toDo == "edit") {
-            const newOrder = {orderName: orderName, dishes: currentDishes, description: description, notes: notes, deadline: deadline, toDo: "edit", id: props.id, section: props.section};
+            const newOrder = {name: name, dishes: currentDishes, description: description, notes: notes, deadline: deadline, toDo: "edit", id: props.id, prepared: props.prepared};
             props.changePreparationItems(newOrder);
         }
         props.closeNewOrder();
@@ -69,7 +69,7 @@ function NewOrder(props) {
                     <button className='cancel-button' onClick={props.closeNewOrder}><img src={cross_button}></img></button>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <input type='text' placeholder='Order name' className='new-order-name' onChange={handleOrderNameChange} value={orderName || ''}></input>
+                    <input type='text' placeholder='Order name' className='new-order-name' onChange={handleNameChange} value={name || ''}></input>
                     <h3 className='title'>Dishes</h3>
                     <hr className='dividing-line'/>
                     <div>
@@ -92,7 +92,7 @@ function NewOrder(props) {
                 </form>
                 {
                     dishEditor && <NewTemplate closeNewTemplate={closeDishEditor}
-                    dishes={currentDishes} mode="New order" changeDishesInOrder={changeDishesInOrder}/>
+                    dishes={props.allDishes} mode="New order" changeDishesInOrder={changeDishesInOrder}/>
                 }
             </div>
         </div>

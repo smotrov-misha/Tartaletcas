@@ -77,7 +77,6 @@ function Template(props) {
 
     const [editIsOpened, setEditIsOpened] = useState(false);
     const [startIsOpened, setStartIsOpened] = useState(false);
-
     const openStart = () => {
         setStartIsOpened(true);
     }
@@ -94,19 +93,39 @@ function Template(props) {
         setEditIsOpened(false);
     }
 
+    const findDishName = async (dish) => {
+        const {data: dishName} = await dish.dishes(dish.id);
+        return dishName.name;
+    }
+
+    const [dishesWithNames, setDishesWithNames] = useState([]);
+
+    useEffect(() => {
+        const fetchDishNames = async () => {
+            const updatedDishes = await Promise.all(
+                props.dishes.map(async (dish) => ({
+                    ...dish,
+                    name: await findDishName(dish)
+                }))
+            );
+            setDishesWithNames(updatedDishes);
+        };
+
+        fetchDishNames();
+    }, [props.dishes]);
+
     return (
         <>
         <div className='container-for-template'> 
                 <h2 className='template-name'>{props.name}</h2>
                 <div className='template-dishes'>
-                {props.dishes.map(dish => (
-                    dish.quantity && Number(dish.quantity) != 0 && (
+                {dishesWithNames.map((dish) => {
+                    return dish.quantity && Number(dish.quantity) != 0 && (
                         <div className='template-dish-container' key={dish.id}>
                             <h3>{dish.name}</h3>
                             <h3>{dish.quantity}</h3>
                         </div>
-                    )
-                ))}
+                    )})}
                 </div>
                 <div className='template-buttons-container'>
                     <button className='template-button' onClick={openEdit}>Edit</button>
@@ -118,7 +137,7 @@ function Template(props) {
             dishes={props.allDishes} id={props.id} changeTemplate={props.changeTemplate} mode="Edit template" deleteTemplate={props.deleteTemplate}/>
         }
         {
-            startIsOpened && <NewOrder dishes={props.dishes} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems} toDo="add"/>
+            startIsOpened && <NewOrder allDishes={props.allDishes} dishes={dishesWithNames} closeNewOrder={closeStart} changePreparationItems={props.changePreparationItems} toDo="add"/>
         }
         </>
     );
@@ -135,16 +154,6 @@ function Templates({changePreparationItems, dishes, addTemplate, changeTemplate,
      const openNewTemplate = () => {
        setNewTemplateIsOpened(true);
      }
-
-    const dishesForTemplate = dishesTemplates
-    .map(item => {
-    const dish = dishes.find(dish => item.dishId === dish.id);
-    return {
-      ...item,
-      name: dish.name ? dish.name : "",
-    };
-  });
-
     return ( 
         <>
         <div className='above-part-templates'>
@@ -154,7 +163,7 @@ function Templates({changePreparationItems, dishes, addTemplate, changeTemplate,
         <div className='templates-grid'>
             {
                 templates.map(template => (<Template allDishes = {dishes} name = {template.name}
-                     dishes = {dishesForTemplate.filter(item => item.templateId === template.id)}
+                     dishes = {dishesTemplates.filter(item => item.templateId === template.id)}
                             id = {template.id} key = {template.id} changeTemplate={changeTemplate}
                                 deleteTemplate={deleteTemplate} changePreparationItems={changePreparationItems}/>))
             }

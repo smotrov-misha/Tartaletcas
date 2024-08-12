@@ -26,16 +26,13 @@ function Info(props) {
                     <button className='edit-button' onClick={switchOnEdit}><img src={pencil} className="pencil"></img></button>
                 </div>
                 <h2 className='menu-name'>{props.itemName}</h2>
-                {
-                    !props.dishes.every(dish => {
-                        return !dish.amount;
-                    }) && (<>
+                { (<>
                         <h3 className='title'>Dishes</h3>
                         <hr className='dividing-line'/>
                 <div>
-                    {props.dishes.map(dish => (dish.amount != 0 && (<div key = {dish.id} className='dish'>
+                    {props.dishes.map(dish => ((<div key = {dish.id} className='dish'>
                                                     <h3>{dish.name}</h3>
-                                                    <h3>{dish.amount}</h3>
+                                                    <h3>{dish.quantity}</h3>
                                                 </div>)))}
                 </div>
                 <hr className='dividing-line' id='bottom-dividing-line'/>
@@ -64,10 +61,10 @@ function Info(props) {
             </div>
         </div>
         {
-            editIsOn && (<NewOrder orderName={props.itemName} dishes={props.dishes}
+            editIsOn && (<NewOrder name={props.itemName} dishes={props.dishes}
                                 description={props.description} notes={props.notes} 
                                 deadline={props.deadline} closeNewOrder={switchOffEdit} toDo="edit"
-                                changePreparationItems={props.changePreparationItems} id={props.id} section={props.section}/>)
+                                changePreparationItems={props.changePreparationItems} id={props.id} prepared={props.prepared}/>)
         }
         </>
     );

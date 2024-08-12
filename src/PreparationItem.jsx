@@ -3,6 +3,7 @@ import dropArrow from './assets/drop_down_arrow.png';
 import infoButton from './assets/infromation-button.png';
 import Info from './Info';
 import _ from 'lodash';
+import client from './Client.jsx'
 
 function ProductInPreparation(props) {
   const { name, amount, checkValue, index, changeCheckmark } = props;
@@ -35,16 +36,50 @@ function ProductInPreparation(props) {
 function PreparationItem({ item, changePreparationItems, changePage }) {
   const fullItemCopy = _.cloneDeep(item);
   const [updatedItem, setUpdatedItem] = useState(_.cloneDeep(fullItemCopy));
-  const { section, orderName, dishes } = item;
+  const { prepared, name} = item;
   const [isExpanded, setIsExpanded] = useState(false);
   const [infoIsOpened, setInfoIsOpened] = useState(false);
   const [products, setProducts] = useState(fullItemCopy.products ? fullItemCopy.products : []);
   const [checkmarks, setCheckmarks] = useState(fullItemCopy.checkmarks ? fullItemCopy.checkmarks : []);
   const [allChecked, setAllChecked] = useState(fullItemCopy.allChecked || false);
+  const [dishes, setDishes] = useState([]);
 
   const expand = () => setIsExpanded(!isExpanded);
   const closeInfo = () => setInfoIsOpened(false);
   const openInfo = () => setInfoIsOpened(true);
+
+  const findDishName = async (dish) => {
+    const {data: dishName, errors} = await client.models.Dishes.get({
+     id: dish.dishId
+    });
+    console.log(dishName);
+    return dishName.name;
+}
+
+  useEffect(() => {
+
+    const fetchDishNames = async (dishes) => {
+      const updatedDishes = await Promise.all(
+          dishes.map(async (dish) => ({
+              ...dish,
+              name: await findDishName(dish)
+          }))
+      );
+      setDishes(updatedDishes);
+  };
+
+    const fetchDishes = async () => {
+        const {data: updatedDishes} = await client.models.OrdersDishes.list({filter: {
+          orderId : {
+            eq: item.id,
+            }
+          },
+        });
+        await fetchDishNames(updatedDishes);
+    };
+
+    fetchDishes();
+}, []);
 
   const calculateProducts = () => {
     const productObject = {};
@@ -96,7 +131,7 @@ function PreparationItem({ item, changePreparationItems, changePage }) {
     const allCheckedFlag = newCheckmarks.every((checked, index) => {
       return checked;
     });
-    const newItem = {...item, checkmarks: [...newCheckmarks], allChecked: allCheckedFlag, toDo: "edit"};
+    const newItem = {...item, checkmarks: [...newCheckmarks], allChecked: allCheckedFlag, toDo: "checkmarks"};
     setUpdatedItem(newItem);
     changePreparationItems(newItem);
     setAllChecked(allCheckedFlag);
@@ -105,9 +140,6 @@ function PreparationItem({ item, changePreparationItems, changePage }) {
   const changeSection = () => {
     const newItem = {...item};
     newItem.toDo = "prep->inwork";
-    delete newItem.allChecked;
-    delete newItem.checkmarks;
-    delete newItem.products;
     changePreparationItems(newItem);
   };
 
@@ -116,7 +148,7 @@ function PreparationItem({ item, changePreparationItems, changePage }) {
       <div className="work-prep-item prep-item" style={{ paddingBottom: isExpanded ? (allChecked ? "80px" : "20px") : (allChecked ? "0px" : "0px") }}>
         <div className="work-prep-things">
           <div className="name-n-info">
-            <h2 className="item-name">{orderName}</h2>
+            <h2 className="item-name">{name}</h2>
             <button onClick={openInfo}>
               <img src={infoButton} alt="Info" />
             </button>
@@ -133,10 +165,10 @@ function PreparationItem({ item, changePreparationItems, changePage }) {
         transform: allChecked ? "scale(1)" : "scale(0)", bottom: isExpanded ? "20px" : "", 
         top: isExpanded ? "" : "20px" }} onClick={changeSection}>Done</button>
       </div>
-      {infoIsOpened && <Info itemName={item.orderName} dishes={item.dishes} 
+      {infoIsOpened && <Info itemName={item.name} dishes={dishes} 
       closeInfo={closeInfo} description={item.description}
        notes={item.notes} deadline={item.deadline} changePreparationItems={changePreparationItems}
-        id={item.id} section={item.section} />}
+        id={item.id} prepared={item.prepared} />}
     </>
   );
 }
