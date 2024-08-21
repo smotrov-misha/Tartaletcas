@@ -1,8 +1,8 @@
 .dishes-item {
   display: block;
-  padding: 20px 40px;
+  padding: 1.8vw 3.5vw;
   background-color: rgba(0, 0, 0, 10%);
-  margin: 0 70px 40px 70px;
+  margin: 4vw 3vw 3.8vw 3vw;
   border-radius: 15px;
   position: relative;
 }
@@ -10,32 +10,32 @@
 .dishes-item .title {
   display: block;
   color: #2c2c2c;
-  font-size: 60px;
+  font-size: 6vw;
   font-weight: 200;
-  margin: 20px auto 40px auto;
+  margin: 1.8vw auto 3.5vw auto;
   text-align: center;
 }
 
 .dishes-item .mini-title {
   display: block;
   color: #2c2c2c;
-  font-size: 40px;
+  font-size: 2.8vw;
   font-weight: 200;
-  margin: 40px auto 40px auto;
+  margin: 3.5vw auto 3.5vw auto;
   text-align: center;
 }
 
 .img-description {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 2.8vw;
   align-items: center;
   /* flex-wrap: wrap; */
   overflow: hidden;
 }
 
 .img-description p {
-  font-size: 36px;
+  font-size: 2.8vw;
   flex: 1 1 50%;
   word-wrap: break-word;
   white-space: normal;
@@ -60,7 +60,7 @@
   position: absolute;
   background-color: transparent;
   border-width: 0;
-  bottom: 25px;
+  bottom: 1.8vw;
   left: 50%;
   translate: -50%;
 }
@@ -69,8 +69,8 @@
   position: absolute;
   background-color: rgba(0, 0, 0, 10%);
   border-radius: 15px;
-  width: 60px;
-  height: 60px;
+  width: 5vw;
+  height: 5vw;
   border: none;
   padding: 0;
   top: 0;
@@ -78,12 +78,12 @@
 }
 
 .dishes-item .edit img {
-  width: 60px;
-  height: 60px;
+  width: 5vw;
+  height: 5vw;
 }
 
 .text {
-  font-size: 36px;
+  font-size: 2.8vw;
   text-align: center;
   padding-bottom: 20px;
 }
@@ -91,8 +91,8 @@
 .ingredient {
   display: flex;
   justify-content: space-between;
-  margin: 0 45px;
-  font-size: 30px;
+  /* margin: 0 4vw; */
+  font-size: 2.8vw;
 }
 
 .dishes-item .weight-calories {
@@ -102,6 +102,6 @@
 }
 
 .dishes-item .weight-calories h2 {
-  font-size: 36px;
-  margin: 40px 0;
+  font-size: 2.8vw;
+  margin: 3.5vw 0;
 }

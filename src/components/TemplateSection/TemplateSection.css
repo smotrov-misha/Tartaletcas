@@ -1,0 +1,13 @@
+.above-part-templates {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6vw 3vw;
+}
+
+.templates-grid {
+  margin: 0 55px 70px 55px;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+}

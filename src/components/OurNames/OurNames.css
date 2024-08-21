@@ -1,0 +1,12 @@
+.our-names {
+  display: block;
+  position: fixed;
+  bottom: 0;
+  right: 50%;
+  translate: 50%;
+  margin: 10px;
+  font-family: system-ui, -apple-system;
+  font-weight: 100;
+  color: #2c2c2c20;
+  font-size: 2vw;
+}

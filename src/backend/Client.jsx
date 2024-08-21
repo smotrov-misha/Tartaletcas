@@ -1,4 +1,4 @@
-import { generateClient } from 'aws-amplify/data';
+import { generateClient } from "aws-amplify/data";
 /**
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */

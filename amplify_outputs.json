@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "eu-north-1_RkfaFPRcj",
+    "user_pool_id": "eu-north-1_B4qWOwIUt",
     "aws_region": "eu-north-1",
-    "user_pool_client_id": "5jat35errk0vbq97sldbm5qesh",
-    "identity_pool_id": "eu-north-1:db663e12-93c9-4d02-9e32-ea0abd66d2f7",
+    "user_pool_client_id": "ghhtgucqc1l6rh3pq48mvp048",
+    "identity_pool_id": "eu-north-1:d18c0903-3118-4afd-a66c-04ed163a137a",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -25,9 +25,9 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://wtckq4prgva75nexlo6gp4lf5y.appsync-api.eu-north-1.amazonaws.com/graphql",
+    "url": "https://m4jthoetajc5vec3k4wbxfzow4.appsync-api.eu-north-1.amazonaws.com/graphql",
     "aws_region": "eu-north-1",
-    "api_key": "da2-mzg4tqlkyvbtjl5l2pxme3vbwi",
+    "api_key": "da2-xw3mr3oyvbfchlhwvtvdwlvaxm",
     "default_authorization_type": "API_KEY",
     "authorization_types": [
       "AMAZON_COGNITO_USER_POOLS",
@@ -36,107 +36,6 @@
     "model_introspection": {
       "version": 1,
       "models": {
-        "Ingredients": {
-          "name": "Ingredients",
-          "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "name": {
-              "name": "name",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "quantity": {
-              "name": "quantity",
-              "isArray": false,
-              "type": "Float",
-              "isRequired": false,
-              "attributes": []
-            },
-            "unit": {
-              "name": "unit",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "dishId": {
-              "name": "dishId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
-            "dish": {
-              "name": "dish",
-              "isArray": false,
-              "type": {
-                "model": "Dishes"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "dishId"
-                ]
-              }
-            },
-            "createdAt": {
-              "name": "createdAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            },
-            "updatedAt": {
-              "name": "updatedAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            }
-          },
-          "syncable": true,
-          "pluralName": "Ingredients",
-          "attributes": [
-            {
-              "type": "model",
-              "properties": {}
-            },
-            {
-              "type": "auth",
-              "properties": {
-                "rules": [
-                  {
-                    "allow": "public",
-                    "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
-                  }
-                ]
-              }
-            }
-          ],
-          "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
-            "sortKeyFieldNames": []
-          }
-        },
         "Dishes": {
           "name": "Dishes",
           "fields": {
@@ -193,17 +92,11 @@
               "name": "ingredients",
               "isArray": true,
               "type": {
-                "model": "Ingredients"
+                "nonModel": "Ingredients"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "dishId"
-                ]
-              }
+              "isArrayNullable": true
             },
             "templates": {
               "name": "templates",
@@ -397,8 +290,8 @@
               "isRequired": false,
               "attributes": []
             },
-            "templates": {
-              "name": "templates",
+            "template": {
+              "name": "template",
               "isArray": false,
               "type": {
                 "model": "Templates"
@@ -412,8 +305,8 @@
                 ]
               }
             },
-            "dishes": {
-              "name": "dishes",
+            "dish": {
+              "name": "dish",
               "isArray": false,
               "type": {
                 "model": "Dishes"
@@ -638,8 +531,8 @@
               "isRequired": false,
               "attributes": []
             },
-            "orders": {
-              "name": "orders",
+            "order": {
+              "name": "order",
               "isArray": false,
               "type": {
                 "model": "Orders"
@@ -653,8 +546,8 @@
                 ]
               }
             },
-            "dishes": {
-              "name": "dishes",
+            "dish": {
+              "name": "dish",
               "isArray": false,
               "type": {
                 "model": "Dishes"
@@ -833,7 +726,34 @@
         }
       },
       "enums": {},
-      "nonModels": {}
+      "nonModels": {
+        "Ingredients": {
+          "name": "Ingredients",
+          "fields": {
+            "name": {
+              "name": "name",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "quantity": {
+              "name": "quantity",
+              "isArray": false,
+              "type": "Float",
+              "isRequired": false,
+              "attributes": []
+            },
+            "unit": {
+              "name": "unit",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            }
+          }
+        }
+      }
     }
   },
   "version": "1"

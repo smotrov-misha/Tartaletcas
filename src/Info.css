@@ -1,106 +1,76 @@
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: all;
-    z-index: 100;
-    /* backdrop-filter: blur(70px); */
-    scroll-behavior: auto;
-    overflow-y: auto;
-}
-
-.container {
-    background-color: rgba(0, 0, 0, 0.1);
-    /* margin: 0 20%; */
-    border-radius: 15px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 60%;
-    margin-top: -300px;
-    transform: translateX(-50%);
-    transform: translate();
-    padding: 40px 30px;
-    overflow: hidden;
-    backdrop-filter: blur(80px);
-    z-index: 150;
-}
-
 .edit-dish {
-    width: 80%;
+  width: 80%;
 }
 
 .menu-name {
-    text-align: center;
-    font-size: 52px;
+  text-align: center;
+  font-size: 52px;
 }
 
 .title {
-    font-size: 40px;
+  font-size: 40px;
 }
 
 .dividing-line {
-    margin: 10px -500px;
+  margin: 10px -500px;
 }
 
 .dish {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: -30px;
-    transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -30px;
+  transition: all 0.3s ease;
 }
 
 #bottom-dividing-line {
-    margin-top: 40px;
-    margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .deadline-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .deadline-date {
-    display: inline;
-    padding: 10px 30px;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
+  display: inline;
+  padding: 10px 30px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
 }
 
-.container button, .button-in-prep {
-    width: 60px;
-    height: 60px;
-    padding: 0;
-    border: none;
-    border-radius: 15px;
-    /* background-color: #FFA38D; */
+.container button,
+.button-in-prep {
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  border-radius: 15px;
+  /* background-color: #FFA38D; */
 }
 
 .edit-button {
-    background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .cancel-button {
-    background-color: #FFA38D;
+  background-color: #ffa38d;
 }
 
 .container img {
-    width: 60px;
-    text-align: center;
+  width: 60px;
+  text-align: center;
 }
 
 .pencil {
-    width: 90%;
+  width: 90%;
 }
 
 .info-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: -40px;
-    margin-right: -30px;
-    margin-left: -30px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: -40px;
+  margin-right: -30px;
+  margin-left: -30px;
 }
-

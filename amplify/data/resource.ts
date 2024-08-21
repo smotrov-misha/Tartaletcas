@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -6,78 +6,71 @@ adding a new "isDone" field as a boolean. The authorization rule below
 specifies that any unauthenticated user can "create", "read", "update", 
 and "delete" any "Todo" records.
 =========================================================================*/
-const schema = a.schema({
-  Ingredients: a
-    .model({
+const schema = a
+  .schema({
+    Ingredients: a.customType({
       name: a.string(),
       quantity: a.float(),
       unit: a.string(),
-      dishId: a.id(),
-      dish: a.belongsTo('Dishes', 'dishId'),
     }),
-  Dishes: a
-    .model({
+    Dishes: a.model({
       name: a.string(),
       image: a.string(),
       description: a.string(),
       recipe: a.string(),
       weight: a.float(),
       calories: a.float(),
-      ingredients: a.hasMany('Ingredients', 'dishId'),
-      templates: a.hasMany('DishesTemplates', 'dishId'),
-      orders: a.hasMany('OrdersDishes', 'dishId'),
+      ingredients: a.ref("Ingredients").array(),
+      templates: a.hasMany("DishesTemplates", "dishId"),
+      orders: a.hasMany("OrdersDishes", "dishId"),
     }),
-  Templates: a
-    .model({
+    Templates: a.model({
       name: a.string(),
-      dishes: a.hasMany('DishesTemplates', 'templateId'),
+      dishes: a.hasMany("DishesTemplates", "templateId"),
     }),
-  DishesTemplates: a
-    .model({
+    DishesTemplates: a.model({
       dishId: a.id(),
       templateId: a.id(),
       quantity: a.integer(),
-      templates: a.belongsTo('Templates', 'templateId'),
-      dishes: a.belongsTo('Dishes', 'dishId'),
+      template: a.belongsTo("Templates", "templateId"),
+      dish: a.belongsTo("Dishes", "dishId"),
     }),
-  Orders: a
-    .model({
+    Orders: a.model({
       name: a.string(),
       description: a.string(),
       notes: a.string(),
       deadline: a.string(),
       prepared: a.boolean(),
-      dishes: a.hasMany('OrdersDishes', 'orderId'),
-      preparationIngredients: a.hasMany('PreparationIngredients', 'orderId'),
+      dishes: a.hasMany("OrdersDishes", "orderId"),
+      preparationIngredients: a.hasMany("PreparationIngredients", "orderId"),
     }),
-  OrdersDishes: a
-    .model({
+    OrdersDishes: a.model({
       dishId: a.id(),
       orderId: a.id(),
       quantity: a.integer(),
       quantityMade: a.integer(),
-      orders: a.belongsTo('Orders', 'orderId'),
-      dishes: a.belongsTo('Dishes', 'dishId'),
+      order: a.belongsTo("Orders", "orderId"),
+      dish: a.belongsTo("Dishes", "dishId"),
     }),
-  PreparationIngredients: a
-    .model({
+    PreparationIngredients: a.model({
       orderId: a.id(),
       name: a.string(),
       quantity: a.integer(),
       unit: a.string(),
       checkmark: a.boolean(),
       ingredientId: a.id(),
-      order: a.belongsTo('Orders', 'orderId'),
+      order: a.belongsTo("Orders", "orderId"),
     }),
-}).authorization((allow) => [allow.publicApiKey()]);
+  })
+  .authorization((allow) => [allow.publicApiKey()]);
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
-    apiKeyAuthorizationMode: { expiresInDays: 30 }
+    defaultAuthorizationMode: "apiKey",
+    apiKeyAuthorizationMode: { expiresInDays: 30 },
   },
 });
 

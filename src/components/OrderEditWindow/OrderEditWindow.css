@@ -1,0 +1,80 @@
+.container .new-order-button {
+  width: auto;
+  height: auto;
+  display: block;
+  background-color: #12e3e6;
+  color: #2c2c2c;
+  font-size: 29px;
+  font-weight: 600;
+  padding: 10px 50px;
+  float: right;
+  margin: 30px 0;
+}
+
+#bottom-dividing-line {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.dividing-line {
+  margin: 10px -500px;
+}
+
+.order .dish {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -30px;
+  transition: all 0.3s ease;
+}
+
+.order h3.title {
+  margin: 0;
+}
+
+.container .cancel-button {
+  background-color: #ffa38d;
+}
+.container .new-order-button:hover {
+  opacity: 0.8;
+}
+
+.container .done-button {
+  margin-bottom: -20px;
+  margin-top: 0px;
+}
+
+.container textarea {
+  width: calc(100% - 20px);
+  display: block;
+  height: 200px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 15px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 200;
+  font-size: 29px;
+  padding: 10px;
+  margin: 30px auto;
+  color: #2c2c2c;
+}
+
+.deadline-new-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+}
+
+.deadline-new-container h3.title {
+  margin: 0;
+}
+
+.deadline-new-date {
+  border: none;
+  font-family: system-ui, -apple-system;
+  font-weight: 200;
+  font-size: 29px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 10px;
+}

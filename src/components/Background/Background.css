@@ -1,0 +1,26 @@
+.dot {
+  border-radius: 50%;
+  width: 50vw;
+  height: 50vw;
+  min-width: 400px;
+  min-height: 400px;
+  background-color: black;
+  position: fixed;
+  display: inline-block;
+  z-index: -1;
+  filter: blur(100px);
+}
+
+#first-circle {
+  left: 0;
+  top: 0;
+  transform: translate(-25vw, -15vw);
+  background-color: #55cbcd;
+}
+
+#second-circle {
+  bottom: 0;
+  right: 0;
+  transform: translate(20vw, 20vw);
+  background-color: #fcb9a9;
+}

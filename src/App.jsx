@@ -1,300 +1,18 @@
-import React,{ useState, useEffect } from 'react'
-import './App.css'
-import dropArrow from './assets/drop_down_arrow.png'
-import infoButton from './assets/infromation-button.png'
-import Info from './Info';
-import Templates from './Templates';
-import PreparationItem from './PreparationItem.jsx'
-import Dish from './Dish.jsx'
-import plus from './assets/plus.svg'
-import { NewDish } from './makingInfo.jsx';
-import searchIcon from './assets/search.png';
-import { template } from 'lodash';
-import client from './Client.jsx'
-
-function Background() {
-  return (
-    <>
-      <span className = "dot" id = "first-circle"></span>
-      <span className = "dot" id = "second-circle"></span>
-    </>
-  );
-}
-
-function Navbar({changePage}) {
-  return (
-    <div className='navigation'>
-    <div className = "nav-bar">
-      <button onClick={() => {changePage("Menus")}}>Menus</button>
-      <button onClick={() => {changePage("Dishes")}}>Dishes</button>
-      <button onClick={() => {changePage("History")}}>History</button>
-    </div>
-    <hr className='nav-line'/>
-    </div>
-  );
-}
-
-function Dishinwork(props) {
-  const [howManyMade, setHowManyMade] = useState(props.dishesMade);
-  const [checked, setChecked] = useState(props.checkmark);
-
-  const increment = () => {
-    if(howManyMade < props.amount) {
-      setHowManyMade(howManyMade + 1);
-      props.changeDishAmount(howManyMade + 1, props.index);
-    }
-    if(howManyMade === props.amount - 1) { 
-      setChecked(true);
-      props.changeCheckmark(props.index, true);
-    }
-  }
-
-  const decrement = () => {
-    if(howManyMade > 0) {
-      setHowManyMade(howManyMade - 1);
-      props.changeDishAmount(howManyMade - 1, props.index);
-    }
-    if(howManyMade <= props.amount) {
-      setChecked(false);
-      props.changeCheckmark(props.index, false);
-    }
-  }
-
-
-
-  const handleInputChange = (event) => {
-    const value = Number(event.target.value);
-    if(value >= 0 && value <= Number(props.amount)) {
-      setHowManyMade(value);
-      props.changeDishAmount(value, props.index);
-      if(value === Number(props.amount)) {
-        setChecked(true);
-        props.changeCheckmark(props.index, true);
-      }
-      else {
-        setChecked(false);
-        props.changeCheckmark(props.index, false);
-      }
-    }
-  };
-  const handleCheckboxChange = (event) => {
-    props.changeCheckmark(props.index, event.target.checked);
-    setChecked(event.target.checked);
-    if (event.target.checked && props.amount > howManyMade) {
-      setHowManyMade(props.amount);
-      props.changeDishAmount(props.amount, props.index);
-    }
-    else if(!event.target.checked) {
-      setHowManyMade(0);
-      props.changeDishAmount(0, props.index);
-    }
-  };
-
-  return (
-    <div className = "dish-in-work">
-      <div className = "name-of-dish">
-        <h3>{props.name}</h3>
-      </div>
-      <div className = "how-many-made">
-        <button onClick={decrement}><h3>-</h3></button>
-        <input type = "text" placeholder= "0" min = "0" value={howManyMade} max = {props.amount} onChange = {handleInputChange}/>
-        <button onClick={increment}><h3>+</h3></button>
-      </div>
-      <div className = "how-many-dish">
-        <h3>{props.amount}</h3>
-        <label className = "check-dishes">
-          <input type="checkbox"  onChange={handleCheckboxChange} checked = {checked} value = {checked}/>
-          <span className="checkmark"></span>
-        </label>
-      </div>
-    </div>
-  );
-}
-
-function Inworkitem({item, changeInWorkItems}) {
-
-
-  const [checkmarks, setCheckmarks] = useState(new Array(item.dishes.length).fill(false));
-    const [allChecked, setAllChecked] = useState(false);
-
-    const changeCheckmark = (i, val) => {
-        const newCheckmarks = [...checkmarks];
-        newCheckmarks[i] = val;
-        for(let i = 0; i < newCheckmarks.length; i++) {
-            if(newCheckmarks[i] == false && item.dishes[i].amount != 0) {
-                setAllChecked(false);
-                break;
-            }
-            if(i == newCheckmarks.length - 1) {
-                setAllChecked(true);
-            }
-        }
-        setCheckmarks(newCheckmarks);
-    }
-
-  const sumOfDishes = item.dishes.reduce((accumulator, dish) => {
-    if(dish.amount != 0) return accumulator + Number(dish.amount);
-    else return accumulator;
-  }, 0);
-
-
-  const [amountOfDishes, setAmountOfDishes] = useState(new Array(item.dishes.length).fill(0));
-  const [width, setWidth] = useState("0%");
-
-  let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
-  return accumulator + Number(amount)}, 0);
-
-  let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
-
-  const changeDishAmount = (howManyMade, i) => {
-      let newAmountOfDishes = [...amountOfDishes];
-      let newSumOfAmountOfDishes = sumOfAmountOfDishes - Number(newAmountOfDishes[i]) + Number(howManyMade);
-      let percentage = newSumOfAmountOfDishes / sumOfDishes * 100;
-      newAmountOfDishes[i] = Number(howManyMade);
-      setAmountOfDishes(newAmountOfDishes);
-      setWidth(percentage + "%");
-      }
-
-  const [isExpanded, setIsExpanded] = useState(false);
-  const expand = () => {
-    setIsExpanded(!isExpanded);
-  }
-
-  const [infoIsOpened, setInfoIsOpened] = useState(false);
-
-  const closeInfo = () => {
-    setInfoIsOpened(false);
-  }
-
-  const openInfo = () => {
-    setInfoIsOpened(true);
-  }
-
-  const itemIsDone = () => {
-    item.toDo = "delete";
-    changeInWorkItems(item);
-  }
-
-    return (
-      <>
-      <div className= "work-prep-item" style={(isExpanded && allChecked) ? {paddingBottom: "80px"} : {}}>
-        <div className = "work-prep-things">
-          <div className = "name-n-info">
-          <h2 className = "item-name">{item.name}</h2>
-          <button onClick={openInfo}><img src={infoButton}></img></button>
-          </div>
-          <button id="arrow" onClick={expand} style={{ transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)" }}>
-          <img src={dropArrow} alt="Expand/Collapse" />
-        </button>
-      </div>
-      <div className="full-progress">
-        <div className="real-progress" style = {{width: width}}></div>
-      </div>
-      {isExpanded && (
-        <>
-          {item.dishes.map((dish, i) => ( dish.amount != 0 &&
-          (<Dishinwork key={dish.id} index={i} amount={dish.amount} dishesMade={amountOfDishes[i]} 
-            name={dish.name} changeDishAmount={changeDishAmount}
-             changeCheckmark={changeCheckmark} checkmark={checkmarks[i]}/>)
-          ))}
-        </>
-      )}
-        <button className='button-in-prep'
-         style={{opacity: allChecked ? "1" : "0", transform: allChecked ? "scale(1)" : "scale(0)",
-          bottom: isExpanded ? "20px" : "", top: isExpanded ? "" : "20px"}} onClick={itemIsDone}>Done</button>
-    </div>
-    {
-      infoIsOpened && <Info itemName={item.name} dishes={item.dishes} closeInfo={closeInfo} description={item.description}
-      notes={item.notes} deadline={item.deadline} changePreparationItems={changeInWorkItems}
-      id={item.id} prepared={item.prepared}/>
-    }
-    </>
-    );
-}
-  
-
-function Inwork({inWorkItems, changeInWorkItems}) {
-
-
-return (
-  <>
-  <h1 className='top-title'>In work</h1>
-  {inWorkItems.map(item => ( item.prepared &&
-  (<Inworkitem key = {item.id} item = {item} changeInWorkItems = {changeInWorkItems}/>))
-  )}
-  </>
-);
-}
-
-function Preparation({preparationItems, changePreparationItems}) {
-  return (
-    <>
-    <h1>Preparation</h1>
-      <>
-      {preparationItems.map(prepItem => ( !prepItem.prepared  ?
-      (<PreparationItem key = {prepItem.id} item = {prepItem} changePreparationItems = {changePreparationItems}/>) : null)
-      )}
-      </>
-    </>
-  )
-}
-
-function Dishes({changeDishes, dishes, ingredients}) {
-  const [newIsOpened, setNewIsOpened] = useState(false);
-  const [search, setSearch] = useState('');
-  const [currentSearch, setCurrentSearch] = useState('');
-  const openNewDish = () => {
-    setNewIsOpened(true);
-  }
-
-  const closeNewDish = () => {
-    setNewIsOpened(false);
-  }
-
-  const handleSearch = (e) => {
-    setCurrentSearch(e.target.value);
-  }
-
-  const searchFor = () => {
-    setSearch(currentSearch);
-  }
-
-  return (
-    <>
-    <div className = "dishes-top-items">
-      <div className='equal'>
-      <h1 className='top-title'>Dishes</h1>
-      </div>
-      <div className='search'>
-        <input type='text' list='all-dishes' onChange={handleSearch} value={currentSearch || ""}/>
-        <datalist id='all-dishes'>
-          {
-            dishes.map(dish => (<option key={dish.id}>{dish.name}</option>))
-          }
-        </datalist>
-        <button className='search-button' onClick={searchFor}><img src={searchIcon}></img></button>
-      </div>
-      <div className='equal'>
-      <button className='add-button' onClick={openNewDish}><img src={plus}></img></button>
-      </div>
-    </div>
-    {
-      newIsOpened && <NewDish closeNewDish = {closeNewDish} changeDishes = {changeDishes}/>
-    }
-    {
-      dishes.map((dish) => {
-        if(search == dish.name.substring(0, search.length) || search.length == 0) {
-        return <Dish dish = {dish} key = {dish.id} changeDishes={changeDishes} 
-        ingredients = {ingredients.filter(ingredient => ingredient.dishId === dish.id)}/>
-      }
-    })
-    }
-    </>
-  )
-}
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import dropArrow from "./assets/drop_down_arrow.png";
+import infoButton from "./assets/infromation-button.png";
+import Info from "./Info";
+import Templates from "./Templates";
+import PreparationItem from "./PreparationItem.jsx";
+import Dish from "./components/Dish/Dish.jsx";
+import plus from "./assets/plus.svg";
+import { NewDish } from "./makingInfo.jsx";
+import searchIcon from "./assets/search.png";
+import { template } from "lodash";
+import client from "./Client.jsx";
 
 function App() {
-  const [whatPage, setWhatPage] = useState("Menus");
   const [lastDishId, setLastDishId] = useState(1);
   const [lastTemplateId, setLastTemplateId] = useState(1);
   const [lastPrepId, setLastPrepId] = useState(1);
@@ -303,7 +21,6 @@ function App() {
   const [dishes, setDishes] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [dishesTemplates, setDishesTemplates] = useState([]);
-
 
   useEffect(() => {
     client.models.Dishes.observeQuery().subscribe({
@@ -317,78 +34,75 @@ function App() {
     });
     client.models.DishesTemplates.observeQuery().subscribe({
       next: (data) => setDishesTemplates([...data.items]),
-    })
+    });
     client.models.Orders.observeQuery().subscribe({
       next: (data) => setPreparationItems([...data.items]),
-    })
+    });
   }, []);
-
-  const changePage = (nameOfPage) => {
-    setWhatPage(nameOfPage);
-  };
 
   //templates
   const addTemplate = async (newTemplate) => {
-    const {data: createdTemplate} = await client.models.Templates.create({
+    const { data: createdTemplate } = await client.models.Templates.create({
       name: newTemplate.name,
-    })
-    for(const dish of newTemplate.dishes) {
+    });
+    for (const dish of newTemplate.dishes) {
       await client.models.DishesTemplates.create({
         dishId: dish.id,
         templateId: createdTemplate.id,
         quantity: dish.quantity,
       });
     }
- }
- 
- const changeTemplate = async (newTemplate) => {
-  await client.models.Templates.update({
-    id: newTemplate.id,
-    name: newTemplate.name,
-  });
-  const {data: dishesToDelete} = await client.models.DishesTemplates.list({filter: {
-    templateId : {
-      eq: newTemplate.id,
-      }
-    },
-  });
-  for(const dish of dishesToDelete) {
-    await client.models.DishesTemplates.delete({
-      id: dish.id
+  };
+
+  const changeTemplate = async (newTemplate) => {
+    await client.models.Templates.update({
+      id: newTemplate.id,
+      name: newTemplate.name,
     });
-  }
-  for(const dish of newTemplate.dishes) {
-    await client.models.DishesTemplates.create({
+    const { data: dishesToDelete } = await client.models.DishesTemplates.list({
+      filter: {
+        templateId: {
+          eq: newTemplate.id,
+        },
+      },
+    });
+    for (const dish of dishesToDelete) {
+      await client.models.DishesTemplates.delete({
+        id: dish.id,
+      });
+    }
+    for (const dish of newTemplate.dishes) {
+      await client.models.DishesTemplates.create({
         dishId: dish.id,
         templateId: newTemplate.id,
         quantity: dish.quantity,
       });
     }
-  }
+  };
 
- const deleteTemplate = async (id) => {
-  const {data: dishesToDelete} = await client.models.DishesTemplates.list({filter: {
-    templateId : {
-      eq: id,
-      }
-    },
-  }
-  );
-  console.log(dishesToDelete);
-  for(const dish of dishesToDelete) {
-  await client.models.DishesTemplates.delete({
-    id: dish.id
-  });
-}
-await client.models.Templates.delete({
-  id: id,
-});
- }
+  const deleteTemplate = async (id) => {
+    const { data: dishesToDelete } = await client.models.DishesTemplates.list({
+      filter: {
+        templateId: {
+          eq: id,
+        },
+      },
+    });
+    console.log(dishesToDelete);
+    for (const dish of dishesToDelete) {
+      await client.models.DishesTemplates.delete({
+        id: dish.id,
+      });
+    }
+    await client.models.Templates.delete({
+      id: id,
+    });
+  };
 
- //dishes
+  //dishes
   const changeDishes = async (dish) => {
-    if(dish.toDo == "add") {
-      const {data: newDish} = await client.models.Dishes.create({
+    if (dish.toDo == "add") {
+      const { data: newDish } = await client.models.Dishes.create({
         name: dish.name,
         image: dish.image,
         description: dish.description,
@@ -401,65 +115,63 @@ await client.models.Templates.delete({
           name: ingredient.name,
           quantity: ingredient.quantity,
           unit: ingredient.unit,
-          dishId: newDish.id
+          dishId: newDish.id,
         });
       }
-    }
-    else if(dish.toDo == "edit") {
-        delete dish.toDo;
-        await client.models.Dishes.update({
-          id: dish.id,
-          name: dish.name,
-          image: dish.image,
-          description: dish.description,
-          recipe: dish.recipe,
-          weight: dish.weight,
-          calories: dish.calories,
-        });
-        const {data: ingrToDelete} = await client.models.Ingredients.list({filter: {
-          dishId : {
+    } else if (dish.toDo == "edit") {
+      delete dish.toDo;
+      await client.models.Dishes.update({
+        id: dish.id,
+        name: dish.name,
+        image: dish.image,
+        description: dish.description,
+        recipe: dish.recipe,
+        weight: dish.weight,
+        calories: dish.calories,
+      });
+      const { data: ingrToDelete } = await client.models.Ingredients.list({
+        filter: {
+          dishId: {
             eq: dish.id,
-            }
           },
-        }
-      );
-        for(const ingredient of ingrToDelete) {
-          await client.models.Ingredients.delete({
-            id: ingredient.id
-          });
-        }
-        for(const ingredient of dish.ingredients) {
-          await client.models.Ingredients.create({
-            name: ingredient.name,
-            quantity: ingredient.quantity,
-            unit: ingredient.unit,
-            dishId: dish.id
-          })
-        }
-    }
-    else if(dish.toDo == "delete") {
+        },
+      });
+      for (const ingredient of ingrToDelete) {
+        await client.models.Ingredients.delete({
+          id: ingredient.id,
+        });
+      }
+      for (const ingredient of dish.ingredients) {
+        await client.models.Ingredients.create({
+          name: ingredient.name,
+          quantity: ingredient.quantity,
+          unit: ingredient.unit,
+          dishId: dish.id,
+        });
+      }
+    } else if (dish.toDo == "delete") {
       for (const ingredient of dish.ingredients) {
         await client.models.Ingredients.delete({
           id: ingredient.id,
         });
       }
       await client.models.Dishes.delete({
-        id: dish.id
-      })
+        id: dish.id,
+      });
     }
-  }
+  };
 
   //preparation_items
   const changePreparationItems = async (preparationItem) => {
-    if(preparationItem.toDo == "add") {
-      const {data: newPrepItem} = await client.models.Orders.create({
+    if (preparationItem.toDo == "add") {
+      const { data: newPrepItem } = await client.models.Orders.create({
         name: preparationItem.name,
         description: preparationItem.description,
         notes: preparationItem.notes,
         deadline: preparationItem.deadline,
         prepared: false,
-      })
-      for(const dish of preparationItem.dishes) {
+      });
+      for (const dish of preparationItem.dishes) {
         await client.models.OrdersDishes.create({
           dishId: dish.id,
           orderId: newPrepItem.id,
@@ -467,53 +179,64 @@ await client.models.Templates.delete({
           quantityMade: 0,
         });
       }
-    }
-    else if(preparationItem.toDo == "edit") {
+    } else if (preparationItem.toDo == "edit") {
       delete preparationItem.toDo;
-      const newPreparationItems = preparationItems.map(item =>
+      const newPreparationItems = preparationItems.map((item) =>
         item.id === preparationItem.id ? preparationItem : item
       );
       setPreparationItems(newPreparationItems);
-      }
-    else if(preparationItem.toDo == "delete") {
-      const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
+    } else if (preparationItem.toDo == "delete") {
+      const newPreparationItems = preparationItems.filter(
+        (item) => preparationItem.id !== item.id
+      );
       setPreparationItems(newPreparationItems);
-    }
-    else if(preparationItem.toDo == "prep->inwork") {
+    } else if (preparationItem.toDo == "prep->inwork") {
       preparationItem.section = "In work";
       delete preparationItem.toDo;
-      const newPreparationItems = preparationItems.filter((item) => preparationItem.id !== item.id);
+      const newPreparationItems = preparationItems.filter(
+        (item) => preparationItem.id !== item.id
+      );
       newPreparationItems.push(preparationItem);
       setPreparationItems(newPreparationItems);
     }
-   }
-
+  };
 
   return (
     <>
-    <Background/>
-    <Navbar changePage={changePage}/>
-    {whatPage === "Menus" && (
-      <>
-      <Inwork inWorkItems = {preparationItems} changeInWorkItems = {changePreparationItems}/>
-      <Preparation preparationItems = {preparationItems}changePreparationItems = {changePreparationItems}/>
-      <Templates changePreparationItems = {changePreparationItems} dishes={dishes} addTemplate={addTemplate} 
-      changeTemplate={changeTemplate} deleteTemplate={deleteTemplate} templates={templates} dishesTemplates={dishesTemplates}/>
-      </>
-    )}
-    {whatPage === "Dishes" && (
-      <>
-      <Dishes changeDishes = {changeDishes} dishes = {dishes} ingredients = {ingredients}/>
-      </>
-    )}
-    {whatPage === "History" && (
-      <>
-      
-      </>
-    )}
-    <h3 className='our-names'>Made by Kharchenko & Smotrov</h3>
+      {whatPage === "Menus" && (
+        <>
+          <Inwork
+            inWorkItems={preparationItems}
+            changeInWorkItems={changePreparationItems}
+          />
+          <Preparation
+            preparationItems={preparationItems}
+            changePreparationItems={changePreparationItems}
+          />
+          <Templates
+            changePreparationItems={changePreparationItems}
+            dishes={dishes}
+            addTemplate={addTemplate}
+            changeTemplate={changeTemplate}
+            deleteTemplate={deleteTemplate}
+            templates={templates}
+            dishesTemplates={dishesTemplates}
+          />
+        </>
+      )}
+      {whatPage === "Dishes" && (
+        <>
+          <Dishes
+            changeDishes={changeDishes}
+            dishes={dishes}
+            ingredients={ingredients}
+          />
+        </>
+      )}
+      {whatPage === "History" && <></>}
+      <h3 className="our-names">Made by Kharchenko & Smotrov</h3>
     </>
   );
 }
 
-export default App
+export default App;

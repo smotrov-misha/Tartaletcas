@@ -1,7 +1,11 @@
+.edit-dish {
+  width: 80% !important;
+}
+
 .edit-dish .image-description {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  margin-bottom: 4.2vw;
 }
 
 .edit-dish .image-description .image {
@@ -34,12 +38,16 @@
   background-color: transparent;
 }
 
+.edit-dish .cancel-button {
+  background-color: #ffa38d;
+}
+
 .edit-dish .image-description div {
   flex: 1 1 50%;
 }
 
 .edit-dish .image-description .description {
-  margin-left: 100px;
+  margin-left: 9vw;
   flex-basis: 70%;
   display: flex;
   flex-direction: column;
@@ -53,12 +61,12 @@
 }
 
 .edit-dish .image-description .description textarea {
-  height: 220px;
+  height: 15vw;
   margin: 0;
 }
 
 .edit-dish .dish-name {
-  margin-bottom: 60px;
+  margin-bottom: 5vw;
 }
 
 .edit-dish .weight-calories {
@@ -69,8 +77,8 @@
 
 .edit-dish .weight-calories div {
   display: flex;
-  justify-content: start;
-  flex-basis: 20%;
+  justify-content: end;
+  flex-basis: 50%;
   align-items: center;
 }
 
@@ -79,21 +87,21 @@
   background-color: rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 15px;
-  padding: 10px;
-  width: 100px;
+  padding: 0.8vw;
+  width: 9vw;
   font-weight: 200;
-  font-size: 30px;
+  font-size: 2.4vw;
   font-family: system-ui, -apple-system;
   color: #2c2c2c;
   text-align: center;
 }
 
 .edit-dish .weight-calories div h3 {
-  margin-left: 20px;
+  margin-left: 1.7vw;
 }
 
 .edit-dish .small-title {
-  font-size: 40px;
+  font-size: 2.8vw;
   display: block;
   text-align: center;
 }
@@ -115,14 +123,14 @@
 .edit-dish .add-ingredient-button img,
 .edit-dish .delete-ingredient-button img {
   width: 70%;
-  height: 60px;
+  height: 5vw;
 }
 
 .edit-dish .ingredient {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 30px 0;
+  margin: 2.7vw 0;
 }
 
 .edit-dish .ingredient .ingredient-name {
@@ -136,7 +144,7 @@
 }
 
 .edit-dish .ingredient .quantity-unit input {
-  margin-right: 20px;
+  margin-right: 1.8vw;
 }
 
 .edit-dish .dish-image {
@@ -155,11 +163,68 @@
   background-color: #ffa38d;
   color: #2c2c2c;
   font-weight: 600;
-  font-size: 29px;
+  font-size: 2.8vw;
   width: auto;
-  padding: 10px 60px;
+  padding: 0 5vw;
 }
 
-.order .dish {
+.container img {
+  width: 5vw;
+  text-align: center;
+}
+
+.container button,
+.button-in-prep {
+  width: 5vw;
+  height: 5vw;
+  padding: 0;
+  border: none;
+  border-radius: 15px;
+  /* background-color: #FFA38D; */
+}
+
+.info-buttons {
   display: flex;
+  justify-content: space-between;
+  margin-top: -3vw;
+  margin-right: -2vw;
+  margin-left: -2vw;
+}
+
+.new-dish-name {
+  display: block;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: none;
+  padding: 0.8vw;
+  border-radius: 15px;
+  font-size: 4.5vw;
+  font-weight: 600;
+  width: 50%;
+  text-align: center;
+  margin-bottom: 2.8vw;
+  color: #2c2c2c;
+}
+
+.new-dish-name::placeholder {
+  color: #2c2c2c65;
+  text-decoration: underline 3px;
+}
+
+.container .done-button {
+  /* margin-bottom: -20px; */
+  margin-top: 0px;
+}
+
+.container .new-dish-button {
+  width: auto;
+  height: auto;
+  display: block;
+  background-color: #12e3e6;
+  color: #2c2c2c;
+  font-size: 2.5vw;
+  font-weight: 600;
+  padding: 0.8vw 3vw;
+  float: right;
+  margin: 2.5vw 0 0 0;
 }

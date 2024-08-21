@@ -1,14 +1,10 @@
 import { useState } from "react";
-import cross_button from "./assets/cross_button.png";
-import "./MakingInfo.css";
-import { NewTemplate } from "./Templates.jsx";
-import plus from "./assets/plus.svg";
-import minus from "./assets/minus.png";
-import chooseFile from "./assets/chooseFile.png";
-import { compact } from "lodash";
+import cross_button from "../../assets/cross_button.png";
+import "./OrderEditWindow.css";
+import NewTemplate from "../NewTemplate/NewTemplate";
 
-function NewOrder(props) {
-  const [name, setName] = useState(props.name || "");
+function OrderEditWindow({ order, mode, closeNewOrder }) {
+  const [name, setName] = useState(order.name ? order.name : "");
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -24,25 +20,27 @@ function NewOrder(props) {
     setDishEditor(false);
   };
 
-  const [currentDishes, setCurrentDishes] = useState(props.dishes);
+  const [currentDishes, setCurrentDishes] = useState(
+    order.dishes ? order.dishes : []
+  );
 
-  const changeDishesInOrder = (newDishes) => {
-    setCurrentDishes(newDishes);
-  };
-
-  const [description, setDescription] = useState(props.description || "");
+  const [description, setDescription] = useState(
+    order ? order.description : ""
+  );
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
   };
 
-  const [notes, setNotes] = useState(props.notes || "");
+  const [notes, setNotes] = useState(order.notes ? order.notes : "");
 
   const handleNotes = (e) => {
     setNotes(e.target.value);
   };
 
-  const [deadline, setDeadline] = useState(props.deadline || "");
+  const [deadline, setDeadline] = useState(
+    order.deadline ? order.deadline : ""
+  );
 
   const handleDeadline = (e) => {
     setDeadline(e.target.value);
@@ -51,36 +49,19 @@ function NewOrder(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name) return alert("Type in order name");
-    if (props.toDo == "add") {
-      const newOrder = {
-        name: name,
-        dishes: currentDishes,
-        description: description,
-        notes: notes,
-        deadline: deadline,
-        toDo: "add",
-      };
-      props.changePreparationItems(newOrder);
-    } else if (props.toDo == "edit") {
-      const newOrder = {
-        name: name,
-        dishes: currentDishes,
-        description: description,
-        notes: notes,
-        deadline: deadline,
-        toDo: "edit",
-        id: props.id,
-        prepared: props.prepared,
-      };
-      props.changePreparationItems(newOrder);
+    if (mode === "Add") {
+      //   props.changePreparationItems(newOrder);
+    } else if (mode === "Edit") {
+      //   props.changePreparationItems(newOrder);
     }
     props.closeNewOrder();
   };
+
   return (
     <div className="overlay">
-      <div className="container">
+      <div className="container order">
         <div className="info-buttons">
-          <button className="cancel-button" onClick={props.closeNewOrder}>
+          <button className="cancel-button" onClick={closeNewOrder}>
             <img src={cross_button}></img>
           </button>
         </div>
@@ -146,9 +127,8 @@ function NewOrder(props) {
         {dishEditor && (
           <NewTemplate
             closeNewTemplate={closeDishEditor}
-            dishes={props.allDishes}
-            mode="New order"
-            changeDishesInOrder={changeDishesInOrder}
+            mode="New Order"
+            dishesInTemplate={currentDishes}
           />
         )}
       </div>
@@ -156,4 +136,4 @@ function NewOrder(props) {
   );
 }
 
-export default NewOrder;
+export default OrderEditWindow;

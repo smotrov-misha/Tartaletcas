@@ -1,0 +1,101 @@
+.container-for-adding-dishes {
+  width: 85%;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+  max-height: 45vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.container-new-template {
+  background-color: rgba(0, 0, 0, 0.05);
+  height: 500px;
+}
+
+.edit-new-template {
+  position: fixed;
+  border-radius: 15px;
+  width: 70%;
+  left: 50%;
+  top: 250px;
+  translate: -50% 0;
+}
+
+.new-template-name,
+.new-order-name {
+  display: block;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: none;
+  padding: 10px;
+  border-radius: 15px;
+  font-size: 52px;
+  font-weight: 600;
+  width: 50%;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c2c2c;
+}
+
+.new-template-name::placeholder,
+.new-order-name::placeholder {
+  color: #2c2c2c65;
+  text-decoration: underline 3px;
+}
+
+.chosen-dish {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin: 3px;
+  align-items: center;
+}
+
+.chosen-dish h3 {
+  margin: 5px 0;
+  margin-left: 10px;
+}
+
+.chosen-dish input {
+  background-color: rgba(0, 0, 0, 0.05);
+  border: none;
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+  width: 80px;
+  font-size: 36px;
+  font-family: system-ui, -apple-system;
+  font-weight: 200;
+}
+
+.chosen-dish input::placeholder {
+  color: #2c2c2c55;
+}
+
+.template-cancel-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffa38d;
+}
+
+.container-new-template .template-button {
+  width: auto;
+  padding: 0 50px;
+  font-size: 29px;
+  position: absolute;
+  bottom: 10px;
+}
+
+.done-template-button {
+  right: 10px;
+  background-color: #12e3e6;
+  font-weight: 600;
+}
+
+.delete-template-button {
+  left: 10px;
+  background-color: #ffa38d;
+}
