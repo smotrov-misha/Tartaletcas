@@ -1,56 +1,20 @@
-function InWorkItem({ item, changeInWorkItems }) {
-  const [checkmarks, setCheckmarks] = useState(
-    new Array(item.dishes.length).fill(false)
-  );
-  const [allChecked, setAllChecked] = useState(false);
+import { useState } from "react";
+import dropArrow from "../../assets/drop_down_arrow.png";
+import infoButton from "../../assets/infromation-button.png";
+import Info from "../Info/Info";
+import "./InWorkItem.css";
+import InWorkDishes from "./InWorkDishes";
 
-  const changeCheckmark = (i, val) => {
-    const newCheckmarks = [...checkmarks];
-    newCheckmarks[i] = val;
-    for (let i = 0; i < newCheckmarks.length; i++) {
-      if (newCheckmarks[i] == false && item.dishes[i].amount != 0) {
-        setAllChecked(false);
-        break;
-      }
-      if (i == newCheckmarks.length - 1) {
-        setAllChecked(true);
-      }
-    }
-    setCheckmarks(newCheckmarks);
-  };
-
-  const sumOfDishes = item.dishes.reduce((accumulator, dish) => {
-    if (dish.amount != 0) return accumulator + Number(dish.amount);
-    else return accumulator;
-  }, 0);
-
-  const [amountOfDishes, setAmountOfDishes] = useState(
-    new Array(item.dishes.length).fill(0)
-  );
-  const [width, setWidth] = useState("0%");
-
-  let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
-    return accumulator + Number(amount);
-  }, 0);
-
-  let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
-
-  const changeDishAmount = (howManyMade, i) => {
-    let newAmountOfDishes = [...amountOfDishes];
-    let newSumOfAmountOfDishes =
-      sumOfAmountOfDishes - Number(newAmountOfDishes[i]) + Number(howManyMade);
-    let percentage = (newSumOfAmountOfDishes / sumOfDishes) * 100;
-    newAmountOfDishes[i] = Number(howManyMade);
-    setAmountOfDishes(newAmountOfDishes);
-    setWidth(percentage + "%");
-  };
-
+function InWorkItem({ item }) {
+  const { name, id, isDone, percents } = item;
   const [isExpanded, setIsExpanded] = useState(false);
+  const allChecked = isDone;
+  const [infoIsOpened, setInfoIsOpened] = useState(false);
+  const width = percents;
+
   const expand = () => {
     setIsExpanded(!isExpanded);
   };
-
-  const [infoIsOpened, setInfoIsOpened] = useState(false);
 
   const closeInfo = () => {
     setInfoIsOpened(false);
@@ -59,6 +23,26 @@ function InWorkItem({ item, changeInWorkItems }) {
   const openInfo = () => {
     setInfoIsOpened(true);
   };
+
+  // const sumOfDishes = item.dishes.reduce((accumulator, dish) => {
+  //   return accumulator + Number(dish.amount);
+  // }, 0);
+
+  // let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
+  //   return accumulator + Number(amount);
+  // }, 0);
+
+  // let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
+
+  // const changeDishAmount = (howManyMade, i) => {
+  //   let newAmountOfDishes = [...amountOfDishes];
+  //   let newSumOfAmountOfDishes =
+  //     sumOfAmountOfDishes - Number(newAmountOfDishes[i]) + Number(howManyMade);
+  //   let percentage = (newSumOfAmountOfDishes / sumOfDishes) * 100;
+  //   newAmountOfDishes[i] = Number(howManyMade);
+  //   setAmountOfDishes(newAmountOfDishes);
+  //   setWidth(percentage + "%");
+  // };
 
   const itemIsDone = () => {
     item.toDo = "delete";
@@ -73,7 +57,7 @@ function InWorkItem({ item, changeInWorkItems }) {
       >
         <div className="work-prep-things">
           <div className="name-n-info">
-            <h2 className="item-name">{item.name}</h2>
+            <h2 className="item-name">{name}</h2>
             <button onClick={openInfo}>
               <img src={infoButton}></img>
             </button>
@@ -91,25 +75,7 @@ function InWorkItem({ item, changeInWorkItems }) {
         <div className="full-progress">
           <div className="real-progress" style={{ width: width }}></div>
         </div>
-        {isExpanded && (
-          <>
-            {item.dishes.map(
-              (dish, i) =>
-                dish.amount != 0 && (
-                  <Dishinwork
-                    key={dish.id}
-                    index={i}
-                    amount={dish.amount}
-                    dishesMade={amountOfDishes[i]}
-                    name={dish.name}
-                    changeDishAmount={changeDishAmount}
-                    changeCheckmark={changeCheckmark}
-                    checkmark={checkmarks[i]}
-                  />
-                )
-            )}
-          </>
-        )}
+        {isExpanded && <InWorkDishes itemId={id} />}
         <button
           className="button-in-prep"
           style={{
@@ -118,24 +84,12 @@ function InWorkItem({ item, changeInWorkItems }) {
             bottom: isExpanded ? "20px" : "",
             top: isExpanded ? "" : "20px",
           }}
-          onClick={itemIsDone}
+          onClick={"itemIsDone"}
         >
           Done
         </button>
       </div>
-      {infoIsOpened && (
-        <Info
-          itemName={item.name}
-          dishes={item.dishes}
-          closeInfo={closeInfo}
-          description={item.description}
-          notes={item.notes}
-          deadline={item.deadline}
-          changePreparationItems={changeInWorkItems}
-          id={item.id}
-          prepared={item.prepared}
-        />
-      )}
+      {infoIsOpened && <Info closeInfo={closeInfo} id={id} />}
     </>
   );
 }

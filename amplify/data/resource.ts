@@ -12,6 +12,7 @@ const schema = a
       name: a.string(),
       quantity: a.float(),
       unit: a.string(),
+      checkmark: a.boolean(),
     }),
     Dishes: a.model({
       name: a.string(),
@@ -41,25 +42,18 @@ const schema = a
       notes: a.string(),
       deadline: a.string(),
       prepared: a.boolean(),
+      isDone: a.boolean(),
+      percents: a.string().default("0%"),
       dishes: a.hasMany("OrdersDishes", "orderId"),
-      preparationIngredients: a.hasMany("PreparationIngredients", "orderId"),
+      ingredients: a.ref("Ingredients").array(),
     }),
     OrdersDishes: a.model({
       dishId: a.id(),
       orderId: a.id(),
       quantity: a.integer(),
-      quantityMade: a.integer(),
+      quantityMade: a.integer().default(0),
       order: a.belongsTo("Orders", "orderId"),
       dish: a.belongsTo("Dishes", "dishId"),
-    }),
-    PreparationIngredients: a.model({
-      orderId: a.id(),
-      name: a.string(),
-      quantity: a.integer(),
-      unit: a.string(),
-      checkmark: a.boolean(),
-      ingredientId: a.id(),
-      order: a.belongsTo("Orders", "orderId"),
     }),
   })
   .authorization((allow) => [allow.publicApiKey()]);

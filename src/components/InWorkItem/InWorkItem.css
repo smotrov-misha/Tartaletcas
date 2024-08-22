@@ -1,0 +1,53 @@
+.full-progress {
+  height: 46px;
+  margin: 0 40px 30px 40px;
+  background-color: #2c2c2c;
+  border-radius: 25px;
+  border: 2px #2c2c2c solid;
+  overflow: hidden;
+}
+
+.real-progress {
+  height: 46px;
+  background-color: #edeae5;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.dish-in-work {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 40px;
+}
+
+.how-many-made {
+  justify-content: center;
+}
+
+.how-many-dish,
+.how-many-product {
+  justify-content: end;
+}
+
+.dish-in-work button {
+  background-color: transparent;
+  border: none;
+}
+
+.dish-in-work button h3 {
+  font-family: system-ui;
+  font-weight: 100;
+  font-size: 50px;
+}
+
+.dish-in-work input {
+  background-color: rgba(0, 0, 0, 10%);
+  border: none;
+  border-radius: 15px;
+  padding: 10px;
+  font-size: 32px;
+  font-weight: 200;
+  font-family: system-ui;
+  width: 4vw;
+  text-align: center;
+}

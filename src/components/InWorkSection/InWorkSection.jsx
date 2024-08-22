@@ -1,22 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InWorkItem from "../InWorkItem/InWorkItem";
+import client from "../../backend/Client";
 
-function InWorkSection() {
-  const [inWorkItems, setInWorkItems] = useState([]);
-
+function InWorkSection({ inWorkItems }) {
   return (
     <>
       <h1 className="top-title">In work</h1>
-      {inWorkItems.map(
-        (item) =>
-          item.prepared && (
-            <InWorkItem
-              key={item.id}
-              item={item}
-              changeInWorkItems={changeInWorkItems}
-            />
-          )
-      )}
+      {inWorkItems.map((item) => (
+        <InWorkItem key={item.id} item={item} />
+      ))}
     </>
   );
 }

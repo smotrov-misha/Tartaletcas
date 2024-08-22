@@ -2,16 +2,19 @@ import { useState } from "react";
 import cross_button from "../../assets/cross_button.png";
 import "./OrderEditWindow.css";
 import NewTemplate from "../NewTemplate/NewTemplate";
+import { createOrder, updateOrder } from "../../backend/PreparationChanges";
 
-function OrderEditWindow({ order, mode, closeNewOrder }) {
-  const [name, setName] = useState(order.name ? order.name : "");
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
+function OrderEditWindow({ dishes, newOrder, mode, closeNewOrder }) {
   const [dishEditor, setDishEditor] = useState(false);
+  const [currentDishes, setCurrentDishes] = useState(dishes ? dishes : []);
+  const [order, setOrder] = useState(newOrder ? newOrder : {});
 
+  const handleOrder = (e, name) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      [name]: e.target.value,
+    }));
+  };
   const openDishEditor = () => {
     setDishEditor(true);
   };
@@ -20,41 +23,15 @@ function OrderEditWindow({ order, mode, closeNewOrder }) {
     setDishEditor(false);
   };
 
-  const [currentDishes, setCurrentDishes] = useState(
-    order.dishes ? order.dishes : []
-  );
-
-  const [description, setDescription] = useState(
-    order ? order.description : ""
-  );
-
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const [notes, setNotes] = useState(order.notes ? order.notes : "");
-
-  const handleNotes = (e) => {
-    setNotes(e.target.value);
-  };
-
-  const [deadline, setDeadline] = useState(
-    order.deadline ? order.deadline : ""
-  );
-
-  const handleDeadline = (e) => {
-    setDeadline(e.target.value);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name) return alert("Type in order name");
+    if (!order.name) return alert("Type in order name");
     if (mode === "Add") {
-      //   props.changePreparationItems(newOrder);
+      createOrder({ ...order, dishes: currentDishes });
     } else if (mode === "Edit") {
-      //   props.changePreparationItems(newOrder);
+      updateOrder({ ...order, dishes: currentDishes });
     }
-    props.closeNewOrder();
+    closeNewOrder();
   };
 
   return (
@@ -70,8 +47,8 @@ function OrderEditWindow({ order, mode, closeNewOrder }) {
             type="text"
             placeholder="Order name"
             className="new-order-name"
-            onChange={handleNameChange}
-            value={name || ""}
+            onChange={(e) => handleOrder(e, "name")}
+            value={order.name || ""}
           ></input>
           <h3 className="title">Dishes</h3>
           <hr className="dividing-line" />
@@ -102,22 +79,22 @@ function OrderEditWindow({ order, mode, closeNewOrder }) {
           <h3 className="title">Description</h3>
           <textarea
             placeholder="Type something"
-            value={description || ""}
-            onChange={handleDescription}
+            value={order.description || ""}
+            onChange={(e) => handleOrder(e, "description")}
           ></textarea>
           <h3 className="title">Notes</h3>
           <textarea
             placeholder="Type something"
-            value={notes || ""}
-            onChange={handleNotes}
+            value={order.notes || ""}
+            onChange={(e) => handleOrder(e, "notes")}
           ></textarea>
           <div className="deadline-new-container deadline-container">
             <h3 className="title">Deadline</h3>
             <input
               type="date"
               className="deadline-date deadline-new-date"
-              value={deadline || ""}
-              onChange={handleDeadline}
+              value={order.deadline || ""}
+              onChange={(e) => handleOrder(e, "deadline")}
             ></input>
           </div>
           <button className="new-order-button done-button" type="submit">
@@ -129,6 +106,7 @@ function OrderEditWindow({ order, mode, closeNewOrder }) {
             closeNewTemplate={closeDishEditor}
             mode="New Order"
             dishesInTemplate={currentDishes}
+            setDishes={setCurrentDishes}
           />
         )}
       </div>

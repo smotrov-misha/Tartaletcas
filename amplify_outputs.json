@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "eu-north-1_B4qWOwIUt",
+    "user_pool_id": "eu-north-1_kFBXDID2F",
     "aws_region": "eu-north-1",
-    "user_pool_client_id": "ghhtgucqc1l6rh3pq48mvp048",
-    "identity_pool_id": "eu-north-1:d18c0903-3118-4afd-a66c-04ed163a137a",
+    "user_pool_client_id": "76q2bn39n206gmpbdgdtr6pq5u",
+    "identity_pool_id": "eu-north-1:ada6d3ae-e040-4379-a02e-3644b8454b47",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -25,9 +25,9 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://m4jthoetajc5vec3k4wbxfzow4.appsync-api.eu-north-1.amazonaws.com/graphql",
+    "url": "https://ei4vpk2mhnfszae6cf7gorxtbe.appsync-api.eu-north-1.amazonaws.com/graphql",
     "aws_region": "eu-north-1",
-    "api_key": "da2-xw3mr3oyvbfchlhwvtvdwlvaxm",
+    "api_key": "da2-pd2rxy6575fgzhfo77oxr4eyku",
     "default_authorization_type": "API_KEY",
     "authorization_types": [
       "AMAZON_COGNITO_USER_POOLS",
@@ -413,6 +413,20 @@
               "isRequired": false,
               "attributes": []
             },
+            "isDone": {
+              "name": "isDone",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "percents": {
+              "name": "percents",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "dishes": {
               "name": "dishes",
               "isArray": true,
@@ -429,21 +443,15 @@
                 ]
               }
             },
-            "preparationIngredients": {
-              "name": "preparationIngredients",
+            "ingredients": {
+              "name": "ingredients",
               "isArray": true,
               "type": {
-                "model": "PreparationIngredients"
+                "nonModel": "Ingredients"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "orderId"
-                ]
-              }
+              "isArrayNullable": true
             },
             "createdAt": {
               "name": "createdAt",
@@ -608,121 +616,6 @@
             "primaryKeyFieldName": "id",
             "sortKeyFieldNames": []
           }
-        },
-        "PreparationIngredients": {
-          "name": "PreparationIngredients",
-          "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "orderId": {
-              "name": "orderId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
-            "name": {
-              "name": "name",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "quantity": {
-              "name": "quantity",
-              "isArray": false,
-              "type": "Int",
-              "isRequired": false,
-              "attributes": []
-            },
-            "unit": {
-              "name": "unit",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "checkmark": {
-              "name": "checkmark",
-              "isArray": false,
-              "type": "Boolean",
-              "isRequired": false,
-              "attributes": []
-            },
-            "ingredientId": {
-              "name": "ingredientId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
-            "order": {
-              "name": "order",
-              "isArray": false,
-              "type": {
-                "model": "Orders"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "orderId"
-                ]
-              }
-            },
-            "createdAt": {
-              "name": "createdAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            },
-            "updatedAt": {
-              "name": "updatedAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            }
-          },
-          "syncable": true,
-          "pluralName": "PreparationIngredients",
-          "attributes": [
-            {
-              "type": "model",
-              "properties": {}
-            },
-            {
-              "type": "auth",
-              "properties": {
-                "rules": [
-                  {
-                    "allow": "public",
-                    "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
-                  }
-                ]
-              }
-            }
-          ],
-          "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
-            "sortKeyFieldNames": []
-          }
         }
       },
       "enums": {},
@@ -748,6 +641,13 @@
               "name": "unit",
               "isArray": false,
               "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "checkmark": {
+              "name": "checkmark",
+              "isArray": false,
+              "type": "Boolean",
               "isRequired": false,
               "attributes": []
             }

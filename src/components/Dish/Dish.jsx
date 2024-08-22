@@ -10,15 +10,6 @@ function Dish({ dish }) {
   const [editIsOpened, setEditIsOpened] = useState(false);
   const [ingredients, setIngredients] = useState(dish.ingredients);
 
-  // useEffect(() => {
-  //   client.models.Dishes.observeQuery().subscribe({
-  //     next: (data) =>
-  //       setIngredients(
-  //         data.items.filter(dish.)
-  //       ),
-  //   });
-  // }, []);
-
   const openEdit = () => {
     setEditIsOpened(true);
   };
