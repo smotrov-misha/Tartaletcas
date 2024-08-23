@@ -39,6 +39,8 @@
 }
 
 .edit-dish .cancel-button {
+  min-height: 30px;
+  min-width: 30px;
   background-color: #ffa38d;
 }
 
@@ -166,6 +168,7 @@
   font-size: 2.8vw;
   width: auto;
   padding: 0 5vw;
+  min-height: 30px;
 }
 
 .container img {

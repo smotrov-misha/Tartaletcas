@@ -75,11 +75,21 @@
   padding: 0;
   top: 0;
   right: 0;
+  min-height: 30px;
+  min-width: 30px;
 }
 
 .dishes-item .edit img {
+  position: absolute;
   width: 5vw;
   height: 5vw;
+  min-height: 20px;
+  min-width: 20px;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .text {
