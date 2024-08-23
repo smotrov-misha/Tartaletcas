@@ -14,6 +14,7 @@ function NewTemplate({
   mode,
   closeNewTemplate,
   id,
+  setDishes,
 }) {
   const [name, setName] = useState(templateName || "");
 
@@ -72,6 +73,10 @@ function NewTemplate({
       const newTemplate = { name: name, dishes: realDishAmount, id: id };
       editTemplate(newTemplate, dishesInTemplate);
     } else if (mode === "New Order") {
+      const tempDishes = realDishAmount.map((dish) => {
+        return { ...dish, dishId: dish.id };
+      });
+      setDishes(tempDishes);
     }
     closeNewTemplate();
   };

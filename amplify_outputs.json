@@ -413,6 +413,27 @@
               "isRequired": false,
               "attributes": []
             },
+            "isDone": {
+              "name": "isDone",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "isInHistory": {
+              "name": "isInHistory",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
+            "percents": {
+              "name": "percents",
+              "isArray": false,
+              "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
             "dishes": {
               "name": "dishes",
               "isArray": true,
@@ -429,21 +450,15 @@
                 ]
               }
             },
-            "preparationIngredients": {
-              "name": "preparationIngredients",
+            "ingredients": {
+              "name": "ingredients",
               "isArray": true,
               "type": {
-                "model": "PreparationIngredients"
+                "nonModel": "Ingredients"
               },
               "isRequired": false,
               "attributes": [],
-              "isArrayNullable": true,
-              "association": {
-                "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "orderId"
-                ]
-              }
+              "isArrayNullable": true
             },
             "createdAt": {
               "name": "createdAt",
@@ -608,121 +623,6 @@
             "primaryKeyFieldName": "id",
             "sortKeyFieldNames": []
           }
-        },
-        "PreparationIngredients": {
-          "name": "PreparationIngredients",
-          "fields": {
-            "id": {
-              "name": "id",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": true,
-              "attributes": []
-            },
-            "orderId": {
-              "name": "orderId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
-            "name": {
-              "name": "name",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "quantity": {
-              "name": "quantity",
-              "isArray": false,
-              "type": "Int",
-              "isRequired": false,
-              "attributes": []
-            },
-            "unit": {
-              "name": "unit",
-              "isArray": false,
-              "type": "String",
-              "isRequired": false,
-              "attributes": []
-            },
-            "checkmark": {
-              "name": "checkmark",
-              "isArray": false,
-              "type": "Boolean",
-              "isRequired": false,
-              "attributes": []
-            },
-            "ingredientId": {
-              "name": "ingredientId",
-              "isArray": false,
-              "type": "ID",
-              "isRequired": false,
-              "attributes": []
-            },
-            "order": {
-              "name": "order",
-              "isArray": false,
-              "type": {
-                "model": "Orders"
-              },
-              "isRequired": false,
-              "attributes": [],
-              "association": {
-                "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "orderId"
-                ]
-              }
-            },
-            "createdAt": {
-              "name": "createdAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            },
-            "updatedAt": {
-              "name": "updatedAt",
-              "isArray": false,
-              "type": "AWSDateTime",
-              "isRequired": false,
-              "attributes": [],
-              "isReadOnly": true
-            }
-          },
-          "syncable": true,
-          "pluralName": "PreparationIngredients",
-          "attributes": [
-            {
-              "type": "model",
-              "properties": {}
-            },
-            {
-              "type": "auth",
-              "properties": {
-                "rules": [
-                  {
-                    "allow": "public",
-                    "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
-                  }
-                ]
-              }
-            }
-          ],
-          "primaryKeyInfo": {
-            "isCustomPrimaryKey": false,
-            "primaryKeyFieldName": "id",
-            "sortKeyFieldNames": []
-          }
         }
       },
       "enums": {},
@@ -748,6 +648,13 @@
               "name": "unit",
               "isArray": false,
               "type": "String",
+              "isRequired": false,
+              "attributes": []
+            },
+            "checkmark": {
+              "name": "checkmark",
+              "isArray": false,
+              "type": "Boolean",
               "isRequired": false,
               "attributes": []
             }

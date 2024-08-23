@@ -53,7 +53,7 @@ export const connectTemplateToDishes = async (newTemplate) => {
       return { ...dish, name: name || "Unnamed Dish" };
     })
   );
-  return { ...newTemplate, dishes: dishesWithNames };
+  return dishesWithNames;
 };
 
 export default addTemplate;

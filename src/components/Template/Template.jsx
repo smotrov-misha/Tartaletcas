@@ -8,24 +8,23 @@ import { connectTemplateToDishes } from "../../backend/TemplateChanges";
 function Template({ template }) {
   const [editIsOpened, setEditIsOpened] = useState(false);
   const [startIsOpened, setStartIsOpened] = useState(false);
-  const [templateWithDishes, setTemplateWithDishes] = useState({
-    ...template,
-    dishes: [],
-  });
+  const [dishes, setDishes] = useState([]);
 
   useEffect(() => {
     const fetchDishes = async () => {
       const subscriptionDishesTemplates =
         client.models.DishesTemplates.observeQuery().subscribe({
-          next: async ({ items }) => {
-            const connectTemplate = await connectTemplateToDishes(template);
-            setTemplateWithDishes(connectTemplate);
+          next: async () => {
+            const newDishes = await connectTemplateToDishes(template);
+            setDishes(newDishes);
           },
         });
+
       return () => {
         subscriptionDishesTemplates.unsubscribe();
       };
     };
+
     fetchDishes();
   }, []);
 
@@ -50,7 +49,7 @@ function Template({ template }) {
       <div className="container-for-template">
         <h2 className="template-name">{template.name}</h2>
         <div className="template-dishes">
-          {templateWithDishes.dishes.map((dish) => {
+          {dishes.map((dish) => {
             return (
               <div className="template-dish-container" key={dish.id}>
                 <h3>{dish.name}</h3>
@@ -72,16 +71,16 @@ function Template({ template }) {
         <NewTemplate
           closeNewTemplate={closeEdit}
           templateName={template.name}
-          id={templateWithDishes.id}
+          id={template.id}
           mode="Edit"
-          dishesInTemplate={templateWithDishes.dishes}
+          dishesInTemplate={dishes}
         />
       )}
       {startIsOpened && (
         <OrderEditWindow
           closeNewOrder={closeStart}
           mode="Add"
-          order={{ dishes: templateWithDishes.dishes }}
+          dishes={dishes}
         />
       )}
     </>
