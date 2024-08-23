@@ -1,4 +1,5 @@
 import client from "./Client";
+import { downloadData } from "aws-amplify/storage";
 
 export const deleteDish = async (dish) => {
   const { data: rowsToDelete } = await dish.templates();
@@ -26,7 +27,6 @@ export const editDish = async (dish, file) => {
 };
 
 export const createDish = async (dish, file) => {
-
   const { data: createdDish } = await client.models.Dishes.create({
     name: dish.name,
     image: file.name,
@@ -38,4 +38,12 @@ export const createDish = async (dish, file) => {
   });
 };
 
+export const downloadImage = async (fileName) => {
+  const result = await downloadData({
+    path: `images/${fileName}`,
+  }).result;
+  const blob = await result.body.blob();
+  console.log(blob);
+  return body;
+};
 export default createDish;
