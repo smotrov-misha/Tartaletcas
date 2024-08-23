@@ -4,6 +4,7 @@ import "./Dish.css";
 import edit from "../../assets/pencil.png";
 import DishEditWindow from "../DishEditWindow/DishEditWindow";
 import client from "../../backend/Client";
+import { getUrl } from 'aws-amplify/storage';
 
 function Dish({ dish }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,6 +22,11 @@ function Dish({ dish }) {
   const expand = () => {
     setIsExpanded(!isExpanded);
   };
+
+  const linkToStorageFile = getUrl({
+    path: "images/IMG_3073.jpg"
+  });
+
   return (
     <>
       <div className="dishes-item">
@@ -32,7 +38,7 @@ function Dish({ dish }) {
           className="img-description"
           style={{ justifyContent: dish.image ? "space-between" : "end" }}
         >
-          {dish.image && <img src={dish.image}></img>}
+          {dish.image && <img src={linkToStorageFile.toString()} />}
           {dish.description && <p>{dish.description}</p>}
         </div>
         <button

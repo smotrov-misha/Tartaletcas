@@ -5,6 +5,8 @@ import plus from "../../assets/plus.svg";
 import "./DishEditWindow.css";
 import minus from "../../assets/minus.png";
 import { createDish, editDish, deleteDish } from "../../backend/DishChanges";
+import { uploadData } from 'aws-amplify/storage';
+import { getUrl } from 'aws-amplify/storage';
 
 export function DishEditWindow({ closeNewDish, dish }) {
   const mode = dish ? "edit" : "add";
@@ -18,15 +20,18 @@ export function DishEditWindow({ closeNewDish, dish }) {
     setIngredients([...ingredients, { name: "", quantity: "", unit: "" }]);
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+  const [file, setFile] = useState();
+
+  const handleImageChange = (event) => {
+    const fileImg = event.target.files[0];
+    if (fileImg) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewDish({ ...newDish, image: reader.result });
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(fileImg);
     }
+    setFile(event.target.files[0]);
   };
 
   const deleteIngredient = (id) => (event) => {
@@ -64,9 +69,9 @@ export function DishEditWindow({ closeNewDish, dish }) {
       ...ingredient,
     }));
     if (mode === "add") {
-      createDish(completedDish);
+      createDish(completedDish, file);
     } else if (mode === "edit") {
-      editDish(completedDish);
+      editDish(completedDish, file);
     }
     closeNewDish();
   };
@@ -97,15 +102,23 @@ export function DishEditWindow({ closeNewDish, dish }) {
             className="new-dish-name dish-name"
             onChange={(e) => handleDishChange("name", e.target.value)}
             value={newDish.name || ""}
-          ></input>
+          />
           <div className="image-description">
             <div className="image">
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-              ></input>
-              <button className="choose-file">
+              />
+              <button className="choose-file" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      uploadData({
+                        path: `images/${file.name}`,
+                        data: file,
+                      });
+                    }
+              }>
                 <img src={chooseFile} />
               </button>
               {newDish.image && (

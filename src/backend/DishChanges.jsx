@@ -12,10 +12,10 @@ export const deleteDish = async (dish) => {
   });
 };
 
-export const editDish = async (dish) => {
+export const editDish = async (dish, file) => {
   const { data: updatedDish } = await client.models.Dishes.update({
     name: dish.name,
-    image: dish.image,
+    image: file.name,
     description: dish.description,
     recipe: dish.recipe,
     weight: dish.weight,
@@ -25,10 +25,11 @@ export const editDish = async (dish) => {
   });
 };
 
-export const createDish = async (dish) => {
+export const createDish = async (dish, file) => {
+
   const { data: createdDish } = await client.models.Dishes.create({
     name: dish.name,
-    image: dish.image,
+    image: file.name,
     description: dish.description,
     recipe: dish.recipe,
     weight: dish.weight,
