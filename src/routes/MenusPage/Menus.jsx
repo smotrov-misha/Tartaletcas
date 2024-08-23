@@ -9,7 +9,14 @@ function Menus() {
 
   useEffect(() => {
     const subscriptionOrders = client.models.Orders.observeQuery({
-      selectionSet: ["id", "name", "isDone", "prepared", "percents"],
+      selectionSet: [
+        "id",
+        "name",
+        "isDone",
+        "prepared",
+        "percents",
+        "isInHistory",
+      ],
     }).subscribe({
       next: ({ items }) => {
         setAllItems(items.map((item) => ({ ...item })));
@@ -23,10 +30,14 @@ function Menus() {
   return (
     <>
       <InWorkSection
-        inWorkItems={allItems.filter((item) => item.prepared === true)}
+        inWorkItems={allItems.filter(
+          (item) => item.prepared === true && item.isInHistory !== true
+        )}
       />
       <PreparationSection
-        preparationItems={allItems.filter((item) => item.prepared === false)}
+        preparationItems={allItems.filter(
+          (item) => item.prepared === false && item.isInHistory !== true
+        )}
       />
       <TemplateSection />
     </>

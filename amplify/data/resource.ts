@@ -43,6 +43,7 @@ const schema = a
       deadline: a.string(),
       prepared: a.boolean(),
       isDone: a.boolean(),
+      isInHistory: a.boolean().default(false),
       percents: a.string().default("0%"),
       dishes: a.hasMany("OrdersDishes", "orderId"),
       ingredients: a.ref("Ingredients").array(),

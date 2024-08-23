@@ -420,6 +420,13 @@
               "isRequired": false,
               "attributes": []
             },
+            "isInHistory": {
+              "name": "isInHistory",
+              "isArray": false,
+              "type": "Boolean",
+              "isRequired": false,
+              "attributes": []
+            },
             "percents": {
               "name": "percents",
               "isArray": false,

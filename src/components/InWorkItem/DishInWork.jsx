@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateQuantityMade } from "../../backend/InWorkChanges";
-function DishInWork({ dish }) {
+function DishInWork({ dish, index, changeDishQuantity }) {
   const {
     quantity: quantity,
     quantityMade: quantityMade,
@@ -13,7 +13,7 @@ function DishInWork({ dish }) {
   );
 
   useEffect(() => {
-    updateQuantityMade(id, howManyMade);
+    changeDishQuantity(index, howManyMade);
   }, [howManyMade]);
 
   const increment = () => {

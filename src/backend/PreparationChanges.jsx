@@ -73,6 +73,7 @@ export const updateOrder = async (order) => {
     prepared: order.prepared,
     isDone: false,
     ingredients: ingredients,
+    percents: "0%",
   });
   for (const dish of order.dishes) {
     await client.models.OrdersDishes.create({

@@ -6,10 +6,11 @@ import client from "../../backend/Client";
 import { connectInfoToDishes } from "../../backend/PreparationChanges";
 import OrderEditWindow from "../OrderEditWindow/OrderEditWindow";
 
-function Info({ id, closeInfo }) {
+function Info({ id, closeInfo, unexpand }) {
   const [editIsOn, setEditIsOn] = useState(false);
   const [info, setInfo] = useState({});
   useEffect(() => {
+    unexpand(false);
     const subscriptionOrders = client.models.Orders.observeQuery({
       selectionSet: [
         "id",

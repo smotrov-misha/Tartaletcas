@@ -26,7 +26,6 @@ function NewTemplate({
 
   useEffect(() => {
     const fetchDishNames = async () => {
-      console.log(dishesInTemplate);
       try {
         const { data: dishNames } = await client.models.Dishes.list({
           selectionSet: ["id", "name"],
@@ -77,7 +76,6 @@ function NewTemplate({
       const tempDishes = realDishAmount.map((dish) => {
         return { ...dish, dishId: dish.id };
       });
-      console.log(tempDishes);
       setDishes(tempDishes);
     }
     closeNewTemplate();

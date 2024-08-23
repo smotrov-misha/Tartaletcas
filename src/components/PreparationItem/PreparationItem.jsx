@@ -65,7 +65,9 @@ function PreparationItem({ name, id, isDone }) {
           Done
         </button>
       </div>
-      {infoIsOpened && <Info closeInfo={closeInfo} id={id} />}
+      {infoIsOpened && (
+        <Info closeInfo={closeInfo} id={id} unexpand={setIsExpanded} />
+      )}
     </>
   );
 }

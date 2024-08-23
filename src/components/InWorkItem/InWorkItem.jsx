@@ -1,16 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import dropArrow from "../../assets/drop_down_arrow.png";
 import infoButton from "../../assets/infromation-button.png";
 import Info from "../Info/Info";
 import "./InWorkItem.css";
 import InWorkDishes from "./InWorkDishes";
+import { updatePercentage, putToHistory } from "../../backend/InWorkChanges";
 
 function InWorkItem({ item }) {
-  const { name, id, isDone, percents } = item;
+  const { name, id, percents } = item;
+  const [isDone, setIsDone] = useState(item.isDone);
   const [isExpanded, setIsExpanded] = useState(false);
   const allChecked = isDone;
   const [infoIsOpened, setInfoIsOpened] = useState(false);
-  const width = percents;
+  const [width, setWidth] = useState(percents);
+  const widthRef = useRef(width);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      updatePercentage(widthRef.current, id);
+      event.preventDefault();
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  useEffect(() => {
+    setWidth(percents);
+  }, [percents]);
+
+  useEffect(() => {
+    widthRef.current = width;
+    width === "100.00%" ? setIsDone(true) : setIsDone(false);
+  }, [width]);
+
+  useEffect(() => {
+    return () => {
+      updatePercentage(widthRef.current, id);
+    };
+  }, []);
 
   const expand = () => {
     setIsExpanded(!isExpanded);
@@ -21,32 +51,13 @@ function InWorkItem({ item }) {
   };
 
   const openInfo = () => {
+    updatePercentage(widthRef.current, id);
     setInfoIsOpened(true);
   };
 
-  // const sumOfDishes = item.dishes.reduce((accumulator, dish) => {
-  //   return accumulator + Number(dish.amount);
-  // }, 0);
-
-  // let sumOfAmountOfDishes = amountOfDishes.reduce((accumulator, amount) => {
-  //   return accumulator + Number(amount);
-  // }, 0);
-
-  // let proportionProgressBar = sumOfAmountOfDishes / sumOfDishes;
-
-  // const changeDishAmount = (howManyMade, i) => {
-  //   let newAmountOfDishes = [...amountOfDishes];
-  //   let newSumOfAmountOfDishes =
-  //     sumOfAmountOfDishes - Number(newAmountOfDishes[i]) + Number(howManyMade);
-  //   let percentage = (newSumOfAmountOfDishes / sumOfDishes) * 100;
-  //   newAmountOfDishes[i] = Number(howManyMade);
-  //   setAmountOfDishes(newAmountOfDishes);
-  //   setWidth(percentage + "%");
-  // };
-
   const itemIsDone = () => {
-    item.toDo = "delete";
-    changeInWorkItems(item);
+    updatePercentage(widthRef.current, id);
+    putToHistory(id);
   };
 
   return (
@@ -75,7 +86,7 @@ function InWorkItem({ item }) {
         <div className="full-progress">
           <div className="real-progress" style={{ width: width }}></div>
         </div>
-        {isExpanded && <InWorkDishes itemId={id} />}
+        {isExpanded && <InWorkDishes itemId={id} setPercentage={setWidth} />}
         <button
           className="button-in-prep"
           style={{
@@ -84,12 +95,14 @@ function InWorkItem({ item }) {
             bottom: isExpanded ? "20px" : "",
             top: isExpanded ? "" : "20px",
           }}
-          onClick={"itemIsDone"}
+          onClick={itemIsDone}
         >
           Done
         </button>
       </div>
-      {infoIsOpened && <Info closeInfo={closeInfo} id={id} />}
+      {infoIsOpened && (
+        <Info closeInfo={closeInfo} id={id} unexpand={setIsExpanded} />
+      )}
     </>
   );
 }
