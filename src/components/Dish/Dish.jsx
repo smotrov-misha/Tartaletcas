@@ -34,7 +34,9 @@ function Dish({ dish }) {
           className="img-description"
           style={{ justifyContent: dish.image ? "space-between" : "end" }}
         >
-          {dish.image && <StorageImage path={`images/${dish.id}.${dish.image}`} />}
+          {dish.image && (
+            <StorageImage path={`images/${dish.id}.${dish.image}`} />
+          )}
           {dish.description && <p>{dish.description}</p>}
         </div>
         <button

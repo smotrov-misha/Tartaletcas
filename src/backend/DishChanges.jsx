@@ -53,7 +53,7 @@ export const createDish = async (dish, file) => {
     calories: dish.calories,
     ingredients: [...dish.ingredients],
   });
-  uploadData({
+  await uploadData({
     path: `images/${createdDish.id}.${createdDish.image}`,
     data: file,
   });
