@@ -112,13 +112,6 @@ export function DishEditWindow({ closeNewDish, dish }) {
               />
               <button
                 className="choose-file"
-                onClick={(e) => {
-                  e.preventDefault();
-                  uploadData({
-                    path: `images/${file.name}`,
-                    data: file,
-                  });
-                }}
               >
                 <img src={chooseFile} />
               </button>
