@@ -1,9 +1,9 @@
 {
   "auth": {
-    "user_pool_id": "eu-north-1_kFBXDID2F",
+    "user_pool_id": "eu-north-1_YdOfqOotT",
     "aws_region": "eu-north-1",
-    "user_pool_client_id": "76q2bn39n206gmpbdgdtr6pq5u",
-    "identity_pool_id": "eu-north-1:ada6d3ae-e040-4379-a02e-3644b8454b47",
+    "user_pool_client_id": "2gf8hp7q4g243c43kciggghepq",
+    "identity_pool_id": "eu-north-1:db3787ef-89f0-4e48-b45f-d9655187b035",
     "mfa_methods": [],
     "standard_required_attributes": [
       "email"
@@ -25,9 +25,9 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://ei4vpk2mhnfszae6cf7gorxtbe.appsync-api.eu-north-1.amazonaws.com/graphql",
+    "url": "https://gtemq5pzsfhz7ialbkq6pjnyu4.appsync-api.eu-north-1.amazonaws.com/graphql",
     "aws_region": "eu-north-1",
-    "api_key": "da2-pd2rxy6575fgzhfo77oxr4eyku",
+    "api_key": "da2-xxvnpvvx6fd3piuu6fuzuv2opq",
     "default_authorization_type": "API_KEY",
     "authorization_types": [
       "AMAZON_COGNITO_USER_POOLS",
@@ -665,7 +665,7 @@
   },
   "storage": {
     "aws_region": "eu-north-1",
-    "bucket_name": "amplify-tartaletcas-egorharch-imagesbucket02b0ac5a-qgkkx5swsypz"
+    "bucket_name": "amplify-tartaletcas-egorharch-imagesbucket02b0ac5a-qqzasqzhigrt"
   },
   "version": "1"
 }

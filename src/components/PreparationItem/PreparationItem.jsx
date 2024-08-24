@@ -22,27 +22,26 @@ function PreparationItem({ name, id, isDone }) {
 
   return (
     <>
-      <div
-        className="work-prep-item prep-item"
-        style={{
-          paddingBottom: isExpanded
-            ? allChecked
-              ? "80px"
-              : "20px"
-            : allChecked
-            ? "0px"
-            : "0px",
-        }}
-      >
+      <div className="work-prep-item prep-item">
         <div className="work-prep-things">
           <div className="name-n-info">
             <h2 className="item-name">{name}</h2>
             <button onClick={openInfo}>
               <img src={infoButton} alt="Info" />
             </button>
+            <button
+              className="button-in-prep"
+              style={{
+                opacity: allChecked ? "1" : "0",
+                transform: allChecked ? "scale(1)" : "scale(0)",
+              }}
+              onClick={chngSection}
+            >
+              Done
+            </button>
           </div>
           <button
-            id="arrow"
+            className="arrow"
             onClick={expand}
             style={{
               transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
@@ -51,19 +50,12 @@ function PreparationItem({ name, id, isDone }) {
             <img src={dropArrow} alt="Expand/Collapse" />
           </button>
         </div>
-        {isExpanded && <Products itemId={id} />}
-        <button
-          className="button-in-prep"
-          style={{
-            opacity: allChecked ? "1" : "0",
-            transform: allChecked ? "scale(1)" : "scale(0)",
-            bottom: isExpanded ? "20px" : "",
-            top: isExpanded ? "" : "20px",
-          }}
-          onClick={chngSection}
-        >
-          Done
-        </button>
+        {isExpanded && (
+          <>
+            <div className="prep-item-margin"></div>
+            <Products itemId={id} />
+          </>
+        )}
       </div>
       {infoIsOpened && (
         <Info closeInfo={closeInfo} id={id} unexpand={setIsExpanded} />

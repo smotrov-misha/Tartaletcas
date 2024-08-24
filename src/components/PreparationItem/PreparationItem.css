@@ -1,31 +1,48 @@
 .item-name {
   display: inline;
-  font-size: 32px;
-  margin-right: 30px;
+  font-size: 25px;
+  margin: 0 30px 0 0;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+@media screen and (max-width: 700px) {
+  .item-name {
+    font-size: 18px;
+    margin: 0 15px 0 0;
+  }
 }
 
 .work-prep-things {
   display: flex;
-  margin: 40px 40px 10px 40px;
   justify-content: space-between;
+  align-items: center;
 }
 
 .work-prep-things button img,
 .arrow img {
-  width: 48px;
-  height: 48px;
+  width: 30px;
+  height: 30px;
   opacity: 0.8;
+}
+
+.work-prep-things .arrow {
+  position: static;
+  translate: 0;
 }
 
 .work-prep-things button {
   background-color: transparent;
   border: none;
+  padding: 0;
+  height: 30px;
+  width: 30px;
 }
 
 .work-prep-item {
   background-color: rgba(0, 0, 0, 10%);
-  margin: 0 55px;
-  padding-bottom: 10px;
+  margin: 20px 3vw;
+  padding: 10px 20px;
   border-radius: 15px;
   transition: all 0.3s ease;
   position: relative;
@@ -37,13 +54,17 @@
 
 .name-n-info {
   display: flex;
+  align-items: center;
+}
+
+.prep-item-margin {
+  height: 10px;
 }
 
 .product-in-prep {
   display: flex;
-
   justify-content: space-between;
-  margin: 0 40px;
+  margin-top: 10px;
 }
 
 .name-of-dish,
@@ -58,20 +79,18 @@
 .product-in-prep div {
   display: flex;
   align-items: center;
-  /* width: 100%; */
 }
 
 .product-in-prep h3 {
-  margin: 10px 0;
+  margin: 0;
 }
 
 .check-dishes,
 .check-product {
   display: block;
   position: relative;
-  margin: 0 45px 45px 45px;
+  margin: 0 25px 25px 25px;
   cursor: pointer;
-  /* font-size: 22px; */
 }
 
 .check-dishes input,
@@ -87,8 +106,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  height: 45px;
-  width: 45px;
+  height: 25px;
+  width: 25px;
   background-color: #12e3e6;
   border-radius: 50%;
   transition: all 0.2s ease;
@@ -117,12 +136,12 @@
 
 .check-dishes .checkmark:after,
 .check-product .checkmark:after {
-  left: 16px;
-  top: 10px;
-  width: 9px;
-  height: 18px;
+  left: 8px;
+  top: 4px;
+  width: 7px;
+  height: 13px;
   border: solid rgb(0, 0, 0);
-  border-width: 0 3px 3px 0;
+  border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -133,13 +152,12 @@
   background-color: #12e3e6;
   color: #2c2c2c;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 20px;
   height: auto;
-  padding: 10px 40px;
+  padding: 5px 20px;
   width: auto;
-  position: absolute;
-  right: 50%;
-  translate: 50%;
+  margin-left: 30px;
+  margin-right: 30px;
   transition: all 0.3s ease;
   opacity: 0;
 }
@@ -150,20 +168,4 @@
 
 .work-prep-item .button-in-prep:hover {
   box-shadow: 0px -1px 40px 0px #12e3e6;
-}
-
-.prep-item .button-in-prep,
-.work-prep-item .button-in-prep {
-  background-color: #12e3e6;
-  color: #2c2c2c;
-  font-weight: 600;
-  font-size: 24px;
-  height: auto;
-  padding: 10px 40px;
-  width: auto;
-  position: absolute;
-  right: 50%;
-  translate: 50%;
-  transition: all 0.3s ease;
-  opacity: 0;
 }

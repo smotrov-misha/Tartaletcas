@@ -20,7 +20,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
     setIngredients([...ingredients, { name: "", quantity: "", unit: "" }]);
   };
 
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState();
 
   const handleImageChange = (event) => {
     const fileImg = event.target.files[0];

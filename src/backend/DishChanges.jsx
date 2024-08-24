@@ -16,7 +16,7 @@ export const deleteDish = async (dish) => {
 export const editDish = async (dish, file) => {
   const { data: updatedDish } = await client.models.Dishes.update({
     name: dish.name,
-    image: file.name,
+    image: "",
     description: dish.description,
     recipe: dish.recipe,
     weight: dish.weight,

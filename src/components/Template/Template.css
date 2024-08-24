@@ -1,22 +1,27 @@
 .template-name {
+  font-size: 25px;
   display: block;
-  margin: 20px;
+  margin: 20px 10px 10px 10px;
   text-align: center;
 }
 
+@media screen and (max-width: 700px) {
+  .template-name {
+    font-size: 18px;
+  }
+}
 .template-dish-container {
   display: flex;
   justify-content: space-between;
 }
 
 .template-dish-container h3 {
-  font-size: 24px;
+  font-size: 20px;
   margin: 3px 0;
 }
 
 .template-dishes {
-  margin: 0 20px 40px 20px;
-  max-height: 60%;
+  margin: 0 10px 30px 10px;
   overflow-y: auto;
   padding-right: 10px;
 }
@@ -27,8 +32,8 @@
   background-color: #12e3e6;
   color: #2c2c2c;
   font-weight: 600;
-  font-size: 24px;
-  padding: 15px;
+  font-size: 20px;
+  padding: 5px;
 }
 
 .template-button:hover {
@@ -41,8 +46,8 @@
   gap: 10px;
   position: absolute;
   bottom: 10px;
-  left: 20px;
-  right: 20px;
+  left: 10px;
+  right: 10px;
 }
 
 .container-for-template {
