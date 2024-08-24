@@ -5,6 +5,7 @@ import edit from "../../assets/pencil.png";
 import DishEditWindow from "../DishEditWindow/DishEditWindow";
 import client from "../../backend/Client";
 import { downloadImage } from "../../backend/DishChanges";
+import { StorageImage } from "@aws-amplify/ui-react-storage";
 
 function Dish({ dish }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -34,7 +35,7 @@ function Dish({ dish }) {
           className="img-description"
           style={{ justifyContent: dish.image ? "space-between" : "end" }}
         >
-          {dish.image && <img src={downloadImage()} />}
+          {dish.image && <StorageImage path={`images/${dish.image}`} />}
           {dish.description && <p>{dish.description}</p>}
         </div>
         <button

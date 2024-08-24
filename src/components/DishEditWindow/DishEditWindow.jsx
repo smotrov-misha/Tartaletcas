@@ -5,8 +5,8 @@ import plus from "../../assets/plus.svg";
 import "./DishEditWindow.css";
 import minus from "../../assets/minus.png";
 import { createDish, editDish, deleteDish } from "../../backend/DishChanges";
-import { uploadData } from 'aws-amplify/storage';
-import { getUrl } from 'aws-amplify/storage';
+import { uploadData } from "aws-amplify/storage";
+import { getUrl } from "aws-amplify/storage";
 
 export function DishEditWindow({ closeNewDish, dish }) {
   const mode = dish ? "edit" : "add";
@@ -20,7 +20,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
     setIngredients([...ingredients, { name: "", quantity: "", unit: "" }]);
   };
 
-  const [file, setFile] = useState();
+  const [file, setFile] = useState({});
 
   const handleImageChange = (event) => {
     const fileImg = event.target.files[0];
@@ -110,15 +110,16 @@ export function DishEditWindow({ closeNewDish, dish }) {
                 accept="image/*"
                 onChange={handleImageChange}
               />
-              <button className="choose-file" 
-                    onClick={(e) => {
-                      e.preventDefault();
-                      uploadData({
-                        path: `images/${file.name}`,
-                        data: file,
-                      });
-                    }
-              }>
+              <button
+                className="choose-file"
+                onClick={(e) => {
+                  e.preventDefault();
+                  uploadData({
+                    path: `images/${file.name}`,
+                    data: file,
+                  });
+                }}
+              >
                 <img src={chooseFile} />
               </button>
               {newDish.image && (
