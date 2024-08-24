@@ -1,7 +1,11 @@
 import client from "./Client";
-import { downloadData } from "aws-amplify/storage";
+import { uploadData } from "aws-amplify/storage";
+import { remove } from "aws-amplify/storage";
 
 export const deleteDish = async (dish) => {
+  await remove({
+    path: `images/${dish.id}.${dish.image}`,
+  });
   const { data: rowsToDelete } = await dish.templates();
   for (const row of rowsToDelete) {
     await client.models.DishesTemplates.delete({
@@ -14,9 +18,22 @@ export const deleteDish = async (dish) => {
 };
 
 export const editDish = async (dish, file) => {
+  let imageExt;
+  if (file) {
+    await remove({
+      path: `images/${dish.id}.${dish.image}`,
+    });
+
+    imageExt = file.name.split(".").pop();
+    uploadData({
+      path: `images/${dish.id}.${imageExt}`,
+      data: file,
+    });
+  }
+
   const { data: updatedDish } = await client.models.Dishes.update({
     name: dish.name,
-    image: "",
+    image: file ? imageExt : dish.image,
     description: dish.description,
     recipe: dish.recipe,
     weight: dish.weight,
@@ -29,21 +46,17 @@ export const editDish = async (dish, file) => {
 export const createDish = async (dish, file) => {
   const { data: createdDish } = await client.models.Dishes.create({
     name: dish.name,
-    image: file.name,
     description: dish.description,
+    image: file.name.split(".").pop(),
     recipe: dish.recipe,
     weight: dish.weight,
     calories: dish.calories,
     ingredients: [...dish.ingredients],
   });
+  uploadData({
+    path: `images/${createdDish.id}.${createdDish.image}`,
+    data: file,
+  });
 };
 
-export const downloadImage = async (fileName) => {
-  const result = await downloadData({
-    path: `images/${fileName}`,
-  }).result;
-  const blob = await result.body.blob();
-  console.log(blob);
-  return body;
-};
 export default createDish;
