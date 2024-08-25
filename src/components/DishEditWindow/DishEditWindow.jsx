@@ -89,7 +89,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
       <div className="container edit-dish">
         <div className="info-buttons">
           <button className="cancel-button" onClick={closeNewDish}>
-            <img src={cross_button}></img>
+            <img src={cross_button}/>
           </button>
           {mode === "edit" && (
             <button className="delete-button" onClick={(e) => delDish(e)}>
