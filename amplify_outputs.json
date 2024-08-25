@@ -1,19 +1,13 @@
 {
   "auth": {
-    "user_pool_id": "eu-north-1_tEmSO2Fmc",
+    "user_pool_id": "eu-north-1_YdOfqOotT",
     "aws_region": "eu-north-1",
-    "user_pool_client_id": "37rgjhuqmvid35eir2tv3o17tj",
-    "identity_pool_id": "eu-north-1:8a534ae3-cb67-421e-bdd5-71d19a35dd45",
+    "user_pool_client_id": "2gf8hp7q4g243c43kciggghepq",
+    "identity_pool_id": "eu-north-1:db3787ef-89f0-4e48-b45f-d9655187b035",
     "mfa_methods": [],
-    "standard_required_attributes": [
-      "email"
-    ],
-    "username_attributes": [
-      "email"
-    ],
-    "user_verification_types": [
-      "email"
-    ],
+    "standard_required_attributes": ["email"],
+    "username_attributes": ["email"],
+    "user_verification_types": ["email"],
     "mfa_configuration": "NONE",
     "password_policy": {
       "min_length": 8,
@@ -25,14 +19,11 @@
     "unauthenticated_identities_enabled": true
   },
   "data": {
-    "url": "https://4mcrmzqrmnfx5b2po4cbrw4lzm.appsync-api.eu-north-1.amazonaws.com/graphql",
+    "url": "https://gtemq5pzsfhz7ialbkq6pjnyu4.appsync-api.eu-north-1.amazonaws.com/graphql",
     "aws_region": "eu-north-1",
-    "api_key": "da2-6pm4jvzlovacrphfrjh2d5j2ja",
+    "api_key": "da2-xxvnpvvx6fd3piuu6fuzuv2opq",
     "default_authorization_type": "API_KEY",
-    "authorization_types": [
-      "AMAZON_COGNITO_USER_POOLS",
-      "AWS_IAM"
-    ],
+    "authorization_types": ["AMAZON_COGNITO_USER_POOLS", "AWS_IAM"],
     "model_introspection": {
       "version": 1,
       "models": {
@@ -109,9 +100,7 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "dishId"
-                ]
+                "associatedWith": ["dishId"]
               }
             },
             "orders": {
@@ -125,9 +114,7 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "dishId"
-                ]
+                "associatedWith": ["dishId"]
               }
             },
             "createdAt": {
@@ -161,12 +148,7 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
+                    "operations": ["create", "update", "delete", "read"]
                   }
                 ]
               }
@@ -206,9 +188,7 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "templateId"
-                ]
+                "associatedWith": ["templateId"]
               }
             },
             "createdAt": {
@@ -242,12 +222,7 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
+                    "operations": ["create", "update", "delete", "read"]
                   }
                 ]
               }
@@ -300,9 +275,7 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "templateId"
-                ]
+                "targetNames": ["templateId"]
               }
             },
             "dish": {
@@ -315,9 +288,7 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "dishId"
-                ]
+                "targetNames": ["dishId"]
               }
             },
             "createdAt": {
@@ -351,12 +322,7 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
+                    "operations": ["create", "update", "delete", "read"]
                   }
                 ]
               }
@@ -445,9 +411,7 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": [
-                  "orderId"
-                ]
+                "associatedWith": ["orderId"]
               }
             },
             "ingredients": {
@@ -491,12 +455,7 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
+                    "operations": ["create", "update", "delete", "read"]
                   }
                 ]
               }
@@ -556,9 +515,7 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "orderId"
-                ]
+                "targetNames": ["orderId"]
               }
             },
             "dish": {
@@ -571,9 +528,7 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": [
-                  "dishId"
-                ]
+                "targetNames": ["dishId"]
               }
             },
             "createdAt": {
@@ -607,12 +562,7 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": [
-                      "create",
-                      "update",
-                      "delete",
-                      "read"
-                    ]
+                    "operations": ["create", "update", "delete", "read"]
                   }
                 ]
               }
@@ -665,7 +615,7 @@
   },
   "storage": {
     "aws_region": "eu-north-1",
-    "bucket_name": "amplify-tartaletcas-smotrov-s-imagesbucket02b0ac5a-qlbxwqt2vzcq"
+    "bucket_name": "amplify-tartaletcas-egorharch-imagesbucket02b0ac5a-qqzasqzhigrt"
   },
   "version": "1"
 }

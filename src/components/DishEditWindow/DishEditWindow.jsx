@@ -21,7 +21,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
     setIngredients([...ingredients, { name: "", quantity: "", unit: "" }]);
   };
 
-  const [file, setFile] = useState({});
+  const [file, setFile] = useState();
 
   const handleImageChange = (event) => {
     const fileImg = event.target.files[0];
@@ -66,6 +66,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
       return alert("Information about ingredients isn't completed");
     if (!newDish.name) return alert("Dish doesn't have a name");
     const completedDish = { ...newDish };
+    completedDish.image = dish.image;
     completedDish.ingredients = ingredients.map((ingredient) => ({
       ...ingredient,
     }));
@@ -111,15 +112,18 @@ export function DishEditWindow({ closeNewDish, dish }) {
                 accept="image/*"
                 onChange={handleImageChange}
               />
-              <button
-                className="choose-file"
-              >
+              <button className="choose-file">
                 <img src={chooseFile} />
               </button>
-              {newDish.image && 
-                <StorageImage path={`images/${newDish.id}.${newDish.image}`} 
-                              alt="dish" 
-                              className="dish-image"/>}
+              {file && (
+                <img src={newDish.image} alt="dish" className="dish-image" />
+              )}
+              {!file && dish.image && (
+                <StorageImage
+                  path={`images/${dish.id}.${dish.image}`}
+                  className="dish-image"
+                />
+              )}
             </div>
             <div className="description">
               <h3 className="small-title">Description</h3>

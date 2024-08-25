@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 13vw 3vw 0 3vw;
+  margin: 0 3vw 3vw 3vw;
 }
 
 .dishes-top-items .top-title {
@@ -42,11 +42,12 @@
   border-radius: 15px;
   font-family: system-ui, -apple-system;
   font-weight: 100;
-  font-size: 2.5vw;
-  min-height: 5vw;
+  font-size: 25px;
+  height: 50px;
+  max-width: 300px;
   width: 25vw;
-  padding-left: 1vw;
-  padding-right: 5.5vw;
+  padding-left: 10px;
+  padding-right: 50px;
 }
 
 .dishes-top-items .search {
@@ -58,7 +59,7 @@
   width: 20%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   .dishes-top-items .search input {
     height: 30px;
   }

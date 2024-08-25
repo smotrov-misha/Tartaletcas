@@ -62,15 +62,22 @@ function InWorkItem({ item }) {
 
   return (
     <>
-      <div
-        className="work-prep-item"
-        style={isExpanded && allChecked ? { paddingBottom: "80px" } : {}}
-      >
+      <div className="work-prep-item">
         <div className="work-prep-things">
           <div className="name-n-info">
             <h2 className="item-name">{name}</h2>
             <button onClick={openInfo}>
               <img src={infoButton}></img>
+            </button>
+            <button
+              className="button-in-prep"
+              style={{
+                opacity: allChecked ? "1" : "0",
+                transform: allChecked ? "scale(1)" : "scale(0)",
+              }}
+              onClick={itemIsDone}
+            >
+              Done
             </button>
           </div>
           <button
@@ -86,19 +93,12 @@ function InWorkItem({ item }) {
         <div className="full-progress">
           <div className="real-progress" style={{ width: width }}></div>
         </div>
-        {isExpanded && <InWorkDishes itemId={id} setPercentage={setWidth} />}
-        <button
-          className="button-in-prep"
-          style={{
-            opacity: allChecked ? "1" : "0",
-            transform: allChecked ? "scale(1)" : "scale(0)",
-            bottom: isExpanded ? "20px" : "",
-            top: isExpanded ? "" : "20px",
-          }}
-          onClick={itemIsDone}
-        >
-          Done
-        </button>
+        {isExpanded && (
+          <>
+            <div className="prep-item-margin"></div>
+            <InWorkDishes itemId={id} setPercentage={setWidth} />
+          </>
+        )}
       </div>
       {infoIsOpened && (
         <Info closeInfo={closeInfo} id={id} unexpand={setIsExpanded} />

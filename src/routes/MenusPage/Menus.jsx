@@ -3,6 +3,7 @@ import PreparationSection from "../../components/PreparationSection/PreparationS
 import TemplateSection from "../../components/TemplateSection/TemplateSection";
 import client from "../../backend/Client";
 import { useState, useEffect } from "react";
+import "./Menus.css";
 
 function Menus() {
   const [allItems, setAllItems] = useState([]);
@@ -29,16 +30,18 @@ function Menus() {
 
   return (
     <>
-      <InWorkSection
-        inWorkItems={allItems.filter(
-          (item) => item.prepared === true && item.isInHistory !== true
-        )}
-      />
-      <PreparationSection
-        preparationItems={allItems.filter(
-          (item) => item.prepared === false && item.isInHistory !== true
-        )}
-      />
+      <div className="in-work-prep-grid">
+        <InWorkSection
+          inWorkItems={allItems.filter(
+            (item) => item.prepared === true && item.isInHistory !== true
+          )}
+        />
+        <PreparationSection
+          preparationItems={allItems.filter(
+            (item) => item.prepared === false && item.isInHistory !== true
+          )}
+        />
+      </div>
       <TemplateSection />
     </>
   );
