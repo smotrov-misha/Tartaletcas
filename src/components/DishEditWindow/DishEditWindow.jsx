@@ -7,6 +7,7 @@ import minus from "../../assets/minus.png";
 import { createDish, editDish, deleteDish } from "../../backend/DishChanges";
 import { uploadData } from "aws-amplify/storage";
 import { getUrl } from "aws-amplify/storage";
+import { StorageImage } from "@aws-amplify/ui-react-storage";
 
 export function DishEditWindow({ closeNewDish, dish }) {
   const mode = dish ? "edit" : "add";
@@ -87,7 +88,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
       <div className="container edit-dish">
         <div className="info-buttons">
           <button className="cancel-button" onClick={closeNewDish}>
-            <img src={cross_button}></img>
+            <img src={cross_button}/>
           </button>
           {mode === "edit" && (
             <button className="delete-button" onClick={(e) => delDish(e)}>
@@ -115,9 +116,10 @@ export function DishEditWindow({ closeNewDish, dish }) {
               >
                 <img src={chooseFile} />
               </button>
-              {newDish.image && (
-                <img src={newDish.image} alt="dish" className="dish-image" />
-              )}
+              {newDish.image && 
+                <StorageImage path={`images/${newDish.id}.${newDish.image}`} 
+                              alt="dish" 
+                              className="dish-image"/>}
             </div>
             <div className="description">
               <h3 className="small-title">Description</h3>

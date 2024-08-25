@@ -20,10 +20,11 @@ export const deleteDish = async (dish) => {
 export const editDish = async (dish, file) => {
   let imageExt;
   if(file){
+    console.log(`images/${dish.id}.${dish.image}`); 
     await remove({ 
       path: `images/${dish.id}.${dish.image}`,
     });
-
+    console.log(true);
     imageExt = file.name.split('.').pop()
     uploadData({
       path: `images/${dish.id}.${imageExt}`,
