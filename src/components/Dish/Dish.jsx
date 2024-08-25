@@ -10,6 +10,22 @@ function Dish({ dish }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editIsOpened, setEditIsOpened] = useState(false);
   const [ingredients, setIngredients] = useState(dish.ingredients);
+  const [imageExists, setImageExists] = useState(false);
+
+  useEffect(() => {
+    const checkImageExistence = async () => {
+      try {
+        await Storage.get(`images/${dish.id}.${dish.image}`);
+        setImageExists(true);
+      } catch (error) {
+        console.log("Image not found yet, retrying...");
+        setTimeout(checkImageExistence, 1000);
+      }
+    };
+    if (dish.image) {
+      checkImageExistence();
+    }
+  }, [dish.image, dish.id]);
 
   const openEdit = () => {
     setEditIsOpened(true);
@@ -34,7 +50,7 @@ function Dish({ dish }) {
           className="img-description"
           style={{ justifyContent: dish.image ? "space-between" : "end" }}
         >
-          {dish.image && (
+          {imageExists && (
             <StorageImage path={`images/${dish.id}.${dish.image}`} />
           )}
           {dish.description && <p>{dish.description}</p>}
