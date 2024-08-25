@@ -59,8 +59,28 @@
   width: 20%;
 }
 
+.dish-items {
+  margin: 0 3vw 20px 3vw;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 0.5fr));
+  align-items: flex-start;
+}
+
 @media screen and (max-width: 700px) {
   .dishes-top-items .search input {
-    height: 30px;
+    height: 25px;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  .dish-items {
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .dish-items {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   }
 }

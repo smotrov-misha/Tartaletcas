@@ -9,11 +9,14 @@
   margin: 0 3vw 6vw 3vw;
   display: grid;
   gap: 3vw;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 0.33fr));
 }
 
 @media screen and (max-width: 700px) {
   .above-part-templates {
     margin-top: 0;
+  }
+  .templates-grid {
+    grid-template-columns: repeat(auto-fit, minmax(170px, 0.5fr));
   }
 }

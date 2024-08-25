@@ -43,21 +43,6 @@
   margin-top: 0px;
 }
 
-.container textarea {
-  width: calc(100% - 20px);
-  display: block;
-  height: 15vw;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: none;
-  border-radius: 15px;
-  font-family: Helvetica, sans-serif;
-  font-weight: 200;
-  font-size: 2.4vw;
-  padding: 10px;
-  margin: 2.5vw auto;
-  color: #2c2c2c;
-}
-
 .deadline-new-container {
   display: flex;
   justify-content: space-between;

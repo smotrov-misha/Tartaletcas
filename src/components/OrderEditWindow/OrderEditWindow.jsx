@@ -46,6 +46,7 @@ function OrderEditWindow({ dishes, newOrder, mode, closeNewOrder }) {
           <input
             type="text"
             placeholder="Order name"
+            maxLength="20"
             className="new-order-name"
             onChange={(e) => handleOrder(e, "name")}
             value={order.name || ""}
