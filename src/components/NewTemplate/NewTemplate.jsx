@@ -110,6 +110,7 @@ function NewTemplate({
               <input
                 type="text"
                 placeholder="Template name"
+                maxLength="20"
                 className="new-template-name"
                 onChange={handleNameChange}
                 value={name}

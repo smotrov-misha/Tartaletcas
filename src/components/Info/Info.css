@@ -70,7 +70,4 @@
 .info-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: -40px;
-  margin-right: -30px;
-  margin-left: -30px;
 }

@@ -63,14 +63,16 @@ function Dishes() {
         </div>
       </div>
       {newIsOpened && <DishEditWindow closeNewDish={closeNewDish} />}
-      {dishes.map((dish) => {
-        if (
-          search == dish.name.substring(0, search.length) ||
-          search.length == 0
-        ) {
-          return <Dish dish={dish} key={dish.id} />;
-        }
-      })}
+      <div className="dish-items">
+        {dishes.map((dish) => {
+          if (
+            search == dish.name.substring(0, search.length) ||
+            search.length == 0
+          ) {
+            return <Dish dish={dish} key={dish.id} />;
+          }
+        })}
+      </div>
     </>
   );
 }

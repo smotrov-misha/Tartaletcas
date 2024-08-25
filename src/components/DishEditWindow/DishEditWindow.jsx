@@ -66,13 +66,13 @@ export function DishEditWindow({ closeNewDish, dish }) {
       return alert("Information about ingredients isn't completed");
     if (!newDish.name) return alert("Dish doesn't have a name");
     const completedDish = { ...newDish };
-    completedDish.image = dish.image;
     completedDish.ingredients = ingredients.map((ingredient) => ({
       ...ingredient,
     }));
     if (mode === "add") {
       createDish(completedDish, file);
     } else if (mode === "edit") {
+      completedDish.image = dish.image;
       editDish(completedDish, file);
     }
     closeNewDish();
@@ -101,6 +101,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
           <input
             type="text"
             placeholder="Dish name"
+            maxLength="20"
             className="new-dish-name dish-name"
             onChange={(e) => handleDishChange("name", e.target.value)}
             value={newDish.name || ""}
@@ -118,7 +119,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
               {file && (
                 <img src={newDish.image} alt="dish" className="dish-image" />
               )}
-              {!file && dish.image && (
+              {!file && dish && dish.image && (
                 <StorageImage
                   path={`images/${dish.id}.${dish.image}`}
                   className="dish-image"
@@ -162,6 +163,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
             <div className="ingredient" key={index}>
               <input
                 type="text"
+                maxLength="20"
                 className="ingredient-name"
                 placeholder="Ingredient name"
                 value={ingredient.name || ""}
@@ -188,9 +190,7 @@ export function DishEditWindow({ closeNewDish, dish }) {
                   }
                 />
                 <datalist id="value-type">
-                  <option>kg</option>
                   <option>gr</option>
-                  <option>l</option>
                   <option>ml</option>
                   <option>pieces</option>
                 </datalist>

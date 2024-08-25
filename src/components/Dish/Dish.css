@@ -1,8 +1,7 @@
 .dishes-item {
   display: block;
-  padding: 1.8vw 3.5vw;
+  padding: 20px;
   background-color: rgba(0, 0, 0, 10%);
-  margin: 4vw 3vw 3.8vw 3vw;
   border-radius: 15px;
   position: relative;
 }
@@ -10,32 +9,36 @@
 .dishes-item .title {
   display: block;
   color: #2c2c2c;
-  font-size: 6vw;
-  font-weight: 200;
-  margin: 1.8vw auto 3.5vw auto;
+  font-size: 30px;
+  font-weight: 600;
+  margin: 0 auto 30px auto;
   text-align: center;
 }
 
 .dishes-item .mini-title {
   display: block;
   color: #2c2c2c;
-  font-size: 2.8vw;
+  font-size: 25px;
   font-weight: 200;
-  margin: 3.5vw auto 3.5vw auto;
+  margin: 20px 0;
   text-align: center;
+}
+
+.dishes-item .weight-calories .mini-title {
+  font-size: 18px;
+  margin: 10px 0;
 }
 
 .img-description {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2.8vw;
+  margin-bottom: 15px;
   align-items: center;
-  /* flex-wrap: wrap; */
   overflow: hidden;
 }
 
 .img-description p {
-  font-size: 2.8vw;
+  font-size: 18px;
   flex: 1 1 50%;
   word-wrap: break-word;
   white-space: normal;
@@ -43,7 +46,7 @@
   max-width: 50%;
   text-align: center;
   overflow-y: auto;
-  max-height: 22.5vw;
+  max-height: 150px;
   padding-right: 10px;
 }
 
@@ -60,7 +63,9 @@
   position: absolute;
   background-color: transparent;
   border-width: 0;
-  bottom: 1.8vw;
+  width: 30px;
+  height: 30px;
+  bottom: 5px;
   left: 50%;
   translate: -50%;
 }
@@ -69,22 +74,18 @@
   position: absolute;
   background-color: rgba(0, 0, 0, 10%);
   border-radius: 15px;
-  width: 5vw;
-  height: 5vw;
+  width: 40px;
+  height: 40px;
   border: none;
   padding: 0;
   top: 0;
   right: 0;
-  min-height: 30px;
-  min-width: 30px;
 }
 
 .dishes-item .edit img {
   position: absolute;
-  width: 5vw;
-  height: 5vw;
-  min-height: 20px;
-  min-width: 20px;
+  width: 30px;
+  height: 30px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
@@ -93,22 +94,19 @@
 }
 
 .text {
-  font-size: 2.8vw;
+  font-size: 18px;
   text-align: center;
-  padding-bottom: 20px;
   word-wrap: break-word;
   white-space: normal;
   text-align: center;
   overflow-y: auto;
-  max-height: 22.5vw;
+  max-height: 150px;
   padding-right: 10px;
 }
 
 .ingredient {
   display: flex;
   justify-content: space-between;
-  /* margin: 0 4vw; */
-  font-size: 2.8vw;
 }
 
 .dishes-item .weight-calories {
@@ -117,7 +115,45 @@
   align-items: center;
 }
 
-.dishes-item .weight-calories h2 {
-  font-size: 2.8vw;
-  margin: 3.5vw 0;
+@media screen and (max-width: 700px) {
+  .text,
+  .img-description p {
+    max-height: 90px;
+    font-size: 16px;
+  }
+
+  .ingredient p {
+    font-size: 16px;
+  }
+  .ingredient .dishes-item {
+    padding: 10px;
+  }
+
+  .dishes-item .edit {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dishes-item .edit img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .dishes-item .title {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+
+  .dishes-item .mini-title {
+    font-size: 18px;
+    margin: 15px 0;
+  }
+
+  .arrow {
+    bottom: 2px;
+  }
+
+  .dishes-item .weight-calories .mini-title {
+    font-size: 16px;
+  }
 }

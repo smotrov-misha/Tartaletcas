@@ -1,11 +1,7 @@
-.edit-dish {
-  width: 80% !important;
-}
-
 .edit-dish .image-description {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 4.2vw;
+  margin-bottom: 20px;
 }
 
 .edit-dish .image-description .image {
@@ -39,8 +35,9 @@
 }
 
 .edit-dish .cancel-button {
-  min-height: 30px;
-  min-width: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
   background-color: #ffa38d;
 }
 
@@ -49,7 +46,7 @@
 }
 
 .edit-dish .image-description .description {
-  margin-left: 9vw;
+  margin-left: 30px;
   flex-basis: 70%;
   display: flex;
   flex-direction: column;
@@ -59,16 +56,12 @@
 .edit-dish .image-description .description h3 {
   display: block;
   text-align: center;
-  margin: 0;
+  margin-bottom: 25px;
 }
 
 .edit-dish .image-description .description textarea {
-  height: 15vw;
+  height: 100%;
   margin: 0;
-}
-
-.edit-dish .dish-name {
-  margin-bottom: 5vw;
 }
 
 .edit-dish .weight-calories {
@@ -89,21 +82,21 @@
   background-color: rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 15px;
-  padding: 0.8vw;
-  width: 9vw;
+  padding: 10px;
+  width: 100px;
   font-weight: 200;
-  font-size: 2.4vw;
+  font-size: 18px;
   font-family: system-ui, -apple-system;
   color: #2c2c2c;
   text-align: center;
 }
 
 .edit-dish .weight-calories div h3 {
-  margin-left: 1.7vw;
+  margin-left: 20px;
 }
 
 .edit-dish .small-title {
-  font-size: 2.8vw;
+  font-size: 25px;
   display: block;
   text-align: center;
 }
@@ -125,34 +118,35 @@
 .edit-dish .add-ingredient-button img,
 .edit-dish .delete-ingredient-button img {
   width: 70%;
-  height: 5vw;
+  height: 40px;
 }
 
 .edit-dish .ingredient {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 2.7vw 0;
+  margin: 10px 0;
 }
 
 .edit-dish .ingredient .ingredient-name {
   flex-basis: 40%;
+  margin-right: 20px;
 }
 
 .edit-dish .ingredient .quantity-unit {
   display: flex;
-  /* flex-basis: 40%;  */
   justify-content: space-around;
 }
 
 .edit-dish .ingredient .quantity-unit input {
-  margin-right: 1.8vw;
+  margin-right: 20px;
 }
 
 .edit-dish .dish-image {
   border-radius: 15px;
   width: 100%;
   height: 100%;
+  aspect-ratio: 1/1;
   object-fit: cover;
   transition: all 0.3s ease;
   opacity: 0.2;
@@ -165,33 +159,28 @@
   background-color: #ffa38d;
   color: #2c2c2c;
   font-weight: 600;
-  font-size: 2.8vw;
+  font-size: 25px;
   width: auto;
-  padding: 0 5vw;
-  min-height: 30px;
+  padding: 0 40px;
+}
+
+.edit-dish textarea {
+  width: calc(100% - 20px);
 }
 
 .container img {
-  width: 5vw;
+  width: 40px;
   text-align: center;
 }
 
 .container button,
 .button-in-prep {
-  width: 5vw;
-  height: 5vw;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: none;
   border-radius: 15px;
   /* background-color: #FFA38D; */
-}
-
-.info-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: -3vw;
-  margin-right: -2vw;
-  margin-left: -2vw;
 }
 
 .new-dish-name {
@@ -199,13 +188,13 @@
   margin: 0 auto;
   background-color: rgba(0, 0, 0, 0.05);
   border: none;
-  padding: 0.8vw;
+  padding: 10px;
   border-radius: 15px;
-  font-size: 4.5vw;
+  font-size: 25px;
   font-weight: 600;
-  width: 50%;
+  margin-bottom: 25px;
+  width: 40%;
   text-align: center;
-  margin-bottom: 2.8vw;
   color: #2c2c2c;
 }
 
@@ -215,7 +204,6 @@
 }
 
 .container .done-button {
-  /* margin-bottom: -20px; */
   margin-top: 0px;
 }
 
@@ -225,9 +213,9 @@
   display: block;
   background-color: #12e3e6;
   color: #2c2c2c;
-  font-size: 2.5vw;
+  font-size: 25px;
   font-weight: 600;
-  padding: 0.8vw 3vw;
+  padding: 10px 40px;
   float: right;
-  margin: 2.5vw 0 0 0;
+  margin: 25px 0 0 0;
 }

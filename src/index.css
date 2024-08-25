@@ -13,12 +13,16 @@ h1 {
 h2 {
   font-size: 25px;
   font-weight: 600;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 h3 {
   display: inline;
   font-weight: 200;
   font-size: 20px;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 button {
@@ -108,30 +112,30 @@ p {
   width: 60%;
   margin-top: -25vh;
   transform: translateX(-50%);
-  transform: translate();
-  padding: 3vw 2vw;
+  padding: 20px;
   overflow: hidden;
   backdrop-filter: blur(80px);
   z-index: 150;
 }
 
 textarea {
-  width: calc(100% - 20px);
   display: block;
-  height: 15vw;
   background-color: rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 15px;
   font-family: Helvetica, sans-serif;
   font-weight: 200;
-  font-size: 2.4vw;
-  padding: 0.8vw;
-  margin: 2.8vw auto;
+  font-size: 18px;
+  padding: 10px;
+  margin: 10px auto;
   color: #2c2c2c;
+  resize: vertical;
+  max-height: 300px;
+  min-height: 150px;
 }
 
 .arrow img {
-  width: 4vw;
-  height: 4vw;
+  width: 30px;
+  height: 30px;
   opacity: 0.8;
 }
