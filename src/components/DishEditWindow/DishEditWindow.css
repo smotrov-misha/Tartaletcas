@@ -83,7 +83,7 @@
   border: none;
   border-radius: 15px;
   padding: 10px;
-  width: 100px;
+  width: 50px;
   font-weight: 200;
   font-size: 18px;
   font-family: system-ui, -apple-system;
@@ -152,6 +152,10 @@
   opacity: 0.2;
 }
 
+.edit-dish .image {
+  aspect-ratio: 1/1;
+}
+
 .edit-dish .info-buttons .delete-button {
   position: absolute;
   top: 0;
@@ -193,7 +197,8 @@
   font-size: 25px;
   font-weight: 600;
   margin-bottom: 25px;
-  width: 40%;
+  margin-top: 30px;
+  width: 250px;
   text-align: center;
   color: #2c2c2c;
 }

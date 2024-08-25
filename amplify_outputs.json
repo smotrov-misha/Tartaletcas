@@ -5,9 +5,15 @@
     "user_pool_client_id": "2gf8hp7q4g243c43kciggghepq",
     "identity_pool_id": "eu-north-1:db3787ef-89f0-4e48-b45f-d9655187b035",
     "mfa_methods": [],
-    "standard_required_attributes": ["email"],
-    "username_attributes": ["email"],
-    "user_verification_types": ["email"],
+    "standard_required_attributes": [
+      "email"
+    ],
+    "username_attributes": [
+      "email"
+    ],
+    "user_verification_types": [
+      "email"
+    ],
     "mfa_configuration": "NONE",
     "password_policy": {
       "min_length": 8,
@@ -23,7 +29,10 @@
     "aws_region": "eu-north-1",
     "api_key": "da2-xxvnpvvx6fd3piuu6fuzuv2opq",
     "default_authorization_type": "API_KEY",
-    "authorization_types": ["AMAZON_COGNITO_USER_POOLS", "AWS_IAM"],
+    "authorization_types": [
+      "AMAZON_COGNITO_USER_POOLS",
+      "AWS_IAM"
+    ],
     "model_introspection": {
       "version": 1,
       "models": {
@@ -100,7 +109,9 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": ["dishId"]
+                "associatedWith": [
+                  "dishId"
+                ]
               }
             },
             "orders": {
@@ -114,7 +125,9 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": ["dishId"]
+                "associatedWith": [
+                  "dishId"
+                ]
               }
             },
             "createdAt": {
@@ -148,7 +161,12 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": ["create", "update", "delete", "read"]
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -188,7 +206,9 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": ["templateId"]
+                "associatedWith": [
+                  "templateId"
+                ]
               }
             },
             "createdAt": {
@@ -222,7 +242,12 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": ["create", "update", "delete", "read"]
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -275,7 +300,9 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": ["templateId"]
+                "targetNames": [
+                  "templateId"
+                ]
               }
             },
             "dish": {
@@ -288,7 +315,9 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": ["dishId"]
+                "targetNames": [
+                  "dishId"
+                ]
               }
             },
             "createdAt": {
@@ -322,7 +351,12 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": ["create", "update", "delete", "read"]
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -411,7 +445,9 @@
               "isArrayNullable": true,
               "association": {
                 "connectionType": "HAS_MANY",
-                "associatedWith": ["orderId"]
+                "associatedWith": [
+                  "orderId"
+                ]
               }
             },
             "ingredients": {
@@ -455,7 +491,12 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": ["create", "update", "delete", "read"]
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }
@@ -515,7 +556,9 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": ["orderId"]
+                "targetNames": [
+                  "orderId"
+                ]
               }
             },
             "dish": {
@@ -528,7 +571,9 @@
               "attributes": [],
               "association": {
                 "connectionType": "BELONGS_TO",
-                "targetNames": ["dishId"]
+                "targetNames": [
+                  "dishId"
+                ]
               }
             },
             "createdAt": {
@@ -562,7 +607,12 @@
                   {
                     "allow": "public",
                     "provider": "apiKey",
-                    "operations": ["create", "update", "delete", "read"]
+                    "operations": [
+                      "create",
+                      "update",
+                      "delete",
+                      "read"
+                    ]
                   }
                 ]
               }

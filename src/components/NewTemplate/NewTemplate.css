@@ -1,40 +1,41 @@
 .container-for-adding-dishes {
-  width: 85%;
-  margin: 0 auto;
+  width: auto;
+  margin: 0 30px;
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 15px;
-  max-height: 45vh;
+  max-height: 300px;
   overflow-y: auto;
   padding-right: 10px;
+  margin-bottom: 50px;
 }
 
-.container-new-template {
+.overlay .container-new-template {
   background-color: rgba(0, 0, 0, 0.05);
-  height: 500px;
+  max-height: 500px;
+  width: auto;
 }
 
 .edit-new-template {
   position: fixed;
   border-radius: 15px;
-  width: 70%;
   left: 50%;
-  top: 250px;
+  top: 180px;
   translate: -50% 0;
+  height: auto;
 }
 
 .new-template-name,
 .new-order-name {
   display: block;
-  margin: 0 auto;
+  width: auto;
+  margin: 30px auto;
   background-color: rgba(0, 0, 0, 0.05);
   border: none;
   padding: 10px;
   border-radius: 15px;
-  font-size: 52px;
+  font-size: 25px;
   font-weight: 600;
-  width: 50%;
   text-align: center;
-  margin-bottom: 30px;
   color: #2c2c2c;
 }
 
@@ -64,8 +65,8 @@
   padding: 10px;
   border-radius: 15px;
   text-align: center;
-  width: 80px;
-  font-size: 36px;
+  width: 30px;
+  font-size: 18px;
   font-family: system-ui, -apple-system;
   font-weight: 200;
 }
@@ -83,8 +84,8 @@
 
 .container-new-template .template-button {
   width: auto;
-  padding: 0 50px;
-  font-size: 29px;
+  padding: 0 40px;
+  font-size: 20px;
   position: absolute;
   bottom: 10px;
 }

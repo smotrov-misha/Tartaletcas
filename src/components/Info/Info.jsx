@@ -51,7 +51,7 @@ function Info({ id, closeInfo, unexpand }) {
     <>
       <div className="overlay" style={{ display: editIsOn ? "none" : "block" }}>
         <div
-          className="container"
+          className="container info"
           style={{ display: editIsOn ? "none" : "block" }}
         >
           <div className="info-buttons">
@@ -65,7 +65,7 @@ function Info({ id, closeInfo, unexpand }) {
           <h2 className="menu-name">{info.name || ""}</h2>
           {
             <>
-              <h3 className="title">Dishes</h3>
+              <h3 className="">Dishes</h3>
               <hr className="dividing-line" />
               {info.dishes && (
                 <>
@@ -84,20 +84,20 @@ function Info({ id, closeInfo, unexpand }) {
           }
           {info.description && (
             <>
-              <h3 className="title">Description</h3>
+              <h3 className="">Description</h3>
               <p>{info.description}</p>
             </>
           )}
           {info.notes && (
             <>
-              <h3 className="title">Notes</h3>
+              <h3 className="">Notes</h3>
               <p>{info.notes}</p>
             </>
           )}
           {info.deadline && (
             <>
               <div className="deadline-container">
-                <h3 className="title deadline-title">Deadline</h3>
+                <h3 className="deadline-title">Deadline</h3>
                 <p className="deadline-date">{info.deadline}</p>
               </div>
             </>

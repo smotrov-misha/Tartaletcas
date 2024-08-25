@@ -119,8 +119,10 @@ function NewTemplate({
             <div
               className="container-for-adding-dishes"
               style={{
-                translate:
-                  mode === "New Order" ? "0 calc(250px - 22.5vh)" : "0px 0px",
+                margin:
+                  mode === "New Order"
+                    ? "50px 30px 70px 30px"
+                    : "0px 30px 70px 30px",
               }}
             >
               <>
