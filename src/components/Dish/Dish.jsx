@@ -5,27 +5,14 @@ import edit from "../../assets/pencil.png";
 import DishEditWindow from "../DishEditWindow/DishEditWindow";
 import client from "../../backend/Client";
 import { StorageImage } from "@aws-amplify/ui-react-storage";
+import Loader from "../Loader/Loader";
+import { list } from "aws-amplify/storage";
 
 function Dish({ dish }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [editIsOpened, setEditIsOpened] = useState(false);
   const [ingredients, setIngredients] = useState(dish.ingredients);
-  const [imageExists, setImageExists] = useState(false);
-
-  useEffect(() => {
-    const checkImageExistence = async () => {
-      try {
-        await Storage.get(`images/${dish.id}.${dish.image}`);
-        setImageExists(true);
-      } catch (error) {
-        console.log("Image not found yet, retrying...");
-        setTimeout(checkImageExistence, 1000);
-      }
-    };
-    if (dish.image) {
-      checkImageExistence();
-    }
-  }, [dish.image, dish.id]);
+  const [imageAvailable, setImageAvailable] = useState(false);
 
   const openEdit = () => {
     setEditIsOpened(true);
@@ -39,6 +26,30 @@ function Dish({ dish }) {
     setIsExpanded(!isExpanded);
   };
 
+  useEffect(() => {
+    if (!dish.image) return;
+    let count = 0;
+    const intervalId = setInterval(async () => {
+      try {
+        const { items: result } = await list({
+          path: `images/${dish.id}.${dish.image}`,
+        });
+        console.log(result);
+        if (result.length === 1) {
+          count++;
+          if (count > 1) {
+            setImageAvailable(true);
+            clearInterval(intervalId);
+          }
+        }
+      } catch (error) {
+        console.error("Error checking image:", error);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <>
       <div className="dishes-item">
@@ -50,8 +61,10 @@ function Dish({ dish }) {
           className="img-description"
           style={{ justifyContent: dish.image ? "space-between" : "end" }}
         >
-          {imageExists && (
+          {imageAvailable ? (
             <StorageImage path={`images/${dish.id}.${dish.image}`} />
+          ) : (
+            <Loader />
           )}
           {dish.description && <p>{dish.description}</p>}
         </div>

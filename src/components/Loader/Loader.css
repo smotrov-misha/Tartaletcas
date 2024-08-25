@@ -1,0 +1,14 @@
+.loader {
+  width: 70px;
+  height: 70px;
+  animation: rotating 1s infinite;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(1turn);
+  }
+}

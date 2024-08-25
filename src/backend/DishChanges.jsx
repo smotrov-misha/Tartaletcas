@@ -47,7 +47,7 @@ export const createDish = async (dish, file) => {
   const { data: createdDish } = await client.models.Dishes.create({
     name: dish.name,
     description: dish.description,
-    image: file.name.split(".").pop(),
+    image: file ? file.name.split(".").pop() : "",
     recipe: dish.recipe,
     weight: dish.weight,
     calories: dish.calories,

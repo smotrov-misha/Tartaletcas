@@ -118,6 +118,15 @@ p {
   z-index: 150;
 }
 
+@media screen and (max-width: 700px) {
+  .container {
+    width: auto;
+    left: 0;
+    right: 0;
+    transform: translateX(0%);
+  }
+}
+
 textarea {
   display: block;
   background-color: rgba(0, 0, 0, 0.1);
@@ -131,7 +140,7 @@ textarea {
   color: #2c2c2c;
   resize: vertical;
   max-height: 300px;
-  min-height: 150px;
+  /* min-height: 150px; */
 }
 
 .arrow img {

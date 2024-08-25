@@ -1,25 +1,41 @@
-.edit-dish {
-  width: 80%;
-}
-
 .menu-name {
   text-align: center;
   font-size: 52px;
 }
 
 .deadline-container .deadline-title {
-  margin-top: 0;
+  margin: 0;
 }
 
 .dividing-line {
-  margin: 10px -500px;
+  margin: 10px -500px 30px -500px;
 }
 
-.dish {
+.overlay .info {
+  width: auto;
+}
+
+.info p {
+  min-width: 340px;
+  max-width: 650px;
+  word-wrap: break-word;
+}
+
+.info .deadline-date {
+  min-width: 0;
+  max-width: 200px;
+}
+
+.info .dish {
   display: flex;
   justify-content: space-between;
-  margin-bottom: -30px;
+  margin-bottom: 30px;
   transition: all 0.3s ease;
+}
+
+.info .dish h3 {
+  margin: 0;
+  font-size: 18px;
 }
 
 #bottom-dividing-line {
@@ -34,21 +50,21 @@
 }
 
 .deadline-date {
-  display: inline;
+  /* display: inline; */
+  width: auto;
   padding: 10px 30px;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 15px;
 }
 
-.container button,
+/* .container button,
 .button-in-prep {
   width: 60px;
   height: 60px;
   padding: 0;
   border: none;
   border-radius: 15px;
-  /* background-color: #FFA38D; */
-}
+} */
 
 .edit-button {
   background-color: rgba(0, 0, 0, 0.1);
@@ -58,11 +74,6 @@
   background-color: #ffa38d;
 }
 
-.container img {
-  width: 60px;
-  text-align: center;
-}
-
 .pencil {
   width: 90%;
 }
@@ -70,4 +81,8 @@
 .info-buttons {
   display: flex;
   justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
